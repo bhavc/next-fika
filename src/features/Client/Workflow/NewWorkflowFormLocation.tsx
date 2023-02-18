@@ -30,8 +30,6 @@ export default function NewWorkflowFormLocation({
 	} = useForm<FormInputs>();
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		console.log("data", data);
-
 		handleSubmitWorkflow();
 
 		// TODO

@@ -23,8 +23,6 @@ export default function NewWorkflowFormCargo({ handleSubmitWorkflow }: NewWorkfl
 	} = useForm<FormInputs>();
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		console.log("data", data);
-
 		handleSubmitWorkflow();
 
 		// TODO
