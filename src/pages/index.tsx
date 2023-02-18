@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/api/user";
 
 import MainNavBar from "@/components/Nav/MainNavbar";
 
-import type { GetStaticProps, GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 export default function Home({ header }: { header: string }) {
 	return (
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	// return {
 	// 	props: {
 	// 		hello: "hello",
-	// 		userToken
+	// 		userToken: "123"
 	// 	}
 	// };
 	return {
