@@ -2,8 +2,11 @@ import { useState } from "react";
 import { postRegister } from "@/api/registration";
 import LoginForm from "@/features/Login/LoginForm";
 import MainNavBar from "@/components/Nav/MainNavbar";
+import { useCookies } from "react-cookie";
 
 export default function Login() {
+	const [cookie, setCookie] = useCookies(["user"]);
+
 	const handleSubmitLogin = async ({ email, password }: { email: string; password: string }) => {
 		const data = {
 			email,
@@ -11,7 +14,12 @@ export default function Login() {
 		};
 
 		try {
-			const response = await postRegister(data);
+			// const response = await postRegister(data);
+			const token =
+				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc2ODMwODE2LCJleHAiOjE2NzY5MTcyMTZ9.HhSnJqaVK7IaIpyR25xhZgSwixCVC6KXe8NBX9B9oME";
+
+			setCookie("user", token);
+			return;
 		} catch (err) {}
 	};
 
