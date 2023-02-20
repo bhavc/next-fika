@@ -1,15 +1,12 @@
 import { GetServerSideProps } from "next";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
-import DashboardNavbar from "@/components/Nav/DashboardNavbar";
 
 import { getCurrentUser } from "@/api/user";
 
 export default function Dashboard({ hello, userToken }: { hello: string; userToken: string }) {
 	return (
 		<>
-			<DashboardNavbar />
-
 			<DashboardLayout>
 				<main className="items-center justify-center px-4">
 					<h1 className="text-3xl mt-2 mb-4 ml-4 text-left">Welcome, username</h1>
