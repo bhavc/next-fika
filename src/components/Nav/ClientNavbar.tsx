@@ -10,7 +10,7 @@ interface NavbarProps {
 
 export default function ClientNavBar({ leftSideItems, rightSideItems }: NavbarProps) {
 	return (
-		<div className="navbar bg-slate-100 justify-between px-0">
+		<div className="navbar bg-slate-100 justify-between px-2">
 			<div className="w-1/3 justify-left items-center">
 				{leftSideItems?.map((item, index) => {
 					return <div key={index}>{item}</div>;

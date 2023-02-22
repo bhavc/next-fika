@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DashboardNavbar from "@/components/Nav/DashboardNavbar";
 
-import MenuSvg from "public/svg/menu.svg";
+import MenuIcon from "public/svg/menu.svg";
 import TruckIcon from "public/svg/truck-loading.svg";
 import ChartIcon from "public/svg/chart-line.svg";
 import SettingsIcon from "public/svg/settings.svg";
@@ -16,7 +16,7 @@ interface LayoutProps {
 export default function DashboardLayout({ children }: LayoutProps) {
 	const leftSideButtons = [
 		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
-			<Image src={MenuSvg} alt="menu" />
+			<MenuIcon />
 		</label>
 	];
 

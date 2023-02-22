@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from "next";
 
 import ClientLayout from "@/layouts/ClientLayout";
-import WorkflowCards from "@/features/Client/Workflow/WorkflowCards";
+import WorkflowTableList from "@/features/Client/Workflow/WorkflowTableList";
 
 export default function Workflows({ workflows }: { workflows: any[] }) {
 	return (
@@ -9,7 +9,7 @@ export default function Workflows({ workflows }: { workflows: any[] }) {
 			<ClientLayout>
 				<main className="items-center justify-center px-4">
 					<h1 className="text-3xl mt-2 mb-4 text-left">View your past Workflows</h1>
-					<WorkflowCards workflows={workflows} />
+					<WorkflowTableList />
 				</main>
 			</ClientLayout>
 		</>

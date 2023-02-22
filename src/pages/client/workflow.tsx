@@ -20,8 +20,8 @@ export default function Workflow() {
 	return (
 		<>
 			<ClientLayout>
-				<main className="flex flex-col items-center justify-center">
-					<h1 className="text-3xl mt-2 mb-4 text-left ml-2">Create a new Shipment</h1>
+				<main className="px-4">
+					<h1 className="text-3xl mt-2 mb-4 text-left">Create a new Workflow</h1>
 
 					{step === 0 && <NewWorkflowFormCargo handleSubmitWorkflow={handleSubmitWorkflow} />}
 					{step === 1 && (

@@ -5,7 +5,7 @@ import Router, { useRouter } from "next/router";
 
 import ClientNavbar from "@/components/Nav/ClientNavbar";
 
-import MenuSvg from "public/svg/menu.svg";
+import MenuIcon from "public/svg/menu.svg";
 import TruckIcon from "public/svg/truck-loading.svg";
 import HistoryIcon from "public/svg/history.svg";
 import SettingsIcon from "public/svg/settings.svg";
@@ -20,11 +20,9 @@ export default function ClientLayout({ children }: LayoutProps) {
 
 	const currentPath = router.pathname;
 
-	console.log("currentPath", currentPath);
-
 	const leftSideButtons = [
 		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
-			<Image src={MenuSvg} alt="menu" />
+			<MenuIcon />
 		</label>
 	];
 
@@ -37,7 +35,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 				<div className="drawer-side">
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />
 					<div className="flex flex-col justify-between w-72 bg-neutral">
-						<ul className="menu text-base-content w-60 pl-10 pt-4">
+						<ul className="menu text-base-content w-60 pl-10 pt-4 gap-4">
 							<Link
 								href={"/client/workflow"}
 								className={`hover:bg-accent p-2 rounded-md ${
