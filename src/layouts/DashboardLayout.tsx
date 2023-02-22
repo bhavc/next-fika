@@ -4,6 +4,10 @@ import Link from "next/link";
 import DashboardNavbar from "@/components/Nav/DashboardNavbar";
 
 import MenuSvg from "public/svg/menu.svg";
+import TruckIcon from "public/svg/truck-loading.svg";
+import ChartIcon from "public/svg/chart-line.svg";
+import SettingsIcon from "public/svg/settings.svg";
+import LogoutIcon from "public/svg/logout.svg";
 
 interface LayoutProps {
 	children: ReactNode;
@@ -28,18 +32,13 @@ export default function DashboardLayout({ children }: LayoutProps) {
 						<ul className="menu text-base-content">
 							<Link href={"/dashboard/workflows"} className="hover:bg-accent p-2">
 								<div className="flex flex-row">
-									<Image
-										src={"icons/svg/truck-loading.svg"}
-										width={24}
-										height={24}
-										alt="workflows"
-									/>
+									<TruckIcon />
 									<p className="prose lg:prose-xl pl-2">Workflows</p>
 								</div>
 							</Link>
 							<Link href={"/dashboard/metrics"} className="hover:bg-accent p-2">
 								<div className="flex flex-row">
-									<Image src={"icons/svg/chart-line.svg"} width={24} height={24} alt="metrics" />
+									<ChartIcon />
 									<p className="prose lg:prose-xl pl-2">Metrics</p>
 								</div>
 							</Link>
@@ -47,13 +46,13 @@ export default function DashboardLayout({ children }: LayoutProps) {
 						<ul className="menu text-base-content">
 							<Link href={"/dashboard/workflows"} className="hover:bg-accent p-2">
 								<div className="flex flex-row">
-									<Image src={"icons/svg/settings.svg"} width={24} height={24} alt="settings" />
+									<SettingsIcon stroke="black" />
 									<p className="prose lg:prose-xl pl-2">Settings</p>
-								</div>{" "}
+								</div>
 							</Link>
 							<Link href={"/dashboard/metrics"} className="hover:bg-accent p-2">
 								<div className="flex flex-row">
-									<Image src={"icons/svg/logout.svg"} width={24} height={24} alt="logout" />
+									<LogoutIcon stroke="black" />
 									<p className="prose lg:prose-xl pl-2">Log out</p>
 								</div>
 							</Link>

@@ -23,27 +23,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let userData;
 
-	if (!userToken) {
-		console.log("theres not token");
+	// if (!userToken) {
+	// 	console.log("theres not token");
 
-		return {
-			redirect: {
-				destination: "/",
-				statusCode: 302
-			}
-		};
-	}
+	// 	return {
+	// 		redirect: {
+	// 			destination: "/",
+	// 			statusCode: 302
+	// 		}
+	// 	};
+	// }
 
 	// need to validate user here
 
-	try {
-		const responseData = await getCurrentUser(userToken);
-		userData = responseData.user;
-	} catch (err) {
-		console.log("err", err);
-	}
+	// try {
+	// 	const responseData = await getCurrentUser(userToken);
+	// 	userData = responseData.user;
+	// } catch (err) {
+	// 	console.log("err", err);
+	// }
 
-	console.log("userData", userData);
+	// console.log("userData", userData);
 
 	return {
 		props: {

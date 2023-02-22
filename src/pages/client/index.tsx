@@ -1,27 +1,29 @@
-import Image from "next/image";
+import ClientLayout from "@/layouts/ClientLayout";
 
-import ClientNavBar from "@/components/Nav/ClientNavbar";
-import HomeCards from "@/features/Client/Home/HomeCards";
-
-import AlertCircle from "public/svg/alert-circle.svg";
+import mainImage from "/jpeg/client_main.jpeg";
 
 export default function Client() {
 	return (
 		<>
-			<ClientNavBar />
-			<main className="items-center justify-center px-4">
-				<button className="w-full">
-					<div className="alert alert-info shadow-lg mt-4">
-						<Image src={AlertCircle} height={24} width={24} alt="alert" />
-						<span>You have one shipment in progress.</span>
-
-						{/* <button className="btn btn-sm">Click me</button> */}
+			<ClientLayout>
+				<main className="flex items-center justify-center">
+					<div
+						className="hero min-h-screen bg-[url('/jpeg/client_main.jpeg')]"
+						// style={{ backgroundImage: `url('/jpeg/client_main.jpeg')` }}
+					>
+						<div className="hero-overlay bg-opacity-60"></div>
+						<div className="hero-content text-center text-neutral-content">
+							<div className="max-w-md">
+								<h1 className="mb-5 text-5xl font-bold">Hello User</h1>
+								<p className="mb-5">
+									Welcome to the client App. Here you will be able to create new shipments as well
+									as view any previous shipments you&apos;ve made
+								</p>
+							</div>
+						</div>
 					</div>
-				</button>
-
-				<h1 className="text-3xl mt-2 mb-4 ml-4 text-left">Welcome, username</h1>
-				<HomeCards />
-			</main>
+				</main>
+			</ClientLayout>
 		</>
 	);
 }
