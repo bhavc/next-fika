@@ -3,7 +3,7 @@ import Image from "next/image";
 import ClientNavBar from "@/components/Nav/ClientNavbar";
 import HomeCards from "@/features/Client/Home/HomeCards";
 
-import AlertCircle from "public/icons/svg/alert-circle.svg";
+import AlertCircle from "public/svg/alert-circle.svg";
 
 export default function Client() {
 	return (

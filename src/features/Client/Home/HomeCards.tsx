@@ -11,7 +11,7 @@ export default function HomeCards() {
 							<h2 className="card-title text-cyan-50">New Shipment</h2>
 						</div>
 						<div className="card-actions justify-end absolute bottom-0 right-0">
-							<Image src={"icons/svg/circle-plus.svg"} width={80} height={80} alt="logout" />
+							<Image src={"public/svg/circle-plus.svg"} width={80} height={80} alt="logout" />
 						</div>
 					</div>
 				</Link>
@@ -21,7 +21,7 @@ export default function HomeCards() {
 							<div className="card-title text-cyan-50">View past Shipments</div>
 						</div>
 						<div className="card-actions justify-end absolute bottom-0 right-0">
-							<Image src={"icons/svg/history.svg"} width={80} height={80} alt="logout" />
+							<Image src={"public/svg/history.svg"} width={80} height={80} alt="logout" />
 						</div>
 					</div>
 				</Link>
@@ -33,7 +33,7 @@ export default function HomeCards() {
 							<h2 className="card-title text-cyan-50">Settings</h2>
 						</div>
 						<div className="card-actions justify-end absolute bottom-0 right-0">
-							<Image src={"icons/svg/settings.svg"} width={80} height={80} alt="logout" />
+							<Image src={"public/svg/settings.svg"} width={80} height={80} alt="logout" />
 						</div>
 					</div>
 				</Link>
@@ -43,7 +43,7 @@ export default function HomeCards() {
 							<h2 className="card-title text-cyan-50">Logout</h2>
 						</div>
 						<div className="card-actions justify-end absolute bottom-0 right-0">
-							<Image src={"icons/svg/logout.svg"} width={80} height={80} alt="logout" />
+							<Image src={"icons/logout.svg"} width={80} height={80} alt="logout" />
 						</div>
 					</div>
 				</Link>

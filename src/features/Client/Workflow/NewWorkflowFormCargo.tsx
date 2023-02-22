@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
-import IconRight from "public/icons/svg/arrow-right.svg";
+import IconRight from "public/svg/arrow-right.svg";
 
 // TODO There will be a new workflow form for mobile
 // and a new workflow form for desktop

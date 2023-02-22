@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import DashboardNavbar from "@/components/Nav/DashboardNavbar";
 
-import MenuSvg from "public/icons/svg/menu.svg";
+import MenuSvg from "public/svg/menu.svg";
 
 interface LayoutProps {
 	children: ReactNode;
