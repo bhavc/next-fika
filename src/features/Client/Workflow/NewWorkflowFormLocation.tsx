@@ -7,7 +7,9 @@ import IconLeft from "public/svg/arrow-left.svg";
 // and a new workflow form for desktop
 
 type FormInputs = {
-	pickupAddress: string;
+	useCustomPricing: boolean;
+	customPrice: string;
+	goodsDescription: string;
 	pickupType: string;
 	dropOffAddress: string;
 	dropoffType: string;
@@ -26,8 +28,17 @@ export default function NewWorkflowFormLocation({
 	const {
 		register,
 		handleSubmit,
+		watch,
 		formState: { errors }
-	} = useForm<FormInputs>();
+	} = useForm<FormInputs>({
+		defaultValues: {
+			useCustomPricing: false
+		}
+	});
+
+	const isUseCustomPricing = watch("useCustomPricing");
+
+	console.log("watchAddCustomPricing", isUseCustomPricing);
 
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		handleSubmitWorkflow();
@@ -37,110 +48,141 @@ export default function NewWorkflowFormLocation({
 	};
 
 	return (
-		<div>
-			<div className="card w-80 bg-slate-50 shadow-xl">
-				<div className="card-body">
-					<form id="newWorkflowForm" onSubmit={handleSubmit(onSubmit)}>
-						<div className="mb-2">
-							<label>Pickup Address</label>
+		<div className="flex flex-row w-full bg-slate-100 rounded-md p-4">
+			<form id="newWorkflowForm" onSubmit={handleSubmit(onSubmit)} className="w-full">
+				<h2 className="prose prose-2xl">Costs</h2>
+
+				<div className="mb-2 grid grid-cols-2 gap-4">
+					<div className="form-control">
+						<label className="label cursor-pointer">Add Custom Price</label>
+						<input type="checkbox" className="toggle" {...register("useCustomPricing")} />
+					</div>
+					{isUseCustomPricing && (
+						<div>
+							<label>Custom Price</label>
 							<div className="mt-1 flex rounded-md shadow-sm">
 								<input
 									type="text"
-									placeholder="123 fake street"
-									className={`input w-full max-w-xs ${
-										errors.pickupAddress ? "border-error" : "border-inherit"
+									placeholder="$500 USD"
+									className={`input w-full ${
+										errors.customPrice ? "border-error" : "border-neutral"
 									}`}
-									{...register("pickupAddress", { required: "Address required" })}
+									{...register("customPrice", { required: isUseCustomPricing })}
 								/>
 							</div>
 						</div>
-
-						<div className="mb-2">
-							<label>Pickup Type</label>
-							<div className={"mt-1 flex rounded-md shadow-sm"}>
-								<select
-									className={`select w-full max-w-s ${
-										errors.pickupType ? "border-error" : "border-none"
-									}`}
-									defaultValue=""
-									{...register("pickupType", { required: "Cargo Type required" })}
-								>
-									<option value="" disabled>
-										Choose your pickup type
-									</option>
-									<option value="Residential">Residential</option>
-									<option value="Commercial">Commercial</option>
-									<option value="Dock">Dock</option>
-									<option value="Lift gate">List Gate</option>
-									<option value="Crane">Crane</option>
-									<option value="Side offload">Side offload</option>
-								</select>
-							</div>
-						</div>
-
-						<div className="mb-2">
-							<label>Dropoff Address</label>
-							<div className="mt-1 flex rounded-md shadow-sm">
-								<input
-									type="text"
-									placeholder="123 fake street"
-									className={`input w-full max-w-xs ${
-										errors.dropOffAddress ? "border-error" : "border-inherit"
-									}`}
-									{...register("dropOffAddress", { required: "Address required" })}
-								/>
-							</div>
-						</div>
-
-						<div className="mb-2">
-							<label>Dropoff Type</label>
-							<div className={"mt-1 flex rounded-md shadow-sm"}>
-								<select
-									className={`select w-full max-w-s ${
-										errors.dropoffType ? "border-error" : "border-none"
-									}`}
-									defaultValue=""
-									{...register("dropoffType", { required: "Cargo Type required" })}
-								>
-									<option value="" disabled>
-										Choose your pickup type
-									</option>
-									<option value="Residential">Residential</option>
-									<option value="Commercial">Commercial</option>
-									<option value="Dock">Dock</option>
-									<option value="Lift gate">List Gate</option>
-									<option value="Crane">Crane</option>
-									<option value="Side offload">Side offload</option>
-								</select>
-							</div>
-						</div>
-
-						<div className="mb-2">
-							<label>Transit time</label>
-							<div className="mt-1 flex rounded-md shadow-sm">
-								<input
-									type="text"
-									placeholder="1 - 3 days"
-									className={`input w-full max-w-xs ${
-										errors.transitTime ? "border-error" : "border-inherit"
-									}`}
-									{...register("transitTime", { required: "Time required" })}
-								/>
-							</div>
-						</div>
-
-						<div className="flex flex-row justify-between mt-4">
-							<button className="btn btn-circle bg-primary" onClick={handleGoBack}>
-								<Image src={IconLeft} width={24} height={24} alt="arrow-next" color="white" />
-							</button>
-
-							<button className="btn btn-circle bg-primary">
-								<Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" />
-							</button>
-						</div>
-					</form>
+					)}
 				</div>
-			</div>
+
+				<div className="divider" />
+
+				<h2 className="prose prose-2xl">Goods Description</h2>
+				<div className="mb-2">
+					<div>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<textarea
+								placeholder="Knurled Bolt, GR 19.9 Plain..."
+								className={`input w-full h-80 pt-2 ${
+									errors.goodsDescription ? "border-error" : "border-neutral"
+								}`}
+								{...register("goodsDescription", { required: "Address required" })}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="divider" />
+
+				<h2 className="prose prose-2xl">Container Details</h2>
+
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div>
+						<label>Type / Mode</label>
+						<div className={"mt-1 flex rounded-md shadow-sm"}>
+							<select
+								className={`select w-full max-w-s ${
+									errors.cargoType ? "border-error" : "border-neutral"
+								}`}
+								defaultValue=""
+								{...register("cargoType", { required: "Cargo Type required" })}
+							>
+								<option value="" disabled>
+									Choose your cargo type
+								</option>
+								<option value="Container">20GP BCN</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<label>Weight</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Ontario, Canada"
+								className={`input w-full ${
+									errors.deliveryProvinceCountry ? "border-error" : "border-neutral"
+								}`}
+								{...register("deliveryProvinceCountry", { required: "Province/Country required." })}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div>
+						<label>Name</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Gloria Zhuang"
+								className={`input w-full ${
+									errors.deliveryContactName ? "border-error" : "border-neutral"
+								}`}
+								{...register("deliveryContactName", { required: "Name required." })}
+							/>
+						</div>
+					</div>
+
+					<div>
+						<label>Phone</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="6479993989"
+								className={`input w-full ${
+									errors.deliveryContactPhone ? "border-error" : "border-neutral"
+								}`}
+								{...register("deliveryContactPhone", { required: "Phone required." })}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="mb-2">
+					<label>Type / Mode</label>
+					<div className={"mt-1 flex rounded-md shadow-sm"}>
+						<select
+							className={`select w-full max-w-s ${
+								errors.cargoType ? "border-error" : "border-neutral"
+							}`}
+							defaultValue=""
+							{...register("cargoType", { required: "Cargo Type required" })}
+						>
+							<option value="" disabled>
+								Choose your cargo type
+							</option>
+							<option value="Container">20GP BCN</option>
+						</select>
+					</div>
+				</div>
+
+				<div className="flex justify-end">
+					<button className="btn btn-circle bg-primary mt-10">
+						{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
+						<IconRight />
+					</button>
+				</div>
+			</form>
 		</div>
 	);
 }

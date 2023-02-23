@@ -6,7 +6,7 @@ import Router, { useRouter } from "next/router";
 import ClientNavbar from "@/components/Nav/ClientNavbar";
 
 import MenuIcon from "public/svg/menu.svg";
-import TruckIcon from "public/svg/truck-loading.svg";
+import NewIcon from "public/svg/circle-plus.svg";
 import HistoryIcon from "public/svg/history.svg";
 import SettingsIcon from "public/svg/settings.svg";
 import LogoutIcon from "public/svg/logout.svg";
@@ -44,7 +44,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 							>
 								<div className="flex flex-row">
 									<div className="mt-2">
-										<TruckIcon stroke="white" />
+										<NewIcon stroke="white" />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Workflows</p>
 								</div>

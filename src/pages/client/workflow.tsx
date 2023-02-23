@@ -7,7 +7,7 @@ import NewWorkflowFormLocation from "@/features/Client/Workflow/NewWorkflowFormL
 import NewWorkflowFormPrice from "@/features/Client/Workflow/NewWorkflowFormPrice";
 
 export default function Workflow() {
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(1);
 
 	const handleSubmitWorkflow = () => {
 		setStep(step + 1);
