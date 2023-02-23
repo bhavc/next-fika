@@ -18,11 +18,13 @@ type FormInputs = {
 	deliveryContactPhone: string;
 };
 
-interface NewWorkflowFormCargoProps {
+interface NewWorkflowFormAddressProps {
 	handleSubmitWorkflow: () => void;
 }
 
-export default function NewWorkflowFormCargo({ handleSubmitWorkflow }: NewWorkflowFormCargoProps) {
+export default function NewWorkflowFormAddress({
+	handleSubmitWorkflow
+}: NewWorkflowFormAddressProps) {
 	const {
 		register,
 		handleSubmit,

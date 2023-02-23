@@ -19,17 +19,22 @@ type FormInputs = {
 	grossWeight: string;
 	netWeight: string;
 	goodsVolume: string;
+	percentHumid: string;
+	damaged: boolean;
+	frozen: boolean;
+	requiresChiller: boolean;
+	requiresControlledAtmosphere: boolean;
 };
 
-interface NewWorkflowFormLocationProps {
+interface NewWorkflowFormContainerDetailsProps {
 	handleSubmitWorkflow: () => void;
 	handleGoBack: () => void;
 }
 
-export default function NewWorkflowFormLocation({
+export default function NewWorkflowFormContainerDetails({
 	handleSubmitWorkflow,
 	handleGoBack
-}: NewWorkflowFormLocationProps) {
+}: NewWorkflowFormContainerDetailsProps) {
 	const {
 		register,
 		handleSubmit,
@@ -37,7 +42,11 @@ export default function NewWorkflowFormLocation({
 		formState: { errors }
 	} = useForm<FormInputs>({
 		defaultValues: {
-			useCustomPricing: false
+			useCustomPricing: false,
+			damaged: false,
+			frozen: false,
+			requiresChiller: false,
+			requiresControlledAtmosphere: false
 		}
 	});
 
@@ -218,11 +227,76 @@ export default function NewWorkflowFormLocation({
 					</div>
 				</div>
 
-				<div className="flex justify-end">
-					<button className="btn btn-circle bg-primary mt-10">
-						{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
-						<IconRight />
-					</button>
+				<div className="mb-2 grid grid-cols-4 gap-2">
+					<div>
+						<label>Humidity %</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="40%"
+								className={`input w-full ${
+									errors.percentHumid ? "border-error" : "border-neutral"
+								}`}
+								{...register("percentHumid", { required: "Phone required." })}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div className="flex flex-row gap-4">
+						<label className="label cursor-pointer">Damaged</label>
+						<div className="mt-2 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("damaged", { required: false })}
+							/>
+						</div>
+					</div>
+					<div className="flex flex-row gap-4">
+						<label className="label cursor-pointer">Frozen</label>
+						<div className="mt-2 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("frozen", { required: false })}
+							/>
+						</div>
+					</div>
+					<div className="flex flex-row gap-4">
+						<label className="label cursor-pointer">Requires Chiller</label>
+						<div className="mt-2 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("requiresChiller", { required: false })}
+							/>
+						</div>
+					</div>
+					<div className="flex flex-row gap-4">
+						<label className="label cursor-pointer">Requires Controlled Atmosphere</label>
+						<div className="mt-2 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("requiresControlledAtmosphere", { required: false })}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="flex flex-row justify-between	">
+					<div className="justify-start">
+						<button className="btn btn-circle bg-primary mt-10">
+							<IconLeft />
+						</button>
+					</div>
+					<div className="justify-end">
+						<button className="btn btn-circle bg-primary mt-10">
+							<IconRight />
+						</button>
+					</div>
 				</div>
 			</form>
 		</div>
