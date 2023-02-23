@@ -10,10 +10,15 @@ type FormInputs = {
 	useCustomPricing: boolean;
 	customPrice: string;
 	goodsDescription: string;
-	pickupType: string;
-	dropOffAddress: string;
-	dropoffType: string;
-	transitTime: string;
+	cargoType: string;
+	length: string;
+	width: string;
+	height: string;
+	sealNumber: string;
+	numberOfPackages: string;
+	grossWeight: string;
+	netWeight: string;
+	goodsVolume: string;
 };
 
 interface NewWorkflowFormLocationProps {
@@ -94,7 +99,6 @@ export default function NewWorkflowFormLocation({
 				<div className="divider" />
 
 				<h2 className="prose prose-2xl">Container Details</h2>
-
 				<div className="mb-2 grid grid-cols-2 gap-2">
 					<div>
 						<label>Type / Mode</label>
@@ -113,66 +117,104 @@ export default function NewWorkflowFormLocation({
 							</select>
 						</div>
 					</div>
+				</div>
+				<div className="mb-2 grid grid-cols-3 gap-2">
 					<div>
-						<label>Weight</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
+						<label>Length</label>
+						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="Ontario, Canada"
-								className={`input w-full ${
-									errors.deliveryProvinceCountry ? "border-error" : "border-neutral"
-								}`}
-								{...register("deliveryProvinceCountry", { required: "Province/Country required." })}
+								placeholder="20 meters"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("length", { required: "Name required." })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Width</label>
+						<div className={"mt-1 flex rounded-md shadow-sm"}>
+							<input
+								type="text"
+								placeholder="8 meters"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("width", { required: "Name required." })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Height</label>
+						<div className={"mt-1 flex rounded-md shadow-sm"}>
+							<input
+								type="text"
+								placeholder="8.5 meters"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("height", { required: "Name required." })}
 							/>
 						</div>
 					</div>
 				</div>
-
 				<div className="mb-2 grid grid-cols-2 gap-2">
 					<div>
-						<label>Name</label>
+						<label>Seal Number</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="Gloria Zhuang"
-								className={`input w-full ${
-									errors.deliveryContactName ? "border-error" : "border-neutral"
-								}`}
-								{...register("deliveryContactName", { required: "Name required." })}
+								placeholder="oolgka7297"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("sealNumber", { required: "Name required." })}
 							/>
 						</div>
 					</div>
-
 					<div>
-						<label>Phone</label>
+						<label># of Packages</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="6479993989"
+								placeholder="40 PLT"
 								className={`input w-full ${
-									errors.deliveryContactPhone ? "border-error" : "border-neutral"
+									errors.numberOfPackages ? "border-error" : "border-neutral"
 								}`}
-								{...register("deliveryContactPhone", { required: "Phone required." })}
+								{...register("numberOfPackages", { required: "Phone required." })}
 							/>
 						</div>
 					</div>
 				</div>
 
-				<div className="mb-2">
-					<label>Type / Mode</label>
-					<div className={"mt-1 flex rounded-md shadow-sm"}>
-						<select
-							className={`select w-full max-w-s ${
-								errors.cargoType ? "border-error" : "border-neutral"
-							}`}
-							defaultValue=""
-							{...register("cargoType", { required: "Cargo Type required" })}
-						>
-							<option value="" disabled>
-								Choose your cargo type
-							</option>
-							<option value="Container">20GP BCN</option>
-						</select>
+				<div className="mb-2 grid grid-cols-3 gap-2">
+					<div>
+						<label>Net Weight</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="20467.310 KG"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("netWeight", { required: "Name required." })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Gross Weight</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="20467.310 KG"
+								className={`input w-full ${
+									errors.numberOfPackages ? "border-error" : "border-neutral"
+								}`}
+								{...register("grossWeight", { required: "Phone required." })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Goods Volume</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="18.520 M3"
+								className={`input w-full ${errors.sealNumber ? "border-error" : "border-neutral"}`}
+								{...register("goodsVolume", { required: "Name required." })}
+							/>
+						</div>
 					</div>
 				</div>
 
