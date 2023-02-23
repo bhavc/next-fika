@@ -3,8 +3,6 @@ import Head from "next/head";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import Layout from "@/layouts/Layout";
-
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
