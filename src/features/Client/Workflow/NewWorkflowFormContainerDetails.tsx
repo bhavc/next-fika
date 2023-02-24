@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
@@ -75,7 +74,7 @@ export default function NewWorkflowFormContainerDetails({
 	};
 
 	return (
-		<div className="flex flex-row w-full bg-slate-100 rounded-b-md p-4">
+		<div className="w-full bg-slate-100 rounded-b-md p-4">
 			<form
 				id="newWorkflowFormContainerDetails"
 				onSubmit={handleSubmit(onSubmit)}
@@ -325,24 +324,23 @@ export default function NewWorkflowFormContainerDetails({
 						</div>
 					</div>
 				</div>
-
-				<div className="flex flex-row justify-between">
-					<div className="justify-start">
-						<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
-							<IconLeft />
-						</button>
-					</div>
-					<div className="justify-end">
-						<button
-							className="btn btn-circle bg-primary mt-10"
-							type="submit"
-							form="newWorkflowFormContainerDetails"
-						>
-							<IconRight />
-						</button>
-					</div>
-				</div>
 			</form>
+			<div className="flex flex-row justify-between">
+				<div className="justify-start">
+					<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
+						<IconLeft />
+					</button>
+				</div>
+				<div className="justify-end">
+					<button
+						className="btn btn-circle bg-primary mt-10"
+						type="submit"
+						form="newWorkflowFormContainerDetails"
+					>
+						<IconRight />
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 }

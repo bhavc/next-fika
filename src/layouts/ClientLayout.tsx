@@ -29,7 +29,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 	return (
 		<>
 			<ClientNavbar leftSideItems={leftSideButtons} />
-			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)]">
+			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
 				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">

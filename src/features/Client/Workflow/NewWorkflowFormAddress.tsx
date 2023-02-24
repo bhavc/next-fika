@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconRight from "public/svg/arrow-right.svg";
 
@@ -70,7 +69,7 @@ export default function NewWorkflowFormAddress({
 	};
 
 	return (
-		<div className="flex flex-row w-full bg-slate-100 rounded-b-md p-4">
+		<div className="w-full bg-slate-100 rounded-b-md p-4">
 			<form id="newWorkflowFormAddress" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<div className="mb-2 grid grid-cols-2 gap-4">
 					<div>
@@ -360,18 +359,17 @@ export default function NewWorkflowFormAddress({
 						</div>
 					</div>
 				</div>
-
-				<div className="flex justify-end">
-					<button
-						className="btn btn-circle bg-primary mt-10"
-						form="newWorkflowFormAddress"
-						type="submit"
-					>
-						{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
-						<IconRight />
-					</button>
-				</div>
 			</form>
+			<div className="flex justify-end">
+				<button
+					className="btn btn-circle bg-primary mt-10"
+					form="newWorkflowFormAddress"
+					type="submit"
+				>
+					{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
+					<IconRight />
+				</button>
+			</div>
 
 			{/* <div className="card w-80 bg-slate-50 shadow-xl">
 				<div className="card-body">

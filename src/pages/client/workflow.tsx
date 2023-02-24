@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import ClientLayout from "@/layouts/ClientLayout";
 
@@ -80,11 +80,16 @@ export default function Workflow() {
 
 	console.log("workflowFormAddressState", workflowFormAddressState);
 
+	useEffect(() => {
+		const element = document.getElementById("workflowHeader");
+		element?.scrollIntoView({ behavior: "smooth" });
+	}, [step]);
+
 	return (
 		<>
 			<ClientLayout>
-				<main className="px-4">
-					<h1 className="text-3xl mt-2 text-left bg-slate-100 rounded-t-md p-4">
+				<main id="workflowParent" className="px-4 overflow-auto">
+					<h1 id="workflowHeader" className="text-3xl mt-2 text-left bg-slate-100 rounded-t-md p-4">
 						Create a new Workflow
 					</h1>
 

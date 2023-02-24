@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
@@ -33,7 +32,7 @@ export default function NewWorkflowFormNotes({
 	};
 
 	return (
-		<div className="flex flex-row w-full bg-slate-100 rounded-b-md p-4">
+		<div className="w-full bg-slate-100 rounded-b-md p-4">
 			<form id="newWorkflowFormNotes" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<h2 className="prose prose-2xl">Extra Notes</h2>
 				<div className="mb-2">
@@ -49,24 +48,23 @@ export default function NewWorkflowFormNotes({
 						</div>
 					</div>
 				</div>
-
-				<div className="flex flex-row justify-between	">
-					<div className="justify-start">
-						<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
-							<IconLeft />
-						</button>
-					</div>
-					<div className="justify-end">
-						<button
-							className="btn btn-circle bg-primary mt-10"
-							form="newWorkflowFormNotes"
-							type="submit"
-						>
-							<IconRight />
-						</button>
-					</div>
-				</div>
 			</form>
+			<div className="flex flex-row justify-between">
+				<div className="justify-start">
+					<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
+						<IconLeft />
+					</button>
+				</div>
+				<div className="justify-end">
+					<button
+						className="btn btn-circle bg-primary mt-10"
+						form="newWorkflowFormNotes"
+						type="submit"
+					>
+						<IconRight />
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 }
