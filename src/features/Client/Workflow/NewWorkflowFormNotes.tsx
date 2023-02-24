@@ -33,8 +33,8 @@ export default function NewWorkflowFormNotes({
 	};
 
 	return (
-		<div className="flex flex-row w-full bg-slate-100 rounded-md p-4">
-			<form id="newWorkflowForm" onSubmit={handleSubmit(onSubmit)} className="w-full">
+		<div className="flex flex-row w-full bg-slate-100 rounded-b-md p-4">
+			<form id="newWorkflowFormNotes" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<h2 className="prose prose-2xl">Extra Notes</h2>
 				<div className="mb-2">
 					<div>
@@ -52,12 +52,16 @@ export default function NewWorkflowFormNotes({
 
 				<div className="flex flex-row justify-between	">
 					<div className="justify-start">
-						<button className="btn btn-circle bg-primary mt-10">
+						<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
 							<IconLeft />
 						</button>
 					</div>
 					<div className="justify-end">
-						<button className="btn btn-circle bg-primary mt-10">
+						<button
+							className="btn btn-circle bg-primary mt-10"
+							form="newWorkflowFormNotes"
+							type="submit"
+						>
 							<IconRight />
 						</button>
 					</div>

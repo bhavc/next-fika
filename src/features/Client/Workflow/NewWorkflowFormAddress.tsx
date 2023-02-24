@@ -2,48 +2,79 @@ import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconRight from "public/svg/arrow-right.svg";
 
-type FormInputs = {
+export type WorkflowFormAddressInputs = {
 	containerNumber: string;
 	shipmentNumber: string;
 	clearance: string;
+	pickupCompanyName: string;
 	pickupAddress: string;
 	pickupCity: string;
-	pickupProvinceCountry: string;
+	pickupProvince: string;
+	pickupCountry: string;
 	pickupContactName: string;
 	pickupContactPhone: string;
-	deliveryAddress: string;
-	deliveryCity: string;
-	deliveryProvinceCountry: string;
-	deliveryContactName: string;
-	deliveryContactPhone: string;
+	pickupWindow: string;
+	pickupAppointmentNeeded: boolean;
+	dropoffCompanyName: string;
+	dropoffAddress: string;
+	dropoffCity: string;
+	dropoffProvince: string;
+	dropoffCountry: string;
+	dropoffContactName: string;
+	dropoffContactPhone: string;
+	dropoffWindow: string;
+	dropOffAppointmentNeeded: boolean;
 };
 
 interface NewWorkflowFormAddressProps {
-	handleSubmitWorkflow: () => void;
+	handleSubmitWorkflow: (data: WorkflowFormAddressInputs) => void;
+	workflowFormAddressState: WorkflowFormAddressInputs;
 }
 
 export default function NewWorkflowFormAddress({
-	handleSubmitWorkflow
+	handleSubmitWorkflow,
+	workflowFormAddressState
 }: NewWorkflowFormAddressProps) {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<FormInputs>();
+	} = useForm<WorkflowFormAddressInputs>({
+		defaultValues: {
+			containerNumber: workflowFormAddressState.containerNumber,
+			shipmentNumber: workflowFormAddressState.shipmentNumber,
+			clearance: workflowFormAddressState.clearance,
+			pickupCompanyName: workflowFormAddressState.pickupCompanyName,
+			pickupAddress: workflowFormAddressState.pickupAddress,
+			pickupCity: workflowFormAddressState.pickupCity,
+			pickupProvince: workflowFormAddressState.pickupProvince,
+			pickupCountry: workflowFormAddressState.pickupCountry,
+			pickupContactName: workflowFormAddressState.pickupContactName,
+			pickupContactPhone: workflowFormAddressState.pickupContactPhone,
+			pickupWindow: workflowFormAddressState.pickupWindow,
+			pickupAppointmentNeeded: workflowFormAddressState.pickupAppointmentNeeded,
+			dropoffCompanyName: workflowFormAddressState.dropoffCompanyName,
+			dropoffAddress: workflowFormAddressState.dropoffAddress,
+			dropoffCity: workflowFormAddressState.dropoffCity,
+			dropoffProvince: workflowFormAddressState.dropoffProvince,
+			dropoffCountry: workflowFormAddressState.dropoffCountry,
+			dropoffContactName: workflowFormAddressState.dropoffContactName,
+			dropoffContactPhone: workflowFormAddressState.dropoffContactPhone,
+			dropoffWindow: workflowFormAddressState.dropoffWindow,
+			dropOffAppointmentNeeded: workflowFormAddressState.dropOffAppointmentNeeded
+		}
+	});
 
-	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		handleSubmitWorkflow();
-
-		// TODO
-		// make a request to the backend, register the user
+	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = (data) => {
+		handleSubmitWorkflow(data);
 	};
 
 	return (
-		<div className="flex flex-row w-full bg-slate-100 rounded-md p-4">
-			<form id="newWorkflowForm" onSubmit={handleSubmit(onSubmit)} className="w-full">
+		<div className="flex flex-row w-full bg-slate-100 rounded-b-md p-4">
+			<form id="newWorkflowFormAddress" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<div className="mb-2 grid grid-cols-2 gap-4">
 					<div>
-						<label>Container Number</label>
+						<label>Container Number*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
@@ -51,7 +82,7 @@ export default function NewWorkflowFormAddress({
 								className={`input w-full ${
 									errors.containerNumber ? "border-error" : "border-neutral"
 								}`}
-								{...register("containerNumber", { required: "Container Number required." })}
+								{...register("containerNumber", { required: true })}
 							/>
 						</div>
 					</div>
@@ -77,41 +108,69 @@ export default function NewWorkflowFormAddress({
 
 				<div className="mb-2">
 					<div>
-						<label>Address</label>
+						<label>Company Name*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="Canadian National Railway, 76 Intermodal Dr."
+								placeholder="Canadian National Railway"
 								className={`input w-full ${
-									errors.pickupAddress ? "border-error" : "border-neutral"
+									errors.pickupCompanyName ? "border-error" : "border-neutral"
 								}`}
-								{...register("pickupAddress", { required: "Address required" })}
+								{...register("pickupCompanyName", { required: true })}
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="mb-2 grid grid-cols-2 gap-2">
+				<div className="mb-2">
 					<div>
-						<label>City</label>
+						<label>Address*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="76 Intermodal Dr."
+								className={`input w-full ${
+									errors.pickupAddress ? "border-error" : "border-neutral"
+								}`}
+								{...register("pickupAddress", { required: true })}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="mb-2 grid grid-cols-3 gap-2">
+					<div>
+						<label>City*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="Brampton"
 								className={`input w-full ${errors.pickupCity ? "border-error" : "border-neutral"}`}
-								{...register("pickupCity", { required: "City required" })}
+								{...register("pickupCity", { required: true })}
 							/>
 						</div>
 					</div>
 					<div>
-						<label>Province & Country</label>
+						<label>Province*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="Ontario, Canada"
+								placeholder="Ontario"
 								className={`input w-full ${
-									errors.pickupProvinceCountry ? "border-error" : "border-neutral"
+									errors.pickupProvince ? "border-error" : "border-neutral"
 								}`}
-								{...register("pickupProvinceCountry", { required: "Province/Country required." })}
+								{...register("pickupProvince", { required: true })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Country*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Canada"
+								className={`input w-full ${
+									errors.pickupCountry ? "border-error" : "border-neutral"
+								}`}
+								{...register("pickupCountry", { required: true })}
 							/>
 						</div>
 					</div>
@@ -120,7 +179,7 @@ export default function NewWorkflowFormAddress({
 				<h2 className="prose prose-xl">Contact</h2>
 				<div className="mb-2 grid grid-cols-2 gap-2">
 					<div>
-						<label>Name</label>
+						<label>Name*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
@@ -128,21 +187,46 @@ export default function NewWorkflowFormAddress({
 								className={`input w-full ${
 									errors.pickupContactName ? "border-error" : "border-neutral"
 								}`}
-								{...register("pickupContactName", { required: "Contact name required." })}
+								{...register("pickupContactName", { required: true })}
 							/>
 						</div>
 					</div>
 
 					<div>
-						<label>Phone</label>
+						<label>Phone*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="6479993989"
+								placeholder="1234567890"
 								className={`input w-full ${
 									errors.pickupContactPhone ? "border-error" : "border-neutral"
 								}`}
-								{...register("pickupContactPhone", { required: "Phone required." })}
+								{...register("pickupContactPhone", { required: true })}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div>
+						<label>Pickup window*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="6am - 9pm"
+								className={`input w-full ${
+									errors.pickupWindow ? "border-error" : "border-neutral"
+								}`}
+								{...register("pickupWindow", { required: true })}
+							/>
+						</div>
+					</div>
+					<div className="flex flex-row gap-4 ml-6 mt-6">
+						<label className="label cursor-pointer">Appointment Needed</label>
+						<div className="mt-4 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("pickupAppointmentNeeded", { required: false })}
 							/>
 						</div>
 					</div>
@@ -150,46 +234,72 @@ export default function NewWorkflowFormAddress({
 
 				<div className="divider" />
 
-				<h2 className="prose prose-2xl">Delivery</h2>
+				<h2 className="prose prose-2xl">Dropoff</h2>
 				<div className="mb-2">
 					<div>
-						<label>Address</label>
+						<label>Company Name*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="Canadian National Railway, 76 Intermodal Dr."
+								placeholder="Canadian National Railway"
 								className={`input w-full ${
-									errors.deliveryAddress ? "border-error" : "border-neutral"
+									errors.dropoffCompanyName ? "border-error" : "border-neutral"
 								}`}
-								{...register("deliveryAddress", { required: "Address required" })}
+								{...register("dropoffCompanyName", { required: true })}
 							/>
 						</div>
 					</div>
 				</div>
-				<div className="mb-2 grid grid-cols-2 gap-2">
+				<div className="mb-2">
 					<div>
-						<label>City</label>
+						<label>Address*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="76 Intermodal Dr."
+								className={`input w-full ${
+									errors.dropoffAddress ? "border-error" : "border-neutral"
+								}`}
+								{...register("dropoffAddress", { required: true })}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="mb-2 grid grid-cols-3 gap-2">
+					<div>
+						<label>City*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="Brampton"
-								className={`input w-full ${
-									errors.deliveryCity ? "border-error" : "border-neutral"
-								}`}
-								{...register("deliveryCity", { required: "City required." })}
+								className={`input w-full ${errors.dropoffCity ? "border-error" : "border-neutral"}`}
+								{...register("dropoffCity", { required: true })}
 							/>
 						</div>
 					</div>
 					<div>
-						<label>Province & Country</label>
+						<label>Province*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="Ontario, Canada"
+								placeholder="Ontario"
 								className={`input w-full ${
-									errors.deliveryProvinceCountry ? "border-error" : "border-neutral"
+									errors.dropoffProvince ? "border-error" : "border-neutral"
 								}`}
-								{...register("deliveryProvinceCountry", { required: "Province/Country required." })}
+								{...register("dropoffProvince", { required: true })}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Country*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Canada"
+								className={`input w-full ${
+									errors.dropoffCountry ? "border-error" : "border-neutral"
+								}`}
+								{...register("dropoffCountry", { required: true })}
 							/>
 						</div>
 					</div>
@@ -198,36 +308,65 @@ export default function NewWorkflowFormAddress({
 				<h2 className="prose prose-xl">Contact</h2>
 				<div className="mb-2 grid grid-cols-2 gap-2">
 					<div>
-						<label>Name</label>
+						<label>Name*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="Gloria Zhuang"
 								className={`input w-full ${
-									errors.deliveryContactName ? "border-error" : "border-neutral"
+									errors.dropoffContactName ? "border-error" : "border-neutral"
 								}`}
-								{...register("deliveryContactName", { required: "Name required." })}
+								{...register("dropoffContactName", { required: true })}
 							/>
 						</div>
 					</div>
 
 					<div>
-						<label>Phone</label>
+						<label>Phone*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="6479993989"
+								placeholder="1234567890"
 								className={`input w-full ${
-									errors.deliveryContactPhone ? "border-error" : "border-neutral"
+									errors.dropoffContactPhone ? "border-error" : "border-neutral"
 								}`}
-								{...register("deliveryContactPhone", { required: "Phone required." })}
+								{...register("dropoffContactPhone", { required: true })}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div>
+						<label>Dropoff Window*</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="7am - 6pm"
+								className={`input w-full ${
+									errors.dropoffWindow ? "border-error" : "border-neutral"
+								}`}
+								{...register("dropoffWindow", { required: true })}
+							/>
+						</div>
+					</div>
+					<div className="flex flex-row gap-4 ml-6 mt-6">
+						<label className="label cursor-pointer">Appointment Needed</label>
+						<div className="mt-4 flex rounded-md shadow-sm">
+							<input
+								type="checkbox"
+								className="checkbox"
+								{...register("dropOffAppointmentNeeded", { required: false })}
 							/>
 						</div>
 					</div>
 				</div>
 
 				<div className="flex justify-end">
-					<button className="btn btn-circle bg-primary mt-10">
+					<button
+						className="btn btn-circle bg-primary mt-10"
+						form="newWorkflowFormAddress"
+						type="submit"
+					>
 						{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
 						<IconRight />
 					</button>

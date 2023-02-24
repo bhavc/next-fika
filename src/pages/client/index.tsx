@@ -1,7 +1,5 @@
 import ClientLayout from "@/layouts/ClientLayout";
 
-import mainImage from "/jpeg/client_main.jpeg";
-
 export default function Client() {
 	return (
 		<>
@@ -14,10 +12,10 @@ export default function Client() {
 						<div className="hero-overlay bg-opacity-60"></div>
 						<div className="hero-content text-center text-neutral-content">
 							<div className="max-w-md">
-								<h1 className="mb-5 text-5xl font-bold">Hello User</h1>
+								<h1 className="mb-5 text-5xl font-bold">Hello, User</h1>
 								<p className="mb-5">
-									Welcome to the client App. Here you will be able to create new shipments as well
-									as view any previous shipments you&apos;ve made
+									Welcome to Fika. Here you will be able to create new shipments as well as view any
+									previous shipments you&apos;ve made
 								</p>
 							</div>
 						</div>

@@ -2,14 +2,63 @@ import { useState } from "react";
 
 import ClientLayout from "@/layouts/ClientLayout";
 
+import { WorkflowFormAddressInputs } from "@/features/Client/Workflow/NewWorkflowFormAddress";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
+
 import NewWorkflowFormAddress from "@/features/Client/Workflow/NewWorkflowFormAddress";
 import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
 
 export default function Workflow() {
 	const [step, setStep] = useState(0);
+	const [workflowFormAddressState, setWorkflowFormAddressState] =
+		useState<WorkflowFormAddressInputs>({
+			containerNumber: "",
+			shipmentNumber: "",
+			clearance: "",
+			pickupCompanyName: "",
+			pickupAddress: "",
+			pickupCity: "",
+			pickupProvince: "",
+			pickupCountry: "",
+			pickupContactName: "",
+			pickupContactPhone: "",
+			pickupWindow: "",
+			pickupAppointmentNeeded: false,
+			dropoffCompanyName: "",
+			dropoffAddress: "",
+			dropoffCity: "",
+			dropoffProvince: "",
+			dropoffCountry: "",
+			dropoffContactName: "",
+			dropoffContactPhone: "",
+			dropoffWindow: "",
+			dropOffAppointmentNeeded: false
+		});
+	const [workflowFormContainerDetailsState, setWorkflowFormContainerDetailsState] =
+		useState<WorkflowFormContainerDetailsInputs>({
+			useCustomPricing: false,
+			customPrice: "",
+			goodsDescription: "",
+			cargoType: "",
+			length: "",
+			width: "",
+			height: "",
+			sealNumber: "",
+			numberOfPackages: "",
+			grossWeight: "",
+			netWeight: "",
+			goodsVolume: "",
+			isHumid: false,
+			damaged: false,
+			frozen: false,
+			requiresChiller: false,
+			requiresControlledAtmosphere: false,
+			shippingLine: "",
+			vessellName: ""
+		});
 
-	const handleSubmitWorkflow = () => {
+	const handleNextStep = () => {
 		setStep(step + 1);
 	};
 
@@ -17,22 +66,46 @@ export default function Workflow() {
 		setStep(step - 1);
 	};
 
+	const handleSubmitNewWorkflowFormAddress = (data: WorkflowFormAddressInputs) => {
+		setWorkflowFormAddressState(data);
+		handleNextStep();
+	};
+
+	const handleSubmitNewWorkflowFormContainerDetails = (
+		data: WorkflowFormContainerDetailsInputs
+	) => {
+		setWorkflowFormContainerDetailsState(data);
+		handleNextStep();
+	};
+
+	console.log("workflowFormAddressState", workflowFormAddressState);
+
 	return (
 		<>
 			<ClientLayout>
 				<main className="px-4">
-					<h1 className="text-3xl mt-2 mb-4 text-left">Create a new Workflow</h1>
+					<h1 className="text-3xl mt-2 text-left bg-slate-100 rounded-t-md p-4">
+						Create a new Workflow
+					</h1>
 
-					{step === 0 && <NewWorkflowFormAddress handleSubmitWorkflow={handleSubmitWorkflow} />}
+					{/* allow users to eventually be able to upload a csv */}
+
+					{step === 0 && (
+						<NewWorkflowFormAddress
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
+							workflowFormAddressState={workflowFormAddressState}
+						/>
+					)}
 					{step === 1 && (
 						<NewWorkflowFormContainerDetails
-							handleSubmitWorkflow={handleSubmitWorkflow}
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
 							handleGoBack={handleGoBack}
+							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
 						/>
 					)}
 					{step === 2 && (
 						<NewWorkflowFormNotes
-							handleSubmitWorkflow={handleSubmitWorkflow}
+							handleSubmitWorkflow={handleNextStep}
 							handleGoBack={handleGoBack}
 						/>
 					)}
