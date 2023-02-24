@@ -5,27 +5,33 @@ import IconLeft from "public/svg/arrow-left.svg";
 // TODO There will be a new workflow form for mobile
 // and a new workflow form for desktop
 
-type FormInputs = {
+export type WorkflowFormNotesInputs = {
 	notes: string;
 };
 
 interface NewWorkflowFormNotesProps {
-	handleSubmitWorkflow: () => void;
+	handleSubmitWorkflow: (data: WorkflowFormNotesInputs) => void;
 	handleGoBack: () => void;
+	workflowFormNotesState: WorkflowFormNotesInputs;
 }
 
 export default function NewWorkflowFormNotes({
 	handleGoBack,
-	handleSubmitWorkflow
+	handleSubmitWorkflow,
+	workflowFormNotesState
 }: NewWorkflowFormNotesProps) {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm<FormInputs>();
+	} = useForm<WorkflowFormNotesInputs>({
+		defaultValues: {
+			notes: workflowFormNotesState.notes
+		}
+	});
 
-	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		handleSubmitWorkflow();
+	const onSubmit: SubmitHandler<WorkflowFormNotesInputs> = (data) => {
+		handleSubmitWorkflow(data);
 
 		// TODO
 		// make a request to the backend, register the user
@@ -39,8 +45,8 @@ export default function NewWorkflowFormNotes({
 					<div>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<textarea
-								placeholder="Knurled Bolt, GR 19.9 Plain..."
-								className={`input w-full h-80 pt-2 ${
+								placeholder="Add any other notes here that may help with your delivery"
+								className={`input w-full h-80 pt-2 whitespace-pre-wrap ${
 									errors.notes ? "border-error" : "border-neutral"
 								}`}
 								{...register("notes", { required: false })}

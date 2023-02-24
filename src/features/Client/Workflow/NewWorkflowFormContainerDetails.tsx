@@ -74,7 +74,7 @@ export default function NewWorkflowFormContainerDetails({
 	};
 
 	return (
-		<div className="w-full bg-slate-100 rounded-b-md p-4">
+		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
 			<form
 				id="newWorkflowFormContainerDetails"
 				onSubmit={handleSubmit(onSubmit)}
@@ -113,7 +113,7 @@ export default function NewWorkflowFormContainerDetails({
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<textarea
 								placeholder="Knurled Bolt, GR 19.9 Plain..."
-								className={`input w-full h-80 pt-2 ${
+								className={`input w-full h-80 pt-2 whitespace-pre-wrap ${
 									errors.goodsDescription ? "border-error" : "border-neutral"
 								}`}
 								{...register("goodsDescription", { required: true })}

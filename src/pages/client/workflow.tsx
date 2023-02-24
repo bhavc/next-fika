@@ -4,10 +4,12 @@ import ClientLayout from "@/layouts/ClientLayout";
 
 import { WorkflowFormAddressInputs } from "@/features/Client/Workflow/NewWorkflowFormAddress";
 import { WorkflowFormContainerDetailsInputs } from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
+import { WorkflowFormNotesInputs } from "@/features/Client/Workflow/NewWorkflowFormNotes";
 
 import NewWorkflowFormAddress from "@/features/Client/Workflow/NewWorkflowFormAddress";
 import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
+import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
 export default function Workflow() {
 	const [step, setStep] = useState(0);
@@ -58,6 +60,10 @@ export default function Workflow() {
 			vessellName: ""
 		});
 
+	const [workflowFormNotesState, setWorkflowFormNotesState] = useState<WorkflowFormNotesInputs>({
+		notes: ""
+	});
+
 	const handleNextStep = () => {
 		setStep(step + 1);
 	};
@@ -78,7 +84,10 @@ export default function Workflow() {
 		handleNextStep();
 	};
 
-	console.log("workflowFormAddressState", workflowFormAddressState);
+	const handleSubmitNewWorkflowFormNotes = (data: WorkflowFormNotesInputs) => {
+		setWorkflowFormNotesState(data);
+		handleNextStep();
+	};
 
 	useEffect(() => {
 		const element = document.getElementById("workflowHeader");
@@ -110,7 +119,16 @@ export default function Workflow() {
 					)}
 					{step === 2 && (
 						<NewWorkflowFormNotes
-							handleSubmitWorkflow={handleNextStep}
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
+							workflowFormNotesState={workflowFormNotesState}
+							handleGoBack={handleGoBack}
+						/>
+					)}
+					{step === 3 && (
+						<NewWorkflowFormReview
+							workflowFormAddressState={workflowFormAddressState}
+							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+							workflowFormNotesState={workflowFormNotesState}
 							handleGoBack={handleGoBack}
 						/>
 					)}
