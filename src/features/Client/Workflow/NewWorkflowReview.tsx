@@ -63,7 +63,7 @@ export default function NewWorkflowFormReview({
 		requiresChiller,
 		requiresControlledAtmosphere,
 		shippingLine,
-		vessellName
+		vesselName
 	} = workflowFormContainerDetailsState;
 
 	const { notes } = workflowFormNotesState;
@@ -186,7 +186,7 @@ export default function NewWorkflowFormReview({
 						<p>Shipping Line: {shippingLine}</p>
 					</div>
 					<div>
-						<p>Vessell Name: {vessellName}</p>
+						<p>Vessel Name: {vesselName}</p>
 					</div>
 				</div>
 			</div>

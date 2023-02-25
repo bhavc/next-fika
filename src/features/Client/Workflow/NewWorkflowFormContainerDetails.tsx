@@ -24,7 +24,7 @@ export type WorkflowFormContainerDetailsInputs = {
 	requiresChiller: boolean;
 	requiresControlledAtmosphere: boolean;
 	shippingLine: string;
-	vessellName: string;
+	vesselName: string;
 };
 
 interface NewWorkflowFormContainerDetailsProps {
@@ -63,7 +63,7 @@ export default function NewWorkflowFormContainerDetails({
 			requiresChiller: workflowFormContainerDetailsState.requiresChiller,
 			requiresControlledAtmosphere: workflowFormContainerDetailsState.requiresControlledAtmosphere,
 			shippingLine: workflowFormContainerDetailsState.shippingLine,
-			vessellName: workflowFormContainerDetailsState.vessellName
+			vesselName: workflowFormContainerDetailsState.vesselName
 		}
 	});
 
@@ -87,7 +87,10 @@ export default function NewWorkflowFormContainerDetails({
 						<label className="label cursor-pointer">Add Custom Price</label>
 						<input type="checkbox" className="toggle" {...register("useCustomPricing")} />
 					</div>
-					<p>*If not selected, price will be what was agreed upon by Dispatcher</p>
+					<p>
+						*Pre-agreed tariff in place, if no pre-agreed tariff, then a quote will be shared prior
+						to the order being accepted
+					</p>
 					{isUseCustomPricing && (
 						<div>
 							<label>Custom Price*</label>
@@ -139,7 +142,18 @@ export default function NewWorkflowFormContainerDetails({
 								<option value="" disabled>
 									Choose your cargo type
 								</option>
-								<option value="Container">20GP BCN</option>
+								<option value="Container">20 ft dry shipping container</option>
+								<option value="Container">40 ft dry shipping container</option>
+								<option value="Container">40 ft dry high cube shipping container</option>
+								<option value="Container">45 ft dry high cube shipping container</option>
+								<option value="Container">20 ft flat rack shipping container</option>
+								<option value="Container">40 ft flat rack shipping container</option>
+								<option value="Container">20 ft open top shipping container</option>
+								<option value="Container">40 ft open top shipping container</option>
+								<option value="Container">20 ft ventilated shipping container</option>
+								<option value="Container">20 ft refrigerated shipping container</option>
+								<option value="Container">40 ft refrigerated shipping container</option>
+								<option value="Container">20 ft tank shipping container</option>
 							</select>
 						</div>
 					</div>
@@ -150,7 +164,7 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="20 meters"
+								placeholder="20 feet"
 								className={`input w-full ${errors.length ? "border-error" : "border-neutral"}`}
 								{...register("length", { required: true })}
 							/>
@@ -161,7 +175,7 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="8 meters"
+								placeholder="8 feet"
 								className={`input w-full ${errors.width ? "border-error" : "border-neutral"}`}
 								{...register("width", { required: true })}
 							/>
@@ -172,7 +186,7 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="8.5 meters"
+								placeholder="8.5 feet"
 								className={`input w-full ${errors.height ? "border-error" : "border-neutral"}`}
 								{...register("height", { required: true })}
 							/>
@@ -313,13 +327,13 @@ export default function NewWorkflowFormContainerDetails({
 						</div>
 					</div>
 					<div>
-						<label>Vessell Name</label>
+						<label>Vessel Name</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="Scorpio Honor"
-								className={`input w-full ${errors.vessellName ? "border-error" : "border-neutral"}`}
-								{...register("vessellName", { required: false })}
+								className={`input w-full ${errors.vesselName ? "border-error" : "border-neutral"}`}
+								{...register("vesselName", { required: false })}
 							/>
 						</div>
 					</div>

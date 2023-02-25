@@ -57,7 +57,7 @@ export default function Workflow() {
 			requiresChiller: false,
 			requiresControlledAtmosphere: false,
 			shippingLine: "",
-			vessellName: ""
+			vesselName: ""
 		});
 
 	const [workflowFormNotesState, setWorkflowFormNotesState] = useState<WorkflowFormNotesInputs>({
