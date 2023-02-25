@@ -1,4 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+
+import FileUploader from "@/components/FileUploader";
+
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
 
@@ -7,6 +10,7 @@ import IconLeft from "public/svg/arrow-left.svg";
 
 export type WorkflowFormNotesInputs = {
 	notes: string;
+	files: any;
 };
 
 interface NewWorkflowFormNotesProps {
@@ -40,17 +44,31 @@ export default function NewWorkflowFormNotes({
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md p-4">
 			<form id="newWorkflowFormNotes" onSubmit={handleSubmit(onSubmit)} className="w-full">
-				<h2 className="prose prose-2xl">Extra Notes</h2>
-				<div className="mb-2">
-					<div>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<textarea
-								placeholder="Add any other notes here that may help with your delivery"
-								className={`input w-full h-80 pt-2 whitespace-pre-wrap ${
-									errors.notes ? "border-error" : "border-neutral"
-								}`}
-								{...register("notes", { required: false })}
-							/>
+				<div>
+					<h2 className="prose prose-2xl">Upload Files</h2>
+					<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
+					<div className="my-2">
+						<div className="mt-1 flex">
+							<FileUploader />
+						</div>
+					</div>
+				</div>
+
+				<div className="divider" />
+
+				<div>
+					<h2 className="prose prose-2xl">Extra Notes</h2>
+					<div className="mb-2">
+						<div>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<textarea
+									placeholder="Add any other notes here that may help with your delivery"
+									className={`input w-full h-80 pt-2 whitespace-pre-wrap ${
+										errors.notes ? "border-error" : "border-neutral"
+									}`}
+									{...register("notes", { required: false })}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

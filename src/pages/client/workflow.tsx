@@ -12,7 +12,7 @@ import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNote
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
 export default function Workflow() {
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(2);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -61,7 +61,8 @@ export default function Workflow() {
 		});
 
 	const [workflowFormNotesState, setWorkflowFormNotesState] = useState<WorkflowFormNotesInputs>({
-		notes: ""
+		notes: "",
+		files: []
 	});
 
 	const handleNextStep = () => {
