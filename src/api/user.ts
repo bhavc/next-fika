@@ -1,5 +1,7 @@
+const BASE_URL = process.env.API_BASE_URL_LOCAL;
+
 export const getCurrentUser = async (userToken: string | undefined) => {
-	const response = await fetch("http://localhost:3000/user/current", {
+	const response = await fetch(`${BASE_URL}/user/current`, {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${userToken}`

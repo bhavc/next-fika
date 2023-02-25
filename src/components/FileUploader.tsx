@@ -1,15 +1,26 @@
-import { useState, ChangeEvent } from "react";
 import { useDropzone, FileWithPath, FileRejection, DropEvent } from "react-dropzone";
+
+import { uploadFile, uploadFiles } from "@/api/fileUpload";
 
 import FileUploadIcon from "public/svg/file-upload.svg";
 
 export default function FileUploader() {
-	const handleOnDrop = (
-		acceptedFiles: any[],
+	const handleOnDrop = async (
+		acceptedFiles: File[],
 		fileRejections: FileRejection[],
 		event: DropEvent
 	) => {
 		console.log("acceptedFiles", acceptedFiles);
+
+		// const firstFile = acceptedFiles[0];
+
+		try {
+			const res = await uploadFiles(acceptedFiles);
+			console.log("res", res);
+		} catch (err) {
+			console.log("Error uploading file", err);
+		}
+
 		// for each file, call the image upload route on backend
 		// once called, route will store data in postgres
 		// return blob storage and show that here
@@ -26,7 +37,14 @@ export default function FileUploader() {
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
 		onDrop: handleOnDrop,
 		multiple: true,
-		maxFiles: 10
+		maxFiles: 10,
+		accept: {
+			"image/png": [".png"],
+			"application/pdf": [".pdf"],
+			"image/jpeg": [".jpeg"],
+			"image/jpg": [".jpg"],
+			"text/plain": [".txt"]
+		}
 	});
 
 	const files = acceptedFiles.map((file: FileWithPath) => (

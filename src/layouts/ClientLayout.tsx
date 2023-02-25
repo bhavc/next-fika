@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
@@ -17,20 +17,30 @@ interface LayoutProps {
 
 export default function ClientLayout({ children }: LayoutProps) {
 	const router = useRouter();
+	const [isDisplayDrawer, setIsDisplayDrawer] = useState(false);
 
 	const currentPath = router.pathname;
 
+	const handleClick = () => {
+		setIsDisplayDrawer(!isDisplayDrawer);
+	};
+
 	const leftSideButtons = [
-		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
+		<button key={"menu"} className="btn btn-primary drawer-button lg:hidden" onClick={handleClick}>
 			<MenuIcon />
-		</label>
+		</button>
 	];
 
 	return (
 		<>
 			<ClientNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
-				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
+				<input
+					id="main-drawer"
+					type="checkbox"
+					className="drawer-toggle"
+					checked={isDisplayDrawer}
+				/>
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />
