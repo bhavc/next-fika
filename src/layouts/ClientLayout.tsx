@@ -26,21 +26,16 @@ export default function ClientLayout({ children }: LayoutProps) {
 	};
 
 	const leftSideButtons = [
-		<button key={"menu"} className="btn btn-primary drawer-button lg:hidden" onClick={handleClick}>
+		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
 			<MenuIcon />
-		</button>
+		</label>
 	];
 
 	return (
 		<>
 			<ClientNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
-				<input
-					id="main-drawer"
-					type="checkbox"
-					className="drawer-toggle"
-					checked={isDisplayDrawer}
-				/>
+				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />

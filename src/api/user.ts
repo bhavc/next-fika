@@ -1,4 +1,4 @@
-const BASE_URL = process.env.API_BASE_URL_LOCAL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL;
 
 export const getCurrentUser = async (userToken: string | undefined) => {
 	const response = await fetch(`${BASE_URL}/user/current`, {

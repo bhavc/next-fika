@@ -1,4 +1,4 @@
-const BASE_URL = process.env.API_BASE_URL_LOCAL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL;
 
 export const uploadFile = async (file: File) => {
 	const formData = new FormData();
@@ -22,6 +22,8 @@ export const uploadFiles = async (files: File[]) => {
 	for (const file of files) {
 		formData.append("file", file, file.name);
 	}
+
+	console.log("BASE_URL", BASE_URL);
 
 	const response = await fetch(`${BASE_URL}/fileUpload/file`, {
 		method: "POST",
