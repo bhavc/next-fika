@@ -9,6 +9,23 @@ const nextConfig = {
 		});
 
 		return config;
+	},
+	images: {
+		// domains: ["storage.cloud.google.com/"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "storage.cloud.google.com",
+				port: "",
+				pathname: "**"
+			},
+			{
+				protocol: "https",
+				hostname: "storage.googleapis.com",
+				port: "",
+				pathname: "**"
+			}
+		]
 	}
 };
 

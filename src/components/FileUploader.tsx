@@ -1,22 +1,37 @@
-import { useDropzone, FileWithPath, FileRejection, DropEvent } from "react-dropzone";
-
-import { uploadFile, uploadFiles } from "@/api/fileUpload";
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useDropzone, FileRejection, DropEvent } from "react-dropzone";
+import { uploadFiles } from "@/api/fileUpload";
 
 import FileUploadIcon from "public/svg/file-upload.svg";
+import PDFIcon from "public/svg/PDF_file_icon.svg";
+import TextIcon from "public/svg/file-text.svg";
+
+interface FileUploaderProps {
+	setFileUrls?: () => void;
+	fileUrls?: string[];
+}
+
+type ResponseType = {
+	url: string;
+	name: string;
+	type: string;
+};
 
 export default function FileUploader() {
+	const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
+
 	const handleOnDrop = async (
 		acceptedFiles: File[],
 		fileRejections: FileRejection[],
 		event: DropEvent
 	) => {
-		console.log("acceptedFiles", acceptedFiles);
-
-		// const firstFile = acceptedFiles[0];
-
 		try {
 			const res = await uploadFiles(acceptedFiles);
-			console.log("res", res);
+
+			const uploadFileData = res.uploadFileData as ResponseType[];
+			setUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
 			console.log("Error uploading file", err);
 		}
@@ -34,7 +49,7 @@ export default function FileUploader() {
 		// those files should be shown as components previews here
 	};
 
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+	const { getRootProps, getInputProps } = useDropzone({
 		onDrop: handleOnDrop,
 		multiple: true,
 		maxFiles: 10,
@@ -47,11 +62,11 @@ export default function FileUploader() {
 		}
 	});
 
-	const files = acceptedFiles.map((file: FileWithPath) => (
-		<li key={file.path}>
-			{file.path} - {file.size} bytes
-		</li>
-	));
+	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
+	const imageFiles = uploadedFiles.filter((file) => imageFileTypes.includes(file.type));
+	const nonImageFiles = uploadedFiles.filter((file) => !imageFileTypes.includes(file.type));
+
+	console.log("nonImageFiles", nonImageFiles);
 
 	return (
 		<section className="w-full border-none">
@@ -67,8 +82,37 @@ export default function FileUploader() {
 				</div>
 			</div>
 			<div className="mt-4">
-				<h4>Files</h4>
-				<ul>{files}</ul>
+				<h2 className="text-xl">Your uploaded images: </h2>
+				<div className="flex flex-row gap-4 mt-4 mb-4">
+					{imageFiles?.map((file, key) => {
+						return (
+							<div key={key} className="border-2 border-neutral">
+								<Image src={file.url} width={96} height={96} alt={`image: ${key}`} />
+							</div>
+						);
+					})}
+				</div>
+				<h2 className="text-xl">Your uploaded files: </h2>
+				<div className="flex flex-col gap-4">
+					{nonImageFiles?.map((file, key) => {
+						console.log("file", file);
+						return (
+							<Link href={file.url} key={key}>
+								<div className="flex flex-row border-b-2 p-4 border-neutral">
+									{file.type === "application/pdf" ? (
+										<PDFIcon height={48} width={48} />
+									) : (
+										<TextIcon height={48} width={48} />
+									)}
+
+									<div className="flex justify-center items-center">
+										<h2>{file.name}</h2>
+									</div>
+								</div>
+							</Link>
+						);
+					})}
+				</div>
 			</div>
 		</section>
 	);

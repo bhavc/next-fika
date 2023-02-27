@@ -10,7 +10,7 @@ import IconLeft from "public/svg/arrow-left.svg";
 
 export type WorkflowFormNotesInputs = {
 	notes: string;
-	files: any;
+	files: string[];
 };
 
 interface NewWorkflowFormNotesProps {
@@ -30,7 +30,8 @@ export default function NewWorkflowFormNotes({
 		formState: { errors }
 	} = useForm<WorkflowFormNotesInputs>({
 		defaultValues: {
-			notes: workflowFormNotesState.notes
+			notes: workflowFormNotesState.notes,
+			files: workflowFormNotesState.files
 		}
 	});
 

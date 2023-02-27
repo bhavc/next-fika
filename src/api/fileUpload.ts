@@ -23,8 +23,6 @@ export const uploadFiles = async (files: File[]) => {
 		formData.append("file", file, file.name);
 	}
 
-	console.log("BASE_URL", BASE_URL);
-
 	const response = await fetch(`${BASE_URL}/fileUpload/file`, {
 		method: "POST",
 		body: formData

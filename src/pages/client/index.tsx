@@ -5,10 +5,7 @@ export default function Client() {
 		<>
 			<ClientLayout>
 				<main className="flex items-center justify-center">
-					<div
-						className="hero min-h-screen bg-[url('/jpeg/client_main.jpeg')]"
-						// style={{ backgroundImage: `url('/jpeg/client_main.jpeg')` }}
-					>
+					<div className="hero min-h-screen bg-[url('/jpeg/client_main.jpeg')]">
 						<div className="hero-overlay bg-opacity-60"></div>
 						<div className="hero-content text-center text-neutral-content">
 							<div className="max-w-md">
