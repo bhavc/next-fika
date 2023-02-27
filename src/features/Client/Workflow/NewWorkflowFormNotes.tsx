@@ -50,7 +50,7 @@ export default function NewWorkflowFormNotes({
 					<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
 					<div className="my-2">
 						<div className="mt-1 flex">
-							<FileUploader />
+							<FileUploader id={"files"} register={register} />
 						</div>
 					</div>
 				</div>

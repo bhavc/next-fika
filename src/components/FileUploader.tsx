@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useState, InputHTMLAttributes } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useDropzone, FileRejection, DropEvent } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import { uploadFiles } from "@/api/fileUpload";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 import FileUploadIcon from "public/svg/file-upload.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
 
-interface FileUploaderProps {
-	setFileUrls?: () => void;
-	fileUrls?: string[];
+interface FileUploaderProps extends InputHTMLAttributes<HTMLInputElement> {
+	id: string;
+	label?: string;
+	register: UseFormRegister<FieldValues>; // declare register props
 }
-
 type ResponseType = {
 	url: string;
 	name: string;
 	type: string;
 };
 
-export default function FileUploader() {
+export default function FileUploader({ register, id }: FileUploaderProps) {
 	const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -36,6 +37,7 @@ export default function FileUploader() {
 			setUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
 			console.log("Error uploading file", err);
+			// TODO throw a snackbar here
 		} finally {
 			setIsLoading(false);
 		}
@@ -71,15 +73,13 @@ export default function FileUploader() {
 	const imageFiles = uploadedFiles.filter((file) => imageFileTypes.includes(file.type));
 	const nonImageFiles = uploadedFiles.filter((file) => !imageFileTypes.includes(file.type));
 
-	console.log("nonImageFiles", nonImageFiles);
-
 	return (
 		<section className="w-full border-none">
 			<div
 				{...getRootProps({ className: "dropzone" })}
 				className="input w-full h-32 pt-2 border-neutral flex flex-col justify-center items-center"
 			>
-				<input {...getInputProps()} disabled={true} />
+				<input {...getInputProps()} {...register(id)} />
 
 				{isLoading ? (
 					<progress className="progress progress-accent w-56"></progress>
@@ -108,7 +108,6 @@ export default function FileUploader() {
 				</div>
 				<div className="flex flex-col gap-4">
 					{nonImageFiles?.map((file, key) => {
-						console.log("file", file);
 						return (
 							<Link href={file.url} key={key} target="_blank">
 								<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
