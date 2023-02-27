@@ -1,7 +1,6 @@
-import { ReactNode, useState } from "react";
-import Image from "next/image";
+import { ReactNode } from "react";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import ClientNavbar from "@/components/Nav/ClientNavbar";
 
@@ -17,13 +16,8 @@ interface LayoutProps {
 
 export default function ClientLayout({ children }: LayoutProps) {
 	const router = useRouter();
-	const [isDisplayDrawer, setIsDisplayDrawer] = useState(false);
 
 	const currentPath = router.pathname;
-
-	const handleClick = () => {
-		setIsDisplayDrawer(!isDisplayDrawer);
-	};
 
 	const leftSideButtons = [
 		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
@@ -51,7 +45,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 									<div className="mt-2">
 										<NewIcon stroke="white" />
 									</div>
-									<p className="prose lg:prose-xl pl-2 text-white">Workflows</p>
+									<p className="prose lg:prose-xl pl-2 text-white">Create Delivery</p>
 								</div>
 							</Link>
 							<Link
@@ -64,11 +58,11 @@ export default function ClientLayout({ children }: LayoutProps) {
 									<div className="mt-2">
 										<HistoryIcon stroke="white" />
 									</div>
-									<p className="prose lg:prose-xl pl-2 text-white">Past Workflows</p>
+									<p className="prose lg:prose-xl pl-2 text-white">Past Deliveries</p>
 								</div>
 							</Link>
 						</ul>
-						<ul className="menu text-base-content w-60 pl-10">
+						<ul className="menu text-base-content w-60 pl-10 gap-4">
 							<Link
 								href={"/client/settings"}
 								className={`hover:bg-accent p-2 rounded-md ${

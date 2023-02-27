@@ -23,6 +23,9 @@ export type WorkflowFormAddressInputs = {
 	dropoffContactPhone: string;
 	dropoffWindow: string;
 	dropOffAppointmentNeeded: boolean;
+	bolNumber: string;
+	t1Number: string;
+	borderCrossing: string;
 };
 
 interface NewWorkflowFormAddressProps {
@@ -60,7 +63,10 @@ export default function NewWorkflowFormAddress({
 			dropoffContactName: workflowFormAddressState.dropoffContactName,
 			dropoffContactPhone: workflowFormAddressState.dropoffContactPhone,
 			dropoffWindow: workflowFormAddressState.dropoffWindow,
-			dropOffAppointmentNeeded: workflowFormAddressState.dropOffAppointmentNeeded
+			dropOffAppointmentNeeded: workflowFormAddressState.dropOffAppointmentNeeded,
+			bolNumber: workflowFormAddressState.bolNumber,
+			t1Number: workflowFormAddressState.t1Number,
+			borderCrossing: workflowFormAddressState.borderCrossing
 		}
 	});
 
@@ -355,6 +361,42 @@ export default function NewWorkflowFormAddress({
 								type="checkbox"
 								className="checkbox"
 								{...register("dropOffAppointmentNeeded", { required: false })}
+							/>
+						</div>
+					</div>
+				</div>
+				<div className="divider" />
+				<div className="mb-2 grid grid-cols-2 gap-2">
+					<div>
+						<label>BOL #</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="XXXX123456789"
+								className={`input w-full ${errors.bolNumber ? "border-error" : "border-neutral"}`}
+								{...register("bolNumber")}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>T1 Reference #</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="GS2269XMBS005M2"
+								className={`input w-full ${errors.t1Number ? "border-error" : "border-neutral"}`}
+								{...register("t1Number")}
+							/>
+						</div>
+					</div>
+					<div>
+						<label>Border Crossing</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Detroit, Malaba, Busia"
+								className={`input w-full ${errors.t1Number ? "border-error" : "border-neutral"}`}
+								{...register("t1Number")}
 							/>
 						</div>
 					</div>

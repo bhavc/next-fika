@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 

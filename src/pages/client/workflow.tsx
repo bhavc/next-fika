@@ -11,6 +11,8 @@ import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkf
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
+import AlertIcon from "public/svg/alert-circle.svg";
+
 export default function Workflow() {
 	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
@@ -35,7 +37,10 @@ export default function Workflow() {
 			dropoffContactName: "",
 			dropoffContactPhone: "",
 			dropoffWindow: "",
-			dropOffAppointmentNeeded: false
+			dropOffAppointmentNeeded: false,
+			bolNumber: "",
+			t1Number: "",
+			borderCrossing: ""
 		});
 	const [workflowFormContainerDetailsState, setWorkflowFormContainerDetailsState] =
 		useState<WorkflowFormContainerDetailsInputs>({
@@ -56,6 +61,10 @@ export default function Workflow() {
 			frozen: false,
 			requiresChiller: false,
 			requiresControlledAtmosphere: false,
+			isDropoff: false,
+			dropoffTerminalName: "",
+			isReturn: false,
+			returnDepotName: "",
 			shippingLine: "",
 			vesselName: ""
 		});
@@ -92,7 +101,6 @@ export default function Workflow() {
 	};
 
 	const handleUploadedFiles = (data: any[]) => {
-		console.log("FILE DATA", data);
 		setUploadedFiles(data);
 	};
 
@@ -104,10 +112,20 @@ export default function Workflow() {
 	return (
 		<>
 			<ClientLayout>
-				<main id="workflowParent" className="px-4 overflow-auto">
-					<h1 id="workflowHeader" className="text-3xl mt-2 text-left bg-slate-100 rounded-t-md p-4">
-						Create a new Workflow
+				<main id="workflowParent" className="px-4 overflow-auto bg-slate-100">
+					<h1 id="workflowHeader" className="text-3xl mt-2 text-left rounded-t-md p-4">
+						Create a new Delivery
 					</h1>
+					{step < 2 && (
+						<div className="alert alert-info shadow-lg ml-auto mr-auto w-2/4">
+							<div>
+								<AlertIcon />
+								<span className="text-white">
+									Save all of your files to upload in the final section
+								</span>
+							</div>
+						</div>
+					)}
 
 					{/* allow users to eventually be able to upload a csv */}
 

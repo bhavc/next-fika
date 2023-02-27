@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { uploadFiles } from "@/api/fileUpload";
+import { toast } from "react-hot-toast";
 
 import FileUploadIcon from "public/svg/file-upload.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
@@ -35,23 +36,15 @@ export default function FileUploader({ uploadedFiles, handleUploadedFiles }: Fil
 			const uploadFileData = res.uploadFileData as ResponseType[];
 			handleUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
-			console.log("Error uploading file", err);
 			// TODO throw a snackbar here
+			toast.error("Error uploading file.");
 		} finally {
 			setIsLoading(false);
 		}
 
-		// for each file, call the image upload route on backend
-		// once called, route will store data in postgres
-		// return blob storage and show that here
-
-		// you would save it to the user, return image ids
-		// or do i save image ids to a workflow
+		// save image ids to a workflow
 		// and if the workflow doesnt exist then i prune this data
 		// periodically
-
-		// files should be passed in as props into the file loader
-		// those files should be shown as components previews here
 	};
 
 	const { getRootProps, getInputProps } = useDropzone({

@@ -1,9 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+
+import { valueToDimensionsMap, mapSelectedCargoValueToDimensions } from "./helpers";
+
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
-
-// TODO There will be a new workflow form for mobile
-// and a new workflow form for desktop
 
 export type WorkflowFormContainerDetailsInputs = {
 	useCustomPricing: boolean;
@@ -23,6 +23,10 @@ export type WorkflowFormContainerDetailsInputs = {
 	frozen: boolean;
 	requiresChiller: boolean;
 	requiresControlledAtmosphere: boolean;
+	isDropoff: boolean;
+	dropoffTerminalName: string;
+	isReturn: boolean;
+	returnDepotName: string;
 	shippingLine: string;
 	vesselName: string;
 };
@@ -42,6 +46,8 @@ export default function NewWorkflowFormContainerDetails({
 		register,
 		handleSubmit,
 		watch,
+		setValue,
+		getValues,
 		formState: { errors }
 	} = useForm<WorkflowFormContainerDetailsInputs>({
 		defaultValues: {
@@ -62,14 +68,27 @@ export default function NewWorkflowFormContainerDetails({
 			frozen: workflowFormContainerDetailsState.frozen,
 			requiresChiller: workflowFormContainerDetailsState.requiresChiller,
 			requiresControlledAtmosphere: workflowFormContainerDetailsState.requiresControlledAtmosphere,
+			isDropoff: workflowFormContainerDetailsState.isDropoff,
+			dropoffTerminalName: workflowFormContainerDetailsState.dropoffTerminalName,
+			isReturn: workflowFormContainerDetailsState.isReturn,
+			returnDepotName: workflowFormContainerDetailsState.returnDepotName,
 			shippingLine: workflowFormContainerDetailsState.shippingLine,
 			vesselName: workflowFormContainerDetailsState.vesselName
 		}
 	});
 
 	const isUseCustomPricing = watch("useCustomPricing");
+	const isDropoff = watch("isDropoff");
+	const isReturn = watch("isReturn");
+
+	const selectedCargoType = watch("cargoType");
+	const selectedCargoTypeData = mapSelectedCargoValueToDimensions(selectedCargoType);
 
 	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs> = (data) => {
+		data.height = selectedCargoTypeData.height;
+		data.width = selectedCargoTypeData.width;
+		data.length = selectedCargoTypeData.length;
+
 		handleSubmitWorkflow(data);
 	};
 
@@ -142,18 +161,13 @@ export default function NewWorkflowFormContainerDetails({
 								<option value="" disabled>
 									Choose your cargo type
 								</option>
-								<option value="Container">20 ft dry shipping container</option>
-								<option value="Container">40 ft dry shipping container</option>
-								<option value="Container">40 ft dry high cube shipping container</option>
-								<option value="Container">45 ft dry high cube shipping container</option>
-								<option value="Container">20 ft flat rack shipping container</option>
-								<option value="Container">40 ft flat rack shipping container</option>
-								<option value="Container">20 ft open top shipping container</option>
-								<option value="Container">40 ft open top shipping container</option>
-								<option value="Container">20 ft ventilated shipping container</option>
-								<option value="Container">20 ft refrigerated shipping container</option>
-								<option value="Container">40 ft refrigerated shipping container</option>
-								<option value="Container">20 ft tank shipping container</option>
+								{Object.entries(valueToDimensionsMap).map((entry) => {
+									return (
+										<option key={entry[0]} value={entry[0]}>
+											{entry[1].name}
+										</option>
+									);
+								})}
 							</select>
 						</div>
 					</div>
@@ -166,7 +180,8 @@ export default function NewWorkflowFormContainerDetails({
 								type="text"
 								placeholder="20 feet"
 								className={`input w-full ${errors.length ? "border-error" : "border-neutral"}`}
-								{...register("length", { required: true })}
+								value={selectedCargoTypeData.length}
+								readOnly
 							/>
 						</div>
 					</div>
@@ -177,7 +192,8 @@ export default function NewWorkflowFormContainerDetails({
 								type="text"
 								placeholder="8 feet"
 								className={`input w-full ${errors.width ? "border-error" : "border-neutral"}`}
-								{...register("width", { required: true })}
+								value={selectedCargoTypeData.width}
+								readOnly
 							/>
 						</div>
 					</div>
@@ -188,7 +204,8 @@ export default function NewWorkflowFormContainerDetails({
 								type="text"
 								placeholder="8.5 feet"
 								className={`input w-full ${errors.height ? "border-error" : "border-neutral"}`}
-								{...register("height", { required: true })}
+								value={selectedCargoTypeData.height}
+								readOnly
 							/>
 						</div>
 					</div>
@@ -307,6 +324,51 @@ export default function NewWorkflowFormContainerDetails({
 							/>
 						</div>
 					</div>
+				</div>
+
+				<div className="divider" />
+				<h2 className="prose prose-2xl">Empty Container</h2>
+				<div className="mb-2 grid grid-cols-2 gap-4">
+					<div className="form-control">
+						<label className="label cursor-pointer">Dropoff</label>
+						<input type="checkbox" className="toggle" {...register("isDropoff")} />
+					</div>
+					{isDropoff && (
+						<div>
+							<label>Terminal Name*</label>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<input
+									type="text"
+									placeholder="MSC, Mapuka, Mombasa, Nairobi CFS"
+									className={`input w-full ${
+										errors.dropoffTerminalName ? "border-error" : "border-neutral"
+									}`}
+									{...register("dropoffTerminalName", { required: isDropoff })}
+								/>
+							</div>
+						</div>
+					)}
+				</div>
+				<div className="mb-2 grid grid-cols-2 gap-4">
+					<div className="form-control">
+						<label className="label cursor-pointer">Return</label>
+						<input type="checkbox" className="toggle" {...register("isReturn")} />
+					</div>
+					{isReturn && (
+						<div>
+							<label>Return Depot*</label>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<input
+									type="text"
+									placeholder="MSC, Mapuka, Mombasa, Nairobi CFS"
+									className={`input w-full ${
+										errors.returnDepotName ? "border-error" : "border-neutral"
+									}`}
+									{...register("returnDepotName", { required: isReturn })}
+								/>
+							</div>
+						</div>
+					)}
 				</div>
 
 				<div className="divider" />
