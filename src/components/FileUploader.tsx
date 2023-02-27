@@ -21,19 +21,23 @@ type ResponseType = {
 
 export default function FileUploader() {
 	const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleOnDrop = async (
-		acceptedFiles: File[],
-		fileRejections: FileRejection[],
-		event: DropEvent
+		acceptedFiles: File[]
+		// fileRejections: FileRejection[],
+		// event: DropEvent
 	) => {
 		try {
+			setIsLoading(true);
 			const res = await uploadFiles(acceptedFiles);
 
 			const uploadFileData = res.uploadFileData as ResponseType[];
 			setUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
 			console.log("Error uploading file", err);
+		} finally {
+			setIsLoading(false);
 		}
 
 		// for each file, call the image upload route on backend
@@ -59,7 +63,8 @@ export default function FileUploader() {
 			"image/jpeg": [".jpeg"],
 			"image/jpg": [".jpg"],
 			"text/plain": [".txt"]
-		}
+		},
+		disabled: isLoading
 	});
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
@@ -74,31 +79,39 @@ export default function FileUploader() {
 				{...getRootProps({ className: "dropzone" })}
 				className="input w-full h-32 pt-2 border-neutral flex flex-col justify-center items-center"
 			>
-				<input {...getInputProps()} />
+				<input {...getInputProps()} disabled={true} />
 
-				<div className="hover:opacity-50 flex flex-col justify-center items-center">
-					<FileUploadIcon width="80px" height="80px" />
-					<h3 className="text-center">Select files needed for the delivery</h3>
-				</div>
+				{isLoading ? (
+					<progress className="progress progress-accent w-56"></progress>
+				) : (
+					<div className="hover:opacity-50 flex flex-col justify-center items-center">
+						<FileUploadIcon width="80px" height="80px" />
+						<h3 className="text-center">Select files needed for the delivery</h3>
+					</div>
+				)}
 			</div>
 			<div className="mt-4">
-				<h2 className="text-xl">Your uploaded images: </h2>
-				<div className="flex flex-row gap-4 mt-4 mb-4">
+				<h2 className="text-xl">Your uploaded files: </h2>
+				<div className="flex flex-col gap-4 mt-4">
 					{imageFiles?.map((file, key) => {
 						return (
-							<div key={key} className="border-2 border-neutral">
-								<Image src={file.url} width={96} height={96} alt={`image: ${key}`} />
-							</div>
+							<Link href={file.url} key={key} target="_blank">
+								<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
+									<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
+									<div className="flex justify-center items-center">
+										<h2>{file.name}</h2>
+									</div>
+								</div>
+							</Link>
 						);
 					})}
 				</div>
-				<h2 className="text-xl">Your uploaded files: </h2>
 				<div className="flex flex-col gap-4">
 					{nonImageFiles?.map((file, key) => {
 						console.log("file", file);
 						return (
-							<Link href={file.url} key={key}>
-								<div className="flex flex-row border-b-2 p-4 border-neutral">
+							<Link href={file.url} key={key} target="_blank">
+								<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
 									{file.type === "application/pdf" ? (
 										<PDFIcon height={48} width={48} />
 									) : (
