@@ -10,19 +10,22 @@ import IconLeft from "public/svg/arrow-left.svg";
 
 export type WorkflowFormNotesInputs = {
 	notes: string;
-	files: string[];
 };
 
 interface NewWorkflowFormNotesProps {
 	handleSubmitWorkflow: (data: WorkflowFormNotesInputs) => void;
 	handleGoBack: () => void;
 	workflowFormNotesState: WorkflowFormNotesInputs;
+	uploadedFiles: any[];
+	handleUploadedFiles: (data: any[]) => void;
 }
 
 export default function NewWorkflowFormNotes({
 	handleGoBack,
 	handleSubmitWorkflow,
-	workflowFormNotesState
+	workflowFormNotesState,
+	uploadedFiles,
+	handleUploadedFiles
 }: NewWorkflowFormNotesProps) {
 	const {
 		register,
@@ -30,8 +33,7 @@ export default function NewWorkflowFormNotes({
 		formState: { errors }
 	} = useForm<WorkflowFormNotesInputs>({
 		defaultValues: {
-			notes: workflowFormNotesState.notes,
-			files: workflowFormNotesState.files
+			notes: workflowFormNotesState.notes
 		}
 	});
 
@@ -50,7 +52,10 @@ export default function NewWorkflowFormNotes({
 					<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
 					<div className="my-2">
 						<div className="mt-1 flex">
-							<FileUploader id={"files"} register={register} />
+							<FileUploader
+								uploadedFiles={uploadedFiles}
+								handleUploadedFiles={handleUploadedFiles}
+							/>
 						</div>
 					</div>
 				</div>

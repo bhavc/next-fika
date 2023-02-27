@@ -3,25 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { uploadFiles } from "@/api/fileUpload";
-import { FieldValues, UseFormRegister } from "react-hook-form";
 
 import FileUploadIcon from "public/svg/file-upload.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
 
-interface FileUploaderProps extends InputHTMLAttributes<HTMLInputElement> {
-	id: string;
-	label?: string;
-	register: UseFormRegister<FieldValues>; // declare register props
+interface FileUploaderProps {
+	uploadedFiles: any[];
+	handleUploadedFiles: (data: any[]) => void;
 }
+
 type ResponseType = {
 	url: string;
 	name: string;
 	type: string;
 };
 
-export default function FileUploader({ register, id }: FileUploaderProps) {
-	const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
+export default function FileUploader({ uploadedFiles, handleUploadedFiles }: FileUploaderProps) {
+	// const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleOnDrop = async (
@@ -34,7 +33,7 @@ export default function FileUploader({ register, id }: FileUploaderProps) {
 			const res = await uploadFiles(acceptedFiles);
 
 			const uploadFileData = res.uploadFileData as ResponseType[];
-			setUploadedFiles([...uploadedFiles, ...uploadFileData]);
+			handleUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
 			console.log("Error uploading file", err);
 			// TODO throw a snackbar here
@@ -79,7 +78,7 @@ export default function FileUploader({ register, id }: FileUploaderProps) {
 				{...getRootProps({ className: "dropzone" })}
 				className="input w-full h-32 pt-2 border-neutral flex flex-col justify-center items-center"
 			>
-				<input {...getInputProps()} {...register(id)} />
+				<input {...getInputProps()} />
 
 				{isLoading ? (
 					<progress className="progress progress-accent w-56"></progress>

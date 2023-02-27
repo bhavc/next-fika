@@ -12,7 +12,7 @@ import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNote
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
 export default function Workflow() {
-	const [step, setStep] = useState(2);
+	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -61,9 +61,10 @@ export default function Workflow() {
 		});
 
 	const [workflowFormNotesState, setWorkflowFormNotesState] = useState<WorkflowFormNotesInputs>({
-		notes: "",
-		files: []
+		notes: ""
 	});
+
+	const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
 
 	const handleNextStep = () => {
 		setStep(step + 1);
@@ -88,6 +89,11 @@ export default function Workflow() {
 	const handleSubmitNewWorkflowFormNotes = (data: WorkflowFormNotesInputs) => {
 		setWorkflowFormNotesState(data);
 		handleNextStep();
+	};
+
+	const handleUploadedFiles = (data: any[]) => {
+		console.log("FILE DATA", data);
+		setUploadedFiles(data);
 	};
 
 	useEffect(() => {
@@ -122,6 +128,8 @@ export default function Workflow() {
 						<NewWorkflowFormNotes
 							handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
 							workflowFormNotesState={workflowFormNotesState}
+							uploadedFiles={uploadedFiles}
+							handleUploadedFiles={handleUploadedFiles}
 							handleGoBack={handleGoBack}
 						/>
 					)}
@@ -130,6 +138,7 @@ export default function Workflow() {
 							workflowFormAddressState={workflowFormAddressState}
 							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
 							workflowFormNotesState={workflowFormNotesState}
+							uploadedFiles={uploadedFiles}
 							handleGoBack={handleGoBack}
 						/>
 					)}
