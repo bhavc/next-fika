@@ -101,6 +101,7 @@ export default function NewWorkflowFormContainerDetails({
 			>
 				<h2 className="prose prose-2xl">Costs</h2>
 
+				{/* TODO add https://daisyui.com/components/input-group/ */}
 				<div className="mb-2 grid grid-cols-2 gap-4">
 					<div className="form-control">
 						<label className="label cursor-pointer">Add Custom Price</label>

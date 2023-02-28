@@ -1,4 +1,7 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+
+import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
+
 import IconRight from "public/svg/arrow-right.svg";
 
 export type WorkflowFormAddressInputs = {
@@ -40,6 +43,8 @@ export default function NewWorkflowFormAddress({
 	const {
 		register,
 		handleSubmit,
+		control,
+		watch,
 		formState: { errors }
 	} = useForm<WorkflowFormAddressInputs>({
 		defaultValues: {
@@ -126,60 +131,21 @@ export default function NewWorkflowFormAddress({
 						</div>
 					</div>
 				</div>
-				<div className="mb-2">
-					<div>
-						<label>Address*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="76 Intermodal Dr."
-								className={`input w-full ${
-									errors.pickupAddress ? "border-error" : "border-neutral"
-								}`}
-								{...register("pickupAddress", { required: true })}
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="mb-2 grid grid-cols-3 gap-2">
-					<div>
-						<label>City*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Brampton"
-								className={`input w-full ${errors.pickupCity ? "border-error" : "border-neutral"}`}
-								{...register("pickupCity", { required: true })}
-							/>
-						</div>
-					</div>
-					<div>
-						<label>Province*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Ontario"
-								className={`input w-full ${
-									errors.pickupProvince ? "border-error" : "border-neutral"
-								}`}
-								{...register("pickupProvince", { required: true })}
-							/>
-						</div>
-					</div>
-					<div>
-						<label>Country*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Canada"
-								className={`input w-full ${
-									errors.pickupCountry ? "border-error" : "border-neutral"
-								}`}
-								{...register("pickupCountry", { required: true })}
-							/>
-						</div>
-					</div>
-				</div>
+				<Controller
+					name="pickupAddress"
+					rules={{
+						required: true
+					}}
+					control={control}
+					render={({ field: { onChange, value, name }, fieldState: { error } }) => (
+						<GoogleAddressAutocomplete
+							onChange={onChange}
+							value={value}
+							name={name}
+							error={error}
+						/>
+					)}
+				/>
 
 				<h2 className="prose prose-xl">Contact</h2>
 				<div className="mb-2 grid grid-cols-2 gap-2">
@@ -254,60 +220,21 @@ export default function NewWorkflowFormAddress({
 							/>
 						</div>
 					</div>
-				</div>
-				<div className="mb-2">
-					<div>
-						<label>Address*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="76 Intermodal Dr."
-								className={`input w-full ${
-									errors.dropoffAddress ? "border-error" : "border-neutral"
-								}`}
-								{...register("dropoffAddress", { required: true })}
+					<Controller
+						name="dropoffAddress"
+						rules={{
+							required: true
+						}}
+						control={control}
+						render={({ field: { onChange, value, name }, fieldState: { error } }) => (
+							<GoogleAddressAutocomplete
+								onChange={onChange}
+								value={value}
+								name={name}
+								error={error}
 							/>
-						</div>
-					</div>
-				</div>
-				<div className="mb-2 grid grid-cols-3 gap-2">
-					<div>
-						<label>City*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Brampton"
-								className={`input w-full ${errors.dropoffCity ? "border-error" : "border-neutral"}`}
-								{...register("dropoffCity", { required: true })}
-							/>
-						</div>
-					</div>
-					<div>
-						<label>Province*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Ontario"
-								className={`input w-full ${
-									errors.dropoffProvince ? "border-error" : "border-neutral"
-								}`}
-								{...register("dropoffProvince", { required: true })}
-							/>
-						</div>
-					</div>
-					<div>
-						<label>Country*</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Canada"
-								className={`input w-full ${
-									errors.dropoffCountry ? "border-error" : "border-neutral"
-								}`}
-								{...register("dropoffCountry", { required: true })}
-							/>
-						</div>
-					</div>
+						)}
+					/>
 				</div>
 
 				<h2 className="prose prose-xl">Contact</h2>
@@ -410,7 +337,6 @@ export default function NewWorkflowFormAddress({
 					form="newWorkflowFormAddress"
 					type="submit"
 				>
-					{/* <Image src={IconRight} width={24} height={24} alt="arrow-next" color="white" /> */}
 					<IconRight />
 				</button>
 			</div>
