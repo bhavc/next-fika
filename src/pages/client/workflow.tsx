@@ -100,6 +100,69 @@ export default function Workflow() {
 		handleNextStep();
 	};
 
+	const handleSubmitReview = () => {
+		console.log("submitting");
+		// {
+		// 	"containerNumber": "TEMU",
+		// 	"shipmentNumber": "S10",
+		// 	"clearance": "",
+		// 	"pickupCompanyName": "Canadian National Railway",
+		// 	"pickupAddress": "76 intermodal dr",
+		// 	"pickupCity": "Brampton",
+		// 	"pickupProvince": "Ontario ",
+		// 	"pickupCountry": "Canada",
+		// 	"pickupContactName": "Gloria ",
+		// 	"pickupContactPhone": "1234321421",
+		// 	"pickupWindow": "6am - 9pm",
+		// 	"pickupAppointmentNeeded": false,
+		// 	"dropoffCompanyName": "Some other dropof company",
+		// 	"dropoffAddress": "5867 riverside place",
+		// 	"dropoffCity": "Mississuage",
+		// 	"dropoffProvince": "Ontario",
+		// 	"dropoffCountry": "Canada",
+		// 	"dropoffContactName": "Bhav",
+		// 	"dropoffContactPhone": "34214321",
+		// 	"dropoffWindow": "7am - 6pm",
+		// 	"dropOffAppointmentNeeded": true,
+		// 	"bolNumber": "XXXX123456789",
+		// 	"t1Number": "GS22693482190",
+		// 	"borderCrossing": "Detoir"
+		// }
+
+		// {
+		// 	"useCustomPricing": true,
+		// 	"customPrice": "$500 USD",
+		// 	"goodsDescription": "dfsaklfjaskfjlk\n\n\ndjflksajl\n\n\n\njlfkdasjlk",
+		// 	"cargoType": "5",
+		// 	"length": "17' 11 ⅝\"",
+		// 	"width": "7'6\"",
+		// 	"height": "7' 4 ⅞\"",
+		// 	"sealNumber": "oolgka",
+		// 	"numberOfPackages": "40plt",
+		// 	"grossWeight": "4312",
+		// 	"netWeight": "321432",
+		// 	"goodsVolume": "4321",
+		// 	"isHumid": true,
+		// 	"damaged": true,
+		// 	"frozen": true,
+		// 	"requiresChiller": false,
+		// 	"requiresControlledAtmosphere": false,
+		// 	"isDropoff": true,
+		// 	"dropoffTerminalName": "MSC",
+		// 	"isReturn": true,
+		// 	"returnDepotName": "Mombasa",
+		// 	"shippingLine": "MSC",
+		// 	"vesselName": "Scorpo Honor"
+		// }
+
+		// {
+		// 	"notes": "Here are some extra notes \n\n\nHere are a bunch of extra notes"
+		// }
+		console.log("workflowFormAddressState", workflowFormAddressState);
+		console.log("workflowFormContainerDetailsState", workflowFormContainerDetailsState);
+		console.log("workflowFormNotesState", workflowFormNotesState);
+	};
+
 	const handleUploadedFiles = (data: any[]) => {
 		setUploadedFiles(data);
 	};
@@ -117,7 +180,7 @@ export default function Workflow() {
 						Create a new Delivery
 					</h1>
 					{step < 2 && (
-						<div className="alert alert-info shadow-lg ml-auto mr-auto w-2/4">
+						<div className="alert alert-info shadow-lg">
 							<div>
 								<AlertIcon />
 								<span className="text-white">
@@ -158,6 +221,7 @@ export default function Workflow() {
 							workflowFormNotesState={workflowFormNotesState}
 							uploadedFiles={uploadedFiles}
 							handleGoBack={handleGoBack}
+							handleSubmit={handleSubmitReview}
 						/>
 					)}
 				</main>

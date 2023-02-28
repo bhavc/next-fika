@@ -395,8 +395,10 @@ export default function NewWorkflowFormAddress({
 							<input
 								type="text"
 								placeholder="Detroit, Malaba, Busia"
-								className={`input w-full ${errors.t1Number ? "border-error" : "border-neutral"}`}
-								{...register("t1Number")}
+								className={`input w-full ${
+									errors.borderCrossing ? "border-error" : "border-neutral"
+								}`}
+								{...register("borderCrossing")}
 							/>
 						</div>
 					</div>
