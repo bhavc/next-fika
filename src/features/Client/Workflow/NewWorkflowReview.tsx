@@ -89,26 +89,26 @@ export default function NewWorkflowFormReview({
 			<div className="border-2 border-slate-300 p-4">
 				<div>
 					<h2 className="text-xl mb-2">Container & Shipment #:</h2>
-					<div className="flex flex-row gap-4">
-						<div className="flex flex-col gap-2">
+					<div className="flex flex-col lg:flex-row gap-4">
+						<div className="flex flex-col gap-2 w-fit">
 							<h3 className="text-md">Container Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
 								<p className="text-md text-accent">{containerNumber}</p>
 							</div>
 						</div>
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-2 w-fit">
 							<h3 className="text-md">Shipping Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
 								<p className="text-md text-accent">{shipmentNumber}</p>
 							</div>
 						</div>
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-2 w-fit">
 							<h3 className="text-md">BOL Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
 								<p className="text-md text-accent">{bolNumber}</p>
 							</div>
 						</div>
-						<div className="flex flex-col gap-2">
+						<div className="flex flex-col gap-2 w-fit">
 							<h3 className="text-md">T1 Reference Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
 								<p className="text-md text-accent">{t1Number}</p>
@@ -118,16 +118,12 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				<div className="grid grid-cols-2">
+				<div className="flex flex-col lg:flex-row">
 					<div>
 						<h2 className="text-xl mb-2">Pickup address:</h2>
 						<div className="ml-28">
-							<p>
-								{pickupCompanyName}, {pickupAddress}
-							</p>
-							<p>
-								{pickupCity}, {pickupProvince}, {pickupCountry}
-							</p>
+							<p>{pickupCompanyName},</p>
+							<p>{pickupAddress}</p>
 							<p>{pickupContactName}</p>
 							<p>Phone: {pickupContactPhone}</p>
 							<p>Time: {pickupWindow}</p>
@@ -137,23 +133,19 @@ export default function NewWorkflowFormReview({
 					<div>
 						<h2 className="text-xl mb-2">Dropoff address:</h2>
 						<div className="ml-28">
-							<p>
-								{dropoffCompanyName}, {dropoffAddress}
-							</p>
-							<p>
-								{dropoffCity}, {dropoffProvince}, {dropoffCountry}
-							</p>
+							<p>{dropoffCompanyName},</p>
+							<p>{dropoffAddress}</p>
 							<p>{dropoffContactName}</p>
 							<p>Phone: {dropoffContactPhone}</p>
 							<p>Time: {dropoffWindow}</p>
 							{dropOffAppointmentNeeded && <p>A dropoff appointment will be needed</p>}
 						</div>
 					</div>
-					<div className="mt-2">
-						<h2 className="text-md mb-2">Border Crossing:</h2>
-						<div className="ml-28">
-							<p>{borderCrossing}</p>
-						</div>
+				</div>
+				<div className="mt-2">
+					<h2 className="text-md mb-2">Border Crossing:</h2>
+					<div className="ml-28">
+						<p>{borderCrossing}</p>
 					</div>
 				</div>
 				<div className="mt-4 mb-4 border-b-2 border-slate-300" />
@@ -178,9 +170,10 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
+				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
-					<div className="flex flex-col items-center">
+					<div className="flex flex:row lg:flex-col items-center">
 						<table className="table w-4/5">
 							<thead>
 								<tr>
@@ -272,7 +265,7 @@ export default function NewWorkflowFormReview({
 
 				<div>
 					<h2 className="text-xl">Delivery Notes</h2>
-					<div>
+					<div className="ml-28">
 						<p>{notes || "n/a"}</p>
 					</div>
 				</div>

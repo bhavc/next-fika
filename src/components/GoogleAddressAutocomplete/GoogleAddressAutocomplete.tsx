@@ -132,7 +132,6 @@ export default function GoogleAddressAutocomplete({
 			<div className="mt-1 flex rounded-md shadow-sm">
 				<input
 					type="text"
-					placeholder="76 Intermodal Dr."
 					className={`input w-full ${
 						error && errorRefName === name ? "border-error" : "border-neutral"
 					}`}
@@ -162,7 +161,6 @@ export default function GoogleAddressAutocomplete({
 					<div className="mt-1 flex rounded-md shadow-sm">
 						<input
 							type="text"
-							placeholder="Brampton"
 							className={`input w-full bg-slate-200 border-neutral`}
 							value={selectedCity}
 							readOnly
@@ -174,7 +172,6 @@ export default function GoogleAddressAutocomplete({
 					<div className="mt-1 flex rounded-md shadow-sm">
 						<input
 							type="text"
-							placeholder="ON"
 							className={`input w-full bg-slate-200 border-neutral`}
 							value={selectedProvince}
 							readOnly
@@ -186,7 +183,6 @@ export default function GoogleAddressAutocomplete({
 					<div className="mt-1 flex rounded-md shadow-sm">
 						<input
 							type="text"
-							placeholder="Canada"
 							className={`input w-full bg-slate-200 border-neutral`}
 							value={selectedCountry}
 							readOnly

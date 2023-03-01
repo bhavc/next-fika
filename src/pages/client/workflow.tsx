@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { GetServerSideProps } from "next";
+import { toast } from "react-hot-toast";
 
 import ClientLayout from "@/layouts/ClientLayout";
 
@@ -11,15 +13,17 @@ import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkf
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
+import { createWorkflow } from "@/api/workflow";
+import { getCurrentUser } from "@/api/user";
+
 import AlertIcon from "public/svg/alert-circle.svg";
 
-export default function Workflow() {
+export default function Workflow({ userToken }: { userToken: string }) {
 	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
 			shipmentNumber: "",
-			clearance: "",
 			pickupCompanyName: "",
 			pickupAddress: "",
 			pickupCity: "",
@@ -73,7 +77,12 @@ export default function Workflow() {
 		notes: ""
 	});
 
-	const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+	type FileType = {
+		name: string;
+		type: string;
+		url: string;
+	};
+	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
 
 	const handleNextStep = () => {
 		setStep(step + 1);
@@ -100,26 +109,33 @@ export default function Workflow() {
 		handleNextStep();
 	};
 
-	const handleSubmitReview = () => {
+	const handleSubmitReview = async () => {
 		console.log("submitting");
+		const workflowData = {
+			workflowAddressData: workflowFormAddressState,
+			workflowContainerData: workflowFormContainerDetailsState,
+			workflowNotes: workflowFormNotesState,
+			uploadedFiles
+		};
+
+		try {
+			await createWorkflow(userToken, workflowData);
+			toast.success("Successfully registered");
+		} catch (err) {
+			toast.error("Error creating workflow");
+		}
+
 		// {
 		// 	"containerNumber": "TEMU",
 		// 	"shipmentNumber": "S10",
-		// 	"clearance": "",
 		// 	"pickupCompanyName": "Canadian National Railway",
-		// 	"pickupAddress": "76 intermodal dr",
-		// 	"pickupCity": "Brampton",
-		// 	"pickupProvince": "Ontario ",
-		// 	"pickupCountry": "Canada",
+		// 	"pickupAddress": "76 intermodal dr, Brampton, Ontario, Canada",
 		// 	"pickupContactName": "Gloria ",
 		// 	"pickupContactPhone": "1234321421",
 		// 	"pickupWindow": "6am - 9pm",
 		// 	"pickupAppointmentNeeded": false,
 		// 	"dropoffCompanyName": "Some other dropof company",
-		// 	"dropoffAddress": "5867 riverside place",
-		// 	"dropoffCity": "Mississuage",
-		// 	"dropoffProvince": "Ontario",
-		// 	"dropoffCountry": "Canada",
+		// 	"dropoffAddress": "5867 riverside place, Mississauga, Ontario, Canada",
 		// 	"dropoffContactName": "Bhav",
 		// 	"dropoffContactPhone": "34214321",
 		// 	"dropoffWindow": "7am - 6pm",
@@ -158,9 +174,6 @@ export default function Workflow() {
 		// {
 		// 	"notes": "Here are some extra notes \n\n\nHere are a bunch of extra notes"
 		// }
-		console.log("workflowFormAddressState", workflowFormAddressState);
-		console.log("workflowFormContainerDetailsState", workflowFormContainerDetailsState);
-		console.log("workflowFormNotesState", workflowFormNotesState);
 	};
 
 	const handleUploadedFiles = (data: any[]) => {
@@ -229,3 +242,42 @@ export default function Workflow() {
 		</>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { req } = context;
+	const { cookies } = req;
+	const userToken =
+		cookies.user ||
+		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc3NjMwOTQxLCJleHAiOjE2Nzc3MTczNDF9.WYqldAIQnUxyckVNpGyqecVTL5GHtwelAKqBPQFG10w";
+
+	let userData;
+
+	if (!userToken) {
+		console.log("theres not token");
+
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
+
+	// need to validate user here
+
+	try {
+		const responseData = await getCurrentUser(userToken);
+		userData = responseData.user;
+	} catch (err) {
+		console.log("err", err);
+	}
+
+	// console.log("userData", userData);
+
+	return {
+		props: {
+			hello: "hello",
+			userToken
+		}
+	};
+};

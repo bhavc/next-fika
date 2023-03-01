@@ -179,8 +179,9 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="20 feet"
-								className={`input w-full ${errors.length ? "border-error" : "border-neutral"}`}
+								className={`input w-full bg-slate-200 ${
+									errors.length ? "border-error" : "border-neutral"
+								}`}
 								value={selectedCargoTypeData.length}
 								readOnly
 							/>
@@ -191,8 +192,9 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="8 feet"
-								className={`input w-full ${errors.width ? "border-error" : "border-neutral"}`}
+								className={`input w-full bg-slate-200 ${
+									errors.width ? "border-error" : "border-neutral"
+								}`}
 								value={selectedCargoTypeData.width}
 								readOnly
 							/>
@@ -203,8 +205,9 @@ export default function NewWorkflowFormContainerDetails({
 						<div className={"mt-1 flex rounded-md shadow-sm"}>
 							<input
 								type="text"
-								placeholder="8.5 feet"
-								className={`input w-full ${errors.height ? "border-error" : "border-neutral"}`}
+								className={`input w-full bg-slate-200 ${
+									errors.height ? "border-error" : "border-neutral"
+								}`}
 								value={selectedCargoTypeData.height}
 								readOnly
 							/>

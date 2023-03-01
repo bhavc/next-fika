@@ -7,7 +7,6 @@ import IconRight from "public/svg/arrow-right.svg";
 export type WorkflowFormAddressInputs = {
 	containerNumber: string;
 	shipmentNumber: string;
-	clearance: string;
 	pickupCompanyName: string;
 	pickupAddress: string;
 	pickupCity: string;
@@ -50,7 +49,6 @@ export default function NewWorkflowFormAddress({
 		defaultValues: {
 			containerNumber: workflowFormAddressState.containerNumber,
 			shipmentNumber: workflowFormAddressState.shipmentNumber,
-			clearance: workflowFormAddressState.clearance,
 			pickupCompanyName: workflowFormAddressState.pickupCompanyName,
 			pickupAddress: workflowFormAddressState.pickupAddress,
 			pickupCity: workflowFormAddressState.pickupCity,
