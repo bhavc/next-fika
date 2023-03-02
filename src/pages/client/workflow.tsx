@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 import ClientLayout from "@/layouts/ClientLayout";
@@ -19,6 +20,7 @@ import { getCurrentUser } from "@/api/user";
 import AlertIcon from "public/svg/alert-circle.svg";
 
 export default function Workflow({ userToken }: { userToken: string }) {
+	const router = useRouter();
 	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
@@ -110,7 +112,6 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	};
 
 	const handleSubmitReview = async () => {
-		console.log("submitting");
 		const workflowData = {
 			workflowAddressData: workflowFormAddressState,
 			workflowContainerData: workflowFormContainerDetailsState,
@@ -119,61 +120,13 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		};
 
 		try {
-			await createWorkflow(userToken, workflowData);
-			toast.success("Successfully registered");
+			const response = await createWorkflow(userToken, workflowData);
+			console.log("response", response);
+			toast.success(response.message);
+			router.push("/client/workflows");
 		} catch (err) {
 			toast.error("Error creating workflow");
 		}
-
-		// {
-		// 	"containerNumber": "TEMU",
-		// 	"shipmentNumber": "S10",
-		// 	"pickupCompanyName": "Canadian National Railway",
-		// 	"pickupAddress": "76 intermodal dr, Brampton, Ontario, Canada",
-		// 	"pickupContactName": "Gloria ",
-		// 	"pickupContactPhone": "1234321421",
-		// 	"pickupWindow": "6am - 9pm",
-		// 	"pickupAppointmentNeeded": false,
-		// 	"dropoffCompanyName": "Some other dropof company",
-		// 	"dropoffAddress": "5867 riverside place, Mississauga, Ontario, Canada",
-		// 	"dropoffContactName": "Bhav",
-		// 	"dropoffContactPhone": "34214321",
-		// 	"dropoffWindow": "7am - 6pm",
-		// 	"dropOffAppointmentNeeded": true,
-		// 	"bolNumber": "XXXX123456789",
-		// 	"t1Number": "GS22693482190",
-		// 	"borderCrossing": "Detoir"
-		// }
-
-		// {
-		// 	"useCustomPricing": true,
-		// 	"customPrice": "$500 USD",
-		// 	"goodsDescription": "dfsaklfjaskfjlk\n\n\ndjflksajl\n\n\n\njlfkdasjlk",
-		// 	"cargoType": "5",
-		// 	"length": "17' 11 ⅝\"",
-		// 	"width": "7'6\"",
-		// 	"height": "7' 4 ⅞\"",
-		// 	"sealNumber": "oolgka",
-		// 	"numberOfPackages": "40plt",
-		// 	"grossWeight": "4312",
-		// 	"netWeight": "321432",
-		// 	"goodsVolume": "4321",
-		// 	"isHumid": true,
-		// 	"damaged": true,
-		// 	"frozen": true,
-		// 	"requiresChiller": false,
-		// 	"requiresControlledAtmosphere": false,
-		// 	"isDropoff": true,
-		// 	"dropoffTerminalName": "MSC",
-		// 	"isReturn": true,
-		// 	"returnDepotName": "Mombasa",
-		// 	"shippingLine": "MSC",
-		// 	"vesselName": "Scorpo Honor"
-		// }
-
-		// {
-		// 	"notes": "Here are some extra notes \n\n\nHere are a bunch of extra notes"
-		// }
 	};
 
 	const handleUploadedFiles = (data: any[]) => {
@@ -246,15 +199,9 @@ export default function Workflow({ userToken }: { userToken: string }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { req } = context;
 	const { cookies } = req;
-	const userToken =
-		cookies.user ||
-		"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc3NjMwOTQxLCJleHAiOjE2Nzc3MTczNDF9.WYqldAIQnUxyckVNpGyqecVTL5GHtwelAKqBPQFG10w";
-
-	let userData;
+	const userToken = cookies.user;
 
 	if (!userToken) {
-		console.log("theres not token");
-
 		return {
 			redirect: {
 				destination: "/",
@@ -263,20 +210,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 
-	// need to validate user here
-
-	try {
-		const responseData = await getCurrentUser(userToken);
-		userData = responseData.user;
-	} catch (err) {
-		console.log("err", err);
-	}
-
-	// console.log("userData", userData);
-
 	return {
 		props: {
-			hello: "hello",
 			userToken
 		}
 	};

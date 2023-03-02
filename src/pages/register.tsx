@@ -12,6 +12,9 @@ import { UserType } from "@/features/User/types";
 
 import { postRegister } from "@/api/registration";
 
+import IconRight from "public/svg/arrow-right.svg";
+import IconLeft from "public/svg/arrow-left.svg";
+
 export default function Register() {
 	const router = useRouter();
 
@@ -83,11 +86,8 @@ export default function Register() {
 				role: selectedAccountType
 			};
 
-			// const responseData = await postRegister(data);
-			// const token = responseData.token;
-
-			const token =
-				"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc2NDM2MzczLCJleHAiOjE2NzY1MjI3NzN9.OcI1Xvw3YzbYLCCvWTWCVyKUYtOlJPNhrlLwzfnXWtg";
+			const responseData = await postRegister(data);
+			const token = responseData.token;
 
 			setCookie("user", token);
 			toast.success("Successfully registered");
@@ -132,26 +132,14 @@ export default function Register() {
 					{shouldShowForwardButton && (
 						<div className="flex justify-end">
 							<button className="btn btn-circle bg-primary" onClick={setNextStep}>
-								<Image
-									src={"icons/svg/arrow-right.svg"}
-									width={24}
-									height={24}
-									alt="arrow-next"
-									color="white"
-								/>
+								<IconRight />
 							</button>
 						</div>
 					)}
 					{shouldShowBackButton && (
 						<div className="flex justify-start">
 							<button className="btn btn-circle bg-primary mt-10" onClick={setPreviousStep}>
-								<Image
-									src={"icons/svg/arrow-left.svg"}
-									width={24}
-									height={24}
-									alt="arrow-next"
-									color="white"
-								/>
+								<IconLeft />
 							</button>
 						</div>
 					)}

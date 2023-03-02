@@ -11,7 +11,23 @@ export const createWorkflow = async (userToken: string | undefined, workflowData
 	});
 
 	if (!response.ok) {
-		throw new Error("getCurrentUser - could not get current user");
+		throw new Error("createWorkflow - could not create workflow");
+	}
+
+	return response.json();
+};
+
+export const getWorkflowsByUserId = async (userToken: string | undefined) => {
+	const response = await fetch(`${BASE_URL}/workflow/`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${userToken}`
+		},
+		method: "GET"
+	});
+
+	if (!response.ok) {
+		throw new Error("getWorkflowsByUserId - could not get workflows for user");
 	}
 
 	return response.json();

@@ -17,7 +17,6 @@ export default function WorkflowId() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	console.log(context.query);
 	const queryParams = context.query;
 	const workflowId = queryParams.id;
 

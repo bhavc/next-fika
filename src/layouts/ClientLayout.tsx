@@ -33,7 +33,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />
-					<div className="flex flex-col justify-between w-72 bg-neutral">
+					<div className="flex flex-col justify-between w-72 bg-primary">
 						<ul className="menu text-base-content w-60 pl-10 pt-4 gap-4">
 							<Link
 								href={"/client/workflow"}

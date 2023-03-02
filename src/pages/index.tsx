@@ -1,21 +1,18 @@
-import Image from "next/image";
-import Link from "next/link";
-import Router from "next/router";
-
 import { getCurrentUser } from "@/api/user";
+import { mapUserTypeToAppRoute } from "@/features/User/types";
 
 import MainNavBar from "@/components/Nav/MainNavbar";
 
 import type { GetServerSideProps } from "next";
 
-export default function Home({ header }: { header: string }) {
+export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; appRoute: string }) {
 	return (
 		<>
-			<MainNavBar />
-			<main>
-				<h1 className="text-3xl mt-2 mb-2">Fika 2</h1>
+			<MainNavBar isLoggedIn={isLoggedIn} appRoute={appRoute} />
+			<main className="bg-primary h-screen p-4">
+				<h1 className="text-3xl mt-2 mb-2 text-base-100">Fika 2</h1>
 				<div>
-					<p className="prose lg:prose-xl">Fika landing page</p>
+					<p className="prose lg:prose-xl text-base-100">Fika landing page</p>
 				</div>
 			</main>
 		</>
@@ -23,32 +20,25 @@ export default function Home({ header }: { header: string }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	// const { req } = context;
-	// const { cookies } = req;
-	// const userToken = cookies.user;
-	// let userData;
+	const { req } = context;
+	const { cookies } = req;
+	const userToken = cookies?.user;
+	const isLoggedIn = Boolean(userToken);
+	let userData;
 
-	// // need to validate user here
+	// need to validate user here
+	try {
+		userData = await getCurrentUser(userToken);
+	} catch (err) {
+		userData = null;
+	}
 
-	// try {
-	// 	const responseData = await getCurrentUser(userToken);
-	// 	userData = responseData.user;
-	// } catch (err) {
-	// 	console.log("err", err);
-	// }
+	const appRoute = mapUserTypeToAppRoute(userData.client);
 
-	// console.log("userData", userData);
-
-	// return {
-	// 	props: {
-	// 		hello: "hello",
-	// 		userToken: "123"
-	// 	}
-	// };
 	return {
-		redirect: {
-			destination: "/client",
-			statusCode: 302
+		props: {
+			isLoggedIn,
+			appRoute
 		}
 	};
 };

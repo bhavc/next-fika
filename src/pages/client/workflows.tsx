@@ -1,5 +1,7 @@
 import type { GetServerSideProps } from "next";
 
+import { getWorkflowsByUserId } from "@/api/workflow";
+
 import ClientLayout from "@/layouts/ClientLayout";
 import WorkflowTableList from "@/features/Client/Workflow/WorkflowTableList";
 
@@ -9,7 +11,7 @@ export default function Workflows({ workflows }: { workflows: any[] }) {
 			<ClientLayout>
 				<main className="items-center justify-center px-4">
 					<h1 className="text-3xl mt-2 mb-4 text-left">View your past Workflows</h1>
-					<WorkflowTableList />
+					<WorkflowTableList workflows={workflows} />
 				</main>
 			</ClientLayout>
 		</>
@@ -17,20 +19,27 @@ export default function Workflows({ workflows }: { workflows: any[] }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const workflows = [
-		{
-			id: 1,
-			date: "123",
-			status: "Triage",
-			type: "Delivery"
-		},
-		{
-			id: 2,
-			date: "123",
-			status: "Progress",
-			type: "Delivery"
-		}
-	];
+	const { req } = context;
+	const { cookies } = req;
+	const userToken = cookies.user;
+	let workflowData;
+
+	if (!userToken) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
+
+	try {
+		workflowData = await getWorkflowsByUserId(userToken);
+	} catch (err) {
+		workflowData = null;
+	}
+
+	const workflows = workflowData.workflows;
 
 	return {
 		props: {

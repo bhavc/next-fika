@@ -3,13 +3,29 @@ import logo from "public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Navbar() {
-	return (
-		<div className="navbar bg-primary justify-between">
-			<Link href={"/"}>
-				<Image src={logo} alt="logo" height={50} width={50} priority />
-			</Link>
-			<div className="gap-2">
+export default function Navbar({
+	isLoggedIn,
+	appRoute
+}: {
+	isLoggedIn?: boolean;
+	appRoute?: string;
+}) {
+	const rightSideItems = () => {
+		if (isLoggedIn && appRoute) {
+			return (
+				<>
+					<Link
+						href={appRoute}
+						className="btn btn-md normal-case bg-primary visited:bg-primary hover:bg-primary-focus active:bg-primary-content"
+					>
+						Go to App
+					</Link>
+				</>
+			);
+		}
+
+		return (
+			<>
 				<Link
 					href={"/login"}
 					className="btn btn-md btn-ghost normal-case bg-base-100 visited:bg-base-100 hover:bg-base-100 active:bg-base-100"
@@ -22,7 +38,16 @@ export default function Navbar() {
 				>
 					Register
 				</Link>
-			</div>
+			</>
+		);
+	};
+
+	return (
+		<div className="navbar bg-slate-100 justify-between">
+			<Link href={"/"}>
+				<Image src={logo} alt="logo" height={50} width={50} priority />
+			</Link>
+			<div className="gap-2">{rightSideItems()}</div>
 		</div>
 	);
 }
