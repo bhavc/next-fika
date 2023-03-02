@@ -32,3 +32,19 @@ export const getWorkflowsByUserId = async (userToken: string | undefined) => {
 
 	return response.json();
 };
+
+export const getWorkflowById = async (userToken: string | undefined, workflowId: string) => {
+	const response = await fetch(`${BASE_URL}/workflow/${workflowId}`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${userToken}`
+		},
+		method: "GET"
+	});
+
+	if (!response.ok) {
+		throw new Error("getWorkflowsByUserId - could not get workflows for user");
+	}
+
+	return response.json();
+};

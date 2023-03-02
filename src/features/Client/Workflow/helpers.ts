@@ -1,3 +1,5 @@
+import { WorkflowStatus } from "./types";
+
 export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string } } = {
 	"0": {
 		value: "0",
@@ -84,6 +86,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		length: `20"`
 	}
 };
+
 export const mapSelectedCargoValueToDimensions = (selectedNumber: string) => {
 	if (selectedNumber in valueToDimensionsMap) {
 		return valueToDimensionsMap[selectedNumber];
@@ -96,4 +99,21 @@ export const mapSelectedCargoValueToDimensions = (selectedNumber: string) => {
 		width: "",
 		length: ""
 	};
+};
+
+export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowStatus) => {
+	switch (workflowStatus) {
+		case "Draft":
+			return "slate-200";
+		case "Triage":
+			return "secondary-content";
+		case "In Progress":
+			return "warning";
+		case "Shipped":
+			return "success";
+		case "Cancelled":
+			return "error";
+		default:
+			return "slate-200";
+	}
 };

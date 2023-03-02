@@ -1,10 +1,14 @@
-import Router from "next/router";
-
 import ClientLayout from "@/layouts/ClientLayout";
+
+import { getWorkflowById } from "@/api/workflow";
+
+import type { Workflow } from "@/features/Client/Workflow/types";
 
 import type { GetServerSideProps } from "next";
 
-export default function WorkflowId() {
+export default function WorkflowId({ workflow }: { workflow: null }) {
+	console.log("workflow", workflow);
+
 	return (
 		<>
 			<ClientLayout>
@@ -17,15 +21,49 @@ export default function WorkflowId() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const queryParams = context.query;
-	const workflowId = queryParams.id;
+	const { req, params } = context;
+	const workflowId = params?.id;
+	const { cookies } = req;
+	const userToken = cookies.user;
+	let workflowData: Workflow | null;
 
-	// get the workflow here with all data
-	// render the data however
+	if (!userToken) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
+
+	if (!workflowId || Array.isArray(workflowId)) {
+		return {
+			redirect: {
+				destination: "/client/workflows",
+				statusCode: 302
+			}
+		};
+	}
+
+	try {
+		const response = await getWorkflowById(userToken, workflowId);
+		workflowData = response.workflow;
+	} catch (err) {
+		workflowData = null;
+	}
+
+	if (!workflowData) {
+		return {
+			redirect: {
+				destination: "/client/workflows",
+				statusCode: 302
+			}
+		};
+	}
 
 	return {
 		props: {
-			workflows: 123
+			workflow: workflowData
 		}
 	};
 };

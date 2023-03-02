@@ -15,7 +15,8 @@ import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNote
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
 import { createWorkflow } from "@/api/workflow";
-import { getCurrentUser } from "@/api/user";
+
+import { FileType } from "@/features/Client/Workflow/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 
@@ -79,11 +80,6 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		notes: ""
 	});
 
-	type FileType = {
-		name: string;
-		type: string;
-		url: string;
-	};
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
 
 	const handleNextStep = () => {

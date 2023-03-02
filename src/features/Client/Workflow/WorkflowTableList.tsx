@@ -1,15 +1,20 @@
+import Link from "next/link";
 import TruckIcon from "public/svg/truck-loading.svg";
 import IconRight from "public/svg/arrow-right.svg";
 
+import Badge from "@/components/Badge";
+
 import { formatDateStringToDate } from "@/utils/time";
+import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
 
 export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 	const rows = workflows.map((workflow, index) => {
 		console.log("workflow", workflow);
-		const { workflowAddressData, status, created_at } = workflow;
+		const { workflowAddressData, status, created_at, id } = workflow;
 		const { pickupAddress, dropoffAddress } = workflowAddressData;
 
 		const formattedDate = formatDateStringToDate(created_at);
+		const badgeColor = mapWorkflowTableListBadgeColorToStatus(status);
 
 		return (
 			<tr key={index}>
@@ -34,12 +39,14 @@ export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 						</div>
 					</div>
 				</td>
-				<td>{status}</td>
-				<td>{created_at}</td>
+				<td>
+					<Badge color={badgeColor}>{status}</Badge>
+				</td>
+				<td>{formattedDate}</td>
 				<th>
-					<button className="btn btn-circle bg-primary">
+					<Link href={`/client/workflow/${id}`} className="btn btn-circle bg-primary">
 						<IconRight />
-					</button>
+					</Link>
 				</th>
 			</tr>
 		);
@@ -50,51 +57,23 @@ export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 			<table className="table w-full">
 				<thead>
 					<tr>
-						<th />
-						<th>Pickup Address</th>
-						<th>Dropoff Address</th>
-						<th>Status</th>
-						<th>Date Created</th>
-						<th />
+						<th className="text-accent bg-accent-content" />
+						<th className="text-accent bg-accent-content">Pickup Address</th>
+						<th className="text-accent bg-accent-content">Dropoff Address</th>
+						<th className="text-accent bg-accent-content">Status</th>
+						<th className="text-accent bg-accent-content">Date Created</th>
+						<th className="text-accent bg-accent-content" />
 					</tr>
 				</thead>
-				<tbody>
-					{/* <tr>
-						<td className="w-8">
-							<div className="avatar">
-								<div className="mask mask-squircle w-12 h-12">
-									<TruckIcon />
-								</div>
-							</div>
-						</td>
-						<td>
-							<div className="flex items-center space-x-3">
-								<div>
-									<div className="font-bold">Hart Hagerty</div>
-									<div className="text-sm opacity-50">United States</div>
-								</div>
-							</div>
-						</td>
-						<td>
-							Zemlak, Daniel and Leannon
-							<br />
-							<span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-						</td>
-						<td>Purple</td>
-						<th>
-							<button className="btn btn-ghost btn-xs">details</button>
-						</th>
-					</tr> */}
-					{rows}
-				</tbody>
+				<tbody>{rows}</tbody>
 				<tfoot>
 					<tr>
-						<th />
-						<th>Pickup Address</th>
-						<th>Dropoff Address</th>
-						<th>Status</th>
-						<th>Date Created</th>
-						<th />
+						<th className="text-accent bg-accent-content" />
+						<th className="text-accent bg-accent-content">Pickup Address</th>
+						<th className="text-accent bg-accent-content">Dropoff Address</th>
+						<th className="text-accent bg-accent-content">Status</th>
+						<th className="text-accent bg-accent-content">Date Created</th>
+						<th className="text-accent bg-accent-content" />
 					</tr>
 				</tfoot>
 			</table>
