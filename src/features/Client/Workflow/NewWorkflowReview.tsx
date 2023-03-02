@@ -173,12 +173,16 @@ export default function NewWorkflowFormReview({
 				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
-					<div className="flex flex:row lg:flex-col items-center">
-						<table className="table w-4/5">
+					<div>
+						<table className="table-auto md:table ml-auto mr-auto">
 							<thead>
 								<tr>
-									<th className="text-accent bg-accent-content">Name</th>
-									<th className="text-accent bg-accent-content">Job</th>
+									<th className="text-accent bg-accent-content md:text-accent md:bg-accent-content">
+										Field
+									</th>
+									<th className="text-accent bg-accent-content md:text-accent md:bg-accent-content">
+										Value
+									</th>
 								</tr>
 							</thead>
 							<tbody>
