@@ -1,29 +1,23 @@
-import { WorkflowFormAddressInputs } from "@/features/Client/Workflow/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Client/Workflow/NewWorkflowFormNotes";
 import Image from "next/image";
 import Link from "next/link";
-import IconLeft from "public/svg/arrow-left.svg";
+
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
 
-interface NewWorkflowFormNotesProps {
-	workflowFormAddressState: WorkflowFormAddressInputs;
-	workflowFormContainerDetailsState: WorkflowFormContainerDetailsInputs;
-	workflowFormNotesState: WorkflowFormNotesInputs;
-	handleGoBack: () => void;
-	handleSubmit: () => void;
-	uploadedFiles: any[];
+import type { WorkflowType } from "@/features/Client/Workflow/types";
+
+interface WorkflowProps {
+	workflow: WorkflowType;
 }
 
-export default function NewWorkflowFormReview({
-	workflowFormAddressState,
-	workflowFormContainerDetailsState,
-	workflowFormNotesState,
-	handleGoBack,
-	handleSubmit,
-	uploadedFiles
-}: NewWorkflowFormNotesProps) {
+export default function Workflow({ workflow }: WorkflowProps) {
+	const workflowAddressData = workflow?.workflowAddressData;
+	const workflowContainerData = workflow?.workflowContainerData;
+	const workflowNotes = workflow?.workflowNotes;
+	const uploadedFiles = workflow?.uploadedFiles;
+
+	console.log("workflowAddressData", workflowAddressData);
+
 	const {
 		containerNumber,
 		dropOffAppointmentNeeded,
@@ -48,7 +42,7 @@ export default function NewWorkflowFormReview({
 		bolNumber,
 		t1Number,
 		borderCrossing
-	} = workflowFormAddressState;
+	} = workflowAddressData;
 
 	const {
 		useCustomPricing,
@@ -74,18 +68,16 @@ export default function NewWorkflowFormReview({
 		dropoffTerminalName,
 		isReturn,
 		returnDepotName
-	} = workflowFormContainerDetailsState;
+	} = workflowContainerData;
 
-	const { notes } = workflowFormNotesState;
+	const { notes } = workflowNotes;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-	const imageFiles = uploadedFiles.filter((file) => imageFileTypes.includes(file.type));
-	const nonImageFiles = uploadedFiles.filter((file) => !imageFileTypes.includes(file.type));
+	const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
+	const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
 
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
-			<h1 className="text-2xl text-left rounded-t-md mb-4 underline">Review your order</h1>
-
 			<div className="border-2 border-slate-300 p-4">
 				<div>
 					<h2 className="text-xl mb-2">Container & Shipment #:</h2>
@@ -309,19 +301,6 @@ export default function NewWorkflowFormReview({
 						</div>
 					</div>
 				)}
-			</div>
-
-			<div className="flex flex-row justify-between">
-				<div className="justify-start">
-					<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
-						<IconLeft />
-					</button>
-				</div>
-				<div className="justify-end">
-					<button className="btn btn-lg bg-primary mt-10" onClick={handleSubmit}>
-						Submit
-					</button>
-				</div>
 			</div>
 		</div>
 	);

@@ -10,8 +10,10 @@ export default function Workflows({ workflows }: { workflows: any[] }) {
 		<>
 			<ClientLayout>
 				<main className="items-center justify-center px-4">
-					<h1 className="text-3xl mt-2 mb-4 text-left">View your past Workflows</h1>
-					<WorkflowTableList workflows={workflows} />
+					<div className="bg-slate-100 mt-4 px-4 rounded-t-md p-4">
+						<h1 className="text-3xl mt-4 text-left mb-4">View your past Workflows</h1>
+						<WorkflowTableList workflows={workflows} />
+					</div>
 				</main>
 			</ClientLayout>
 		</>

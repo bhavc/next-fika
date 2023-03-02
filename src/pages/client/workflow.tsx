@@ -137,55 +137,57 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	return (
 		<>
 			<ClientLayout>
-				<main id="workflowParent" className="px-4 overflow-auto bg-slate-100">
-					<h1 id="workflowHeader" className="text-3xl mt-2 text-left rounded-t-md p-4">
-						Create a new Delivery
-					</h1>
-					{step < 2 && (
-						<div className="alert alert-info shadow-lg">
-							<div>
-								<AlertIcon />
-								<span className="text-white">
-									Save all of your files to upload in the final section
-								</span>
+				<main id="workflowParent" className="px-4 overflow-auto">
+					<div className="bg-slate-100 mt-2 px-4">
+						<h1 id="workflowHeader" className="text-3xl mt-4 text-left rounded-t-md p-4">
+							Create a new Delivery
+						</h1>
+						{step < 2 && (
+							<div className="alert alert-info shadow-lg">
+								<div>
+									<AlertIcon />
+									<span className="text-white">
+										Save all of your files to upload in the final section
+									</span>
+								</div>
 							</div>
-						</div>
-					)}
+						)}
 
-					{/* allow users to eventually be able to upload a csv */}
+						{/* allow users to eventually be able to upload a csv */}
 
-					{step === 0 && (
-						<NewWorkflowFormAddress
-							handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
-							workflowFormAddressState={workflowFormAddressState}
-						/>
-					)}
-					{step === 1 && (
-						<NewWorkflowFormContainerDetails
-							handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
-							handleGoBack={handleGoBack}
-							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
-						/>
-					)}
-					{step === 2 && (
-						<NewWorkflowFormNotes
-							handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
-							workflowFormNotesState={workflowFormNotesState}
-							uploadedFiles={uploadedFiles}
-							handleUploadedFiles={handleUploadedFiles}
-							handleGoBack={handleGoBack}
-						/>
-					)}
-					{step === 3 && (
-						<NewWorkflowFormReview
-							workflowFormAddressState={workflowFormAddressState}
-							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
-							workflowFormNotesState={workflowFormNotesState}
-							uploadedFiles={uploadedFiles}
-							handleGoBack={handleGoBack}
-							handleSubmit={handleSubmitReview}
-						/>
-					)}
+						{step === 0 && (
+							<NewWorkflowFormAddress
+								handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
+								workflowFormAddressState={workflowFormAddressState}
+							/>
+						)}
+						{step === 1 && (
+							<NewWorkflowFormContainerDetails
+								handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
+								handleGoBack={handleGoBack}
+								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+							/>
+						)}
+						{step === 2 && (
+							<NewWorkflowFormNotes
+								handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
+								workflowFormNotesState={workflowFormNotesState}
+								uploadedFiles={uploadedFiles}
+								handleUploadedFiles={handleUploadedFiles}
+								handleGoBack={handleGoBack}
+							/>
+						)}
+						{step === 3 && (
+							<NewWorkflowFormReview
+								workflowFormAddressState={workflowFormAddressState}
+								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+								workflowFormNotesState={workflowFormNotesState}
+								uploadedFiles={uploadedFiles}
+								handleGoBack={handleGoBack}
+								handleSubmit={handleSubmitReview}
+							/>
+						)}
+					</div>
 				</main>
 			</ClientLayout>
 		</>

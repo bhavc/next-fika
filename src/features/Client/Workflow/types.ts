@@ -12,7 +12,7 @@ export type FileType = {
 	url: string;
 };
 
-export type WorkflowAddressData = {
+export type WorkflowAddressDataType = {
 	t1Number?: string;
 	bolNumber?: string;
 	pickupCity: string;
@@ -38,7 +38,7 @@ export type WorkflowAddressData = {
 	dropOffAppointmentNeeded?: boolean;
 };
 
-export type WorkflowContainerData = {
+export type WorkflowContainerDataType = {
 	width: string;
 	frozen?: boolean;
 	height: string;
@@ -64,18 +64,18 @@ export type WorkflowContainerData = {
 	requiresControlledAtmosphere?: boolean;
 };
 
-export type WorkflowNotes = {
+export type WorkflowNotesType = {
 	notes?: string;
 };
 
-export type Workflow = {
+export type WorkflowType = {
 	id: string;
 	user_for: string;
 	status: WorkflowStatus;
-	workflowAddressData: WorkflowAddressData;
-	workflowContainerData: WorkflowContainerData;
-	workflowNotes: WorkflowNotes;
-	file_urls: FileType[];
+	workflowAddressData: WorkflowAddressDataType;
+	workflowContainerData: WorkflowContainerDataType;
+	workflowNotes: WorkflowNotesType;
+	uploadedFiles: FileType[];
 	created_at: string;
 	modified_at: string;
 };
