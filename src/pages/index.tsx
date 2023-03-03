@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = null;
 	}
 
-	const appRoute = mapUserTypeToAppRoute(userData.client);
+	const appRoute = mapUserTypeToAppRoute(userData?.client);
 
 	return {
 		props: {

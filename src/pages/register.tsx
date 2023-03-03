@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
@@ -11,6 +10,10 @@ import MainNavBar from "@/components/Nav/MainNavbar";
 import { UserType } from "@/features/User/types";
 
 import { postRegister } from "@/api/registration";
+import { getCurrentUser } from "@/api/user";
+import { mapUserTypeToAppRoute } from "@/features/User/types";
+
+import type { GetServerSideProps } from "next";
 
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
@@ -20,7 +23,7 @@ export default function Register() {
 
 	const [selectedAccountType, setSelectedAccountType] = useState<UserType | null>(null);
 	const [currentStep, setCurrentStep] = useState(0);
-	const [cookie, setCookie] = useCookies(["user"]);
+	const [_, setCookie] = useCookies(["user"]);
 
 	const shouldShowForwardButton = currentStep === 0 && selectedAccountType;
 	const shouldShowBackButton = currentStep === 1;
@@ -110,24 +113,26 @@ export default function Register() {
 	return (
 		<main>
 			<MainNavBar />
-			<div className="flex flex-col justify-between items-center min-height:100vh">
-				<h1 className="text-3xl mt-2 mb-2">Register</h1>
+			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)]">
+				<div className="bg-primary p-4 min-w-3/5 h-5/6">
+					<h1 className="text-3xl mt-2 mb-2 text-slate-100 text-center">Register</h1>
+					{currentStep === 0 && (
+						<RegisterType
+							selectedAccountType={selectedAccountType}
+							accountTypeCards={accountTypeCards}
+							setSelectedItem={setSelectedItem}
+							setNextStep={setNextStep}
+						/>
+					)}
+					{currentStep === 1 && (
+						<RegisterFormDispatch
+							selectedAccountType={selectedAccountType}
+							setPreviousStep={setPreviousStep}
+							handleSubmitRegistration={handleSubmitRegistration}
+						/>
+					)}
+				</div>
 
-				{currentStep === 0 && (
-					<RegisterType
-						selectedAccountType={selectedAccountType}
-						accountTypeCards={accountTypeCards}
-						setSelectedItem={setSelectedItem}
-						setNextStep={setNextStep}
-					/>
-				)}
-				{currentStep === 1 && (
-					<RegisterFormDispatch
-						selectedAccountType={selectedAccountType}
-						setPreviousStep={setPreviousStep}
-						handleSubmitRegistration={handleSubmitRegistration}
-					/>
-				)}
 				<footer className="bg-inherit text-neutral-content absolute bottom-0 w-full p-2">
 					{shouldShowForwardButton && (
 						<div className="flex justify-end">
@@ -148,3 +153,32 @@ export default function Register() {
 		</main>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { req } = context;
+	const { cookies } = req;
+	const userToken = cookies?.user;
+	const isLoggedIn = Boolean(userToken);
+	let userData;
+
+	try {
+		userData = await getCurrentUser(userToken);
+	} catch (err) {
+		userData = null;
+	}
+
+	const appRoute = mapUserTypeToAppRoute(userData?.client);
+
+	if (isLoggedIn && appRoute) {
+		return {
+			redirect: {
+				destination: appRoute,
+				statusCode: 302
+			}
+		};
+	}
+
+	return {
+		props: {}
+	};
+};

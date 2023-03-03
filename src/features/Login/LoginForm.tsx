@@ -32,39 +32,37 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 	};
 
 	return (
-		<div>
-			<div className="card w-80 bg-slate-50 shadow-xl">
-				<div className="card-body">
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<div className="mb-2">
-							<label>Email</label>
-							<div className="mt-1 flex rounded-md shadow-sm">
-								<input
-									type="text"
-									placeholder="Email"
-									className="input w-full max-w-xs"
-									{...register("email", { required: "Email required" })}
-								/>
-							</div>
-							{errors.email && <p className="text-error mt-1">Email is required</p>}
+		<div className="card w-80 bg-slate-50 shadow-xl mt-8">
+			<div className="card-body">
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className="mb-2">
+						<label>Email</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="Email"
+								className="input w-full max-w-xs"
+								{...register("email", { required: "Email required" })}
+							/>
 						</div>
-						<div className="mb-2">
-							<label>Password</label>
-							<div className="mt-1 flex rounded-md shadow-sm">
-								<input
-									type="password"
-									placeholder="*************"
-									className="input w-full max-w-xs"
-									{...register("password", { required: "Password required" })}
-								/>
-							</div>
-							{errors.password && <p className="text-error mt-1">{errors.password.message}</p>}
+						{errors.email && <p className="text-error mt-1">Email is required</p>}
+					</div>
+					<div className="mb-2">
+						<label>Password</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="password"
+								placeholder="*************"
+								className="input w-full max-w-xs"
+								{...register("password", { required: "Password required" })}
+							/>
 						</div>
-						<div className="flex justify-center items-center mt-6">
-							<button className="btn btn-primary white text-white">Submit</button>
-						</div>
-					</form>
-				</div>
+						{errors.password && <p className="text-error mt-1">{errors.password.message}</p>}
+					</div>
+					<div className="flex justify-center items-center mt-6">
+						<button className="btn btn-primary white text-white">Submit</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	);

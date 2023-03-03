@@ -5,12 +5,18 @@ import Link from "next/link";
 
 export default function Navbar({
 	isLoggedIn,
-	appRoute
+	appRoute,
+	hideRightSideItems
 }: {
 	isLoggedIn?: boolean;
 	appRoute?: string;
+	hideRightSideItems?: boolean;
 }) {
 	const rightSideItems = () => {
+		if (hideRightSideItems) {
+			return <></>;
+		}
+
 		if (isLoggedIn && appRoute) {
 			return (
 				<>
