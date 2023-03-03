@@ -1,3 +1,5 @@
+import { GetServerSideProps } from "next";
+
 import ClientLayout from "@/layouts/ClientLayout";
 
 export default function Client() {
@@ -23,4 +25,21 @@ export default function Client() {
 	);
 }
 
-// anytime i get to one of these pages, check if i have
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { req } = context;
+	const { cookies } = req;
+	const userToken = cookies.user;
+
+	if (!userToken) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
+
+	return {
+		props: {}
+	};
+};
