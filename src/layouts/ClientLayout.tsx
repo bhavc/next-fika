@@ -71,7 +71,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 							>
 								<div className="flex flex-row">
 									<div className="mt-2">
-										<SettingsIcon stroke="white" />
+										<SettingsIcon stroke="white" height={24} width={24} />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Settings</p>
 								</div>

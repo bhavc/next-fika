@@ -14,10 +14,18 @@ export default function DriverLayout({ children }: DriverLayout) {
 	const router = useRouter();
 	const currentPath = router.pathname;
 
+	const rightSideItems = [
+		<div key="profile" className="avatar placeholder">
+			<div className="bg-primary text-neutral-content rounded-full w-12">
+				<span className="text-xl bg-primary">P</span>
+			</div>
+		</div>
+	];
+
 	return (
 		<>
-			<DriverNavbar />
-			<main className="bg-slate-200 h-[calc(100vh_-_130px)]">{children}</main>
+			<DriverNavbar rightSideItems={rightSideItems} />
+			<main className="bg-slate-200 h-[calc(100vh_-_130px)] p-4">{children}</main>
 
 			<div className="btm-nav">
 				<Link

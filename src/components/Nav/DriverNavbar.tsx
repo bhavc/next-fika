@@ -21,7 +21,7 @@ export default function DriverNavbar({ leftSideItems, rightSideItems }: NavbarPr
 					<Image src={logo} alt="logo" height={50} width={50} priority />
 				</Link>
 			</div>
-			<div className="w-1/3 justify-right items-center">
+			<div className="w-1/3 flex align-middle justify-end">
 				{rightSideItems ? (
 					rightSideItems?.map((item, index) => {
 						return <div key={index}>{item}</div>;
