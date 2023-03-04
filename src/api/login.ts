@@ -10,7 +10,6 @@ export const postLogin = async (data: any) => {
 	});
 
 	if (!response.ok) {
-		console.log(response);
 		const text = await response.text();
 		throw new Error(text);
 	}

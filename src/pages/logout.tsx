@@ -1,11 +1,9 @@
-import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 export default function Logout() {
 	const [cookie, setCookie] = useCookies(["user"]);
-	const [loaderValue, setLoaderValue] = useState(0);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -23,18 +21,3 @@ export default function Logout() {
 		</div>
 	);
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { req, res } = context;
-	const { cookies } = req;
-
-	console.log("do we get here");
-
-	// need to validate user here
-
-	return {
-		props: {
-			something: "hello"
-		}
-	};
-};

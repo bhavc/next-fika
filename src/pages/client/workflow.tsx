@@ -118,7 +118,6 @@ export default function Workflow({ userToken }: { userToken: string }) {
 
 		try {
 			const response = await createWorkflow(userToken, workflowData);
-			console.log("response", response);
 			toast.success(response.message);
 			router.push("/client/workflows");
 		} catch (err) {

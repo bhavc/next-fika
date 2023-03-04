@@ -2,20 +2,20 @@ import type { GetServerSideProps } from "next";
 
 import { getWorkflowsByUserId } from "@/api/workflow";
 
-import ClientLayout from "@/layouts/ClientLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 import WorkflowTableList from "@/features/Client/Workflow/WorkflowTableList";
 
 export default function Workflows({ workflows }: { workflows: any[] }) {
 	return (
 		<>
-			<ClientLayout>
+			<DashboardLayout>
 				<main className="items-center justify-center">
 					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
 						<h1 className="text-3xl text-left mb-4">View your past Workflows</h1>
 						<WorkflowTableList workflows={workflows} />
 					</div>
 				</main>
-			</ClientLayout>
+			</DashboardLayout>
 		</>
 	);
 }
@@ -36,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
+		// TODO here you want to get the assigned to user workflows
 		workflowData = await getWorkflowsByUserId(userToken);
 	} catch (err) {
 		workflowData = null;

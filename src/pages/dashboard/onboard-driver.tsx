@@ -1,16 +1,17 @@
-import { GetServerSideProps } from "next";
-
-import DashboardLayout from "@/layouts/DashboardLayout";
+import type { GetServerSideProps } from "next";
 
 import { getCurrentUser } from "@/api/user";
 
-export default function Dashboard({ userData }: { userData: any }) {
-	console.log("userData", userData);
+import DashboardLayout from "@/layouts/DashboardLayout";
+
+export default function OnboardDriver() {
 	return (
 		<>
 			<DashboardLayout>
-				<main className="items-center justify-center px-4">
-					<h1 className="text-3xl mt-2 mb-4 ml-4 text-left">Welcome, username</h1>
+				<main className="items-center justify-center">
+					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
+						<h1 className="text-3xl text-left mb-4">Onboard Driver</h1>
+					</div>
 				</main>
 			</DashboardLayout>
 		</>
@@ -35,14 +36,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const responseData = await getCurrentUser(userToken);
-		console.log("responseData", responseData);
 		userData = responseData;
 	} catch (err) {
 		console.log("err", err);
 	}
-
-	// TODO check the users role and redirect in that case
-	console.log("userData", userData);
 
 	return {
 		props: {

@@ -11,8 +11,6 @@ import type { GetServerSideProps } from "next";
 import IconLeft from "public/svg/arrow-left.svg";
 
 export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
-	console.log("workflow", workflow);
-
 	return (
 		<>
 			<ClientLayout>

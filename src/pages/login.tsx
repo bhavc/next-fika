@@ -48,7 +48,7 @@ export default function Login() {
 		<main>
 			<MainNavBar />
 			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)]">
-				<div className="bg-primary p-4 min-w-3/5 h-5/6">
+				<div className="bg-primary p-4 min-w-3/5 h-5/6 rounded-xl">
 					<h1 className="text-3xl mt-2 mb-2 text-slate-100 text-center">Login</h1>
 					<LoginForm handleSubmitLogin={handleSubmitLogin} />
 				</div>

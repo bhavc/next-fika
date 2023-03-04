@@ -16,8 +16,6 @@ export default function Workflow({ workflow }: WorkflowProps) {
 	const workflowNotes = workflow?.workflowNotes;
 	const uploadedFiles = workflow?.uploadedFiles;
 
-	console.log("workflowAddressData", workflowAddressData);
-
 	const {
 		containerNumber,
 		dropOffAppointmentNeeded,

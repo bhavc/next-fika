@@ -9,7 +9,6 @@ import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
 
 export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 	const rows = workflows.map((workflow, index) => {
-		console.log("workflow", workflow);
 		const { workflowAddressData, status, created_at, id } = workflow;
 		const { pickupAddress, dropoffAddress } = workflowAddressData;
 
