@@ -1,3 +1,9 @@
+import DriverLayout from "@/layouts/DriverLayout";
+
 export default function DriverSettings() {
-	return <div>Settings page</div>;
+	return (
+		<DriverLayout>
+			<h1>Settings</h1>
+		</DriverLayout>
+	);
 }

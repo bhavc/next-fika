@@ -1,3 +1,9 @@
+import DriverLayout from "@/layouts/DriverLayout";
+
 export default function Driver() {
-	return <div>Dashboard here for dashboard users</div>;
+	return (
+		<DriverLayout>
+			<h1>Driver app</h1>
+		</DriverLayout>
+	);
 }
