@@ -23,9 +23,6 @@ export default function GoogleAddressAutocomplete({
 	const errorRefName = errorRef?.name;
 
 	const [address, setAddress] = useState("");
-	const [selectedCity, setCity] = useState("");
-	const [selectedProvince, setProvince] = useState("");
-	const [selectedCountry, setCountry] = useState("");
 
 	const { placesService, placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
 		usePlacesService({
@@ -45,84 +42,48 @@ export default function GoogleAddressAutocomplete({
 		getPlacePredictions({ input });
 	};
 
-	type LocationDetailsType = {
-		long_name: string;
-		short_name: string;
-		types: string[];
-	};
+	// type LocationDetailsType = {
+	// 	long_name: string;
+	// 	short_name: string;
+	// 	types: string[];
+	// };
 
-	const getLocationDetails = async ({
-		placeId
-	}: {
-		placeId: string;
-	}): Promise<LocationDetailsType[]> => {
-		return new Promise((resolve, reject) => {
-			placesService?.getDetails({ placeId }, (data) => {
-				if (!data || !data.address_components) {
-					reject("Error getting address details");
-				}
-				const addressComponents = data?.address_components as LocationDetailsType[];
+	// const getLocationDetails = async ({
+	// 	placeId
+	// }: {
+	// 	placeId: string;
+	// }): Promise<string | undefined> => {
+	// 	return new Promise((resolve, reject) => {
+	// 		placesService?.getDetails({ placeId }, (data) => {
+	// 			if (!data || !data.address_components) {
+	// 				reject("Error getting address details");
+	// 			}
 
-				resolve(addressComponents);
-			});
-		});
-	};
+	// 			// const addressComponents = data?.address_components as LocationDetailsType[];
+	// 			const formattedAddress = data?.formatted_address;
 
-	const getParsedLocationDetails = async ({ placeId }: { placeId: string }) => {
-		let addressNumber = "";
-		let address = "";
-		let city = "";
-		let province = "";
-		let country = "";
+	// 			resolve(formattedAddress);
+	// 		});
+	// 	});
+	// };
 
-		const locationDetails: LocationDetailsType[] = await getLocationDetails({
-			placeId
-		});
+	// const getParsedLocationDetails = async ({ placeId }: { placeId: string }) => {
+	// 	const formattedAddress: string | undefined = await getLocationDetails({
+	// 		placeId
+	// 	});
 
-		for (let i = 0; i < locationDetails.length; i++) {
-			const locationDetail = locationDetails[i];
-			const locationDetailType = locationDetail.types;
-
-			if (locationDetailType.includes("street_number")) {
-				addressNumber = locationDetail.long_name;
-			}
-
-			if (locationDetailType.includes("route")) {
-				address = locationDetail.long_name;
-			}
-
-			if (locationDetailType.includes("locality")) {
-				city = locationDetail.long_name;
-			}
-
-			if (locationDetailType.includes("administrative_area_level_1")) {
-				province = locationDetail.long_name;
-			}
-
-			if (locationDetailType.includes("country")) {
-				country = locationDetail.long_name;
-			}
-		}
-
-		return {
-			addressNumber,
-			address,
-			city,
-			province,
-			country
-		};
-	};
+	// 	return { formattedAddress };
+	// };
 
 	const handleSelectedAddress = async (data: any) => {
-		const { address, addressNumber, city, country, province } = await getParsedLocationDetails({
-			placeId: data.place_id
-		});
+		const addressDescription = data.description;
+		// const { formattedAddress } = await getParsedLocationDetails({
+		// 	placeId: data.place_id
+		// });
 
-		setAddress(`${addressNumber} ${address}`);
-		setCity(city);
-		setCountry(country);
-		setProvince(province);
-		onChange(`${addressNumber} ${address}, ${city}, ${province}, ${country}`);
+		setAddress(addressDescription || "");
+
+		onChange(addressDescription);
 		getPlacePredictions({ input: "" });
 	};
 
@@ -154,42 +115,6 @@ export default function GoogleAddressAutocomplete({
 					})}
 				</ul>
 			)}
-
-			<div className="mb-2 grid grid-cols-3 gap-2">
-				<div>
-					<label>City*</label>
-					<div className="mt-1 flex rounded-md shadow-sm">
-						<input
-							type="text"
-							className={`input w-full bg-slate-200 border-neutral`}
-							value={selectedCity}
-							readOnly
-						/>
-					</div>
-				</div>
-				<div>
-					<label>Province*</label>
-					<div className="mt-1 flex rounded-md shadow-sm">
-						<input
-							type="text"
-							className={`input w-full bg-slate-200 border-neutral`}
-							value={selectedProvince}
-							readOnly
-						/>
-					</div>
-				</div>
-				<div>
-					<label>Country*</label>
-					<div className="mt-1 flex rounded-md shadow-sm">
-						<input
-							type="text"
-							className={`input w-full bg-slate-200 border-neutral`}
-							value={selectedCountry}
-							readOnly
-						/>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }

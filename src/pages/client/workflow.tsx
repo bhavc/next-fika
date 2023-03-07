@@ -10,6 +10,7 @@ import { WorkflowFormContainerDetailsInputs } from "@/features/Client/Workflow/N
 import { WorkflowFormNotesInputs } from "@/features/Client/Workflow/NewWorkflowFormNotes";
 
 import NewWorkflowFormAddress from "@/features/Client/Workflow/NewWorkflowFormAddress";
+// import NewWorkflowFormSelectDispatcher from "@/features/Client/Workflow/NewWorkflowFormSelectDispatcher";
 import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
@@ -29,18 +30,12 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			shipmentNumber: "",
 			pickupCompanyName: "",
 			pickupAddress: "",
-			pickupCity: "",
-			pickupProvince: "",
-			pickupCountry: "",
 			pickupContactName: "",
 			pickupContactPhone: "",
 			pickupWindow: "",
 			pickupAppointmentNeeded: false,
 			dropoffCompanyName: "",
 			dropoffAddress: "",
-			dropoffCity: "",
-			dropoffProvince: "",
-			dropoffCountry: "",
 			dropoffContactName: "",
 			dropoffContactPhone: "",
 			dropoffWindow: "",
@@ -81,6 +76,10 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	});
 
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
+	const [selectedDispatcher, setSelectedDispatcher] = useState<number | null>(null);
+	const handleSelectedDispatcher = (dispatcherId: number) => {
+		setSelectedDispatcher(dispatcherId);
+	};
 
 	const handleNextStep = () => {
 		setStep(step + 1);
@@ -160,6 +159,12 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								workflowFormAddressState={workflowFormAddressState}
 							/>
 						)}
+						{/* {step === 1 && (
+							<NewWorkflowFormSelectDispatcher
+								selectedDispatcher={selectedDispatcher}
+								handleSelectedDispatcher={handleSelectedDispatcher}
+							/>
+						)} */}
 						{step === 1 && (
 							<NewWorkflowFormContainerDetails
 								handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}

@@ -47,13 +47,14 @@ export default function Register() {
 			imageUrl: "whatever",
 			title: "Dispatcher",
 			body: "I want to oversee shipments"
-		},
-		{
-			type: "Driver",
-			imageUrl: "whatever",
-			title: "Driver",
-			body: "I get things where they need to get"
 		}
+		// Dispatcher will be registered by the company
+		// {
+		// 	type: "Driver",
+		// 	imageUrl: "whatever",
+		// 	title: "Driver",
+		// 	body: "I get things where they need to get"
+		// }
 	];
 
 	const setSelectedItem = (index: number) => {

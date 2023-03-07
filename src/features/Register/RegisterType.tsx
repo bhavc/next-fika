@@ -11,8 +11,7 @@ interface RegisterTypeProps {
 export default function RegisterType({
 	accountTypeCards,
 	selectedAccountType,
-	setSelectedItem,
-	setNextStep
+	setSelectedItem
 }: RegisterTypeProps) {
 	return (
 		<div className="flex flex-col gap-4 justify-center items-center mt-8">
@@ -21,7 +20,7 @@ export default function RegisterType({
 					<button key={accountCard.type} onClick={() => setSelectedItem(index)}>
 						<div
 							className={`card w-80 shadow-xl ${
-								accountCard.type === selectedAccountType ? "bg-blue-400" : "bg-base-100"
+								accountCard.type === selectedAccountType ? "bg-accent-content" : "bg-base-100"
 							}`}
 						>
 							{/* <figure>

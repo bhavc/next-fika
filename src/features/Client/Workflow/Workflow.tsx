@@ -14,27 +14,21 @@ export default function Workflow({ workflow }: WorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;
-	const uploadedFiles = workflow?.uploadedFiles;
+	const uploadedFiles = workflow?.file_urls;
 
 	const {
 		containerNumber,
 		dropOffAppointmentNeeded,
 		dropoffAddress,
-		dropoffCity,
 		dropoffCompanyName,
 		dropoffContactName,
 		dropoffContactPhone,
-		dropoffCountry,
-		dropoffProvince,
 		dropoffWindow,
 		pickupAddress,
 		pickupAppointmentNeeded,
-		pickupCity,
 		pickupCompanyName,
 		pickupContactName,
 		pickupContactPhone,
-		pickupCountry,
-		pickupProvince,
 		pickupWindow,
 		shipmentNumber,
 		bolNumber,
@@ -265,34 +259,15 @@ export default function Workflow({ workflow }: WorkflowProps) {
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{imageFiles && imageFiles.length > 0 && (
+				{uploadedFiles && uploadedFiles.length > 0 && (
 					<div>
 						<h2 className="text-xl mb-4">Your uploaded files: </h2>
 						<div className="flex flex-col gap-4">
-							{imageFiles?.map((file, key) => {
+							{uploadedFiles?.map((file, key) => {
 								return (
 									<Link href={file.url} key={key} target="_blank">
 										<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
 											<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
-											<div className="flex justify-center items-center">
-												<h2>{file.name}</h2>
-											</div>
-										</div>
-									</Link>
-								);
-							})}
-						</div>
-						<div className="flex flex-col gap-4">
-							{nonImageFiles?.map((file, key) => {
-								return (
-									<Link href={file.url} key={key} target="_blank">
-										<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
-											{file.type === "application/pdf" ? (
-												<PDFIcon height={48} width={48} />
-											) : (
-												<TextIcon height={48} width={48} />
-											)}
-
 											<div className="flex justify-center items-center">
 												<h2>{file.name}</h2>
 											</div>

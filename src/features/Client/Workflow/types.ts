@@ -10,24 +10,19 @@ export type FileType = {
 	name: string;
 	type: string;
 	url: string;
+	blob: string;
 };
 
 export type WorkflowAddressDataType = {
 	t1Number?: string;
 	bolNumber?: string;
-	pickupCity: string;
-	dropoffCity: string;
 	pickupWindow: string;
 	dropoffWindow: string;
 	pickupAddress: string;
-	pickupCountry: string;
 	borderCrossing?: string;
 	dropoffAddress: string;
-	dropoffCountry: string;
-	pickupProvince: string;
 	shipmentNumber: string;
 	containerNumber: string;
-	dropoffProvince: string;
 	pickupCompanyName: string;
 	pickupContactName: string;
 	dropoffCompanyName: string;
@@ -76,6 +71,7 @@ export type WorkflowType = {
 	workflowContainerData: WorkflowContainerDataType;
 	workflowNotes: WorkflowNotesType;
 	uploadedFiles: FileType[];
+	file_urls: FileType[];
 	created_at: string;
 	modified_at: string;
 };

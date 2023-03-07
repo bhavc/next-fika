@@ -5,7 +5,6 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import { getCurrentUser } from "@/api/user";
 
 export default function Dashboard({ userData }: { userData: any }) {
-	console.log("userData", userData);
 	return (
 		<>
 			<DashboardLayout>
@@ -35,14 +34,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		const responseData = await getCurrentUser(userToken);
-		console.log("responseData", responseData);
 		userData = responseData;
 	} catch (err) {
 		console.log("err", err);
 	}
 
 	// TODO check the users role and redirect in that case
-	console.log("userData", userData);
 
 	return {
 		props: {

@@ -9,18 +9,12 @@ export type WorkflowFormAddressInputs = {
 	shipmentNumber: string;
 	pickupCompanyName: string;
 	pickupAddress: string;
-	pickupCity: string;
-	pickupProvince: string;
-	pickupCountry: string;
 	pickupContactName: string;
 	pickupContactPhone: string;
 	pickupWindow: string;
 	pickupAppointmentNeeded: boolean;
 	dropoffCompanyName: string;
 	dropoffAddress: string;
-	dropoffCity: string;
-	dropoffProvince: string;
-	dropoffCountry: string;
 	dropoffContactName: string;
 	dropoffContactPhone: string;
 	dropoffWindow: string;
@@ -51,18 +45,12 @@ export default function NewWorkflowFormAddress({
 			shipmentNumber: workflowFormAddressState.shipmentNumber,
 			pickupCompanyName: workflowFormAddressState.pickupCompanyName,
 			pickupAddress: workflowFormAddressState.pickupAddress,
-			pickupCity: workflowFormAddressState.pickupCity,
-			pickupProvince: workflowFormAddressState.pickupProvince,
-			pickupCountry: workflowFormAddressState.pickupCountry,
 			pickupContactName: workflowFormAddressState.pickupContactName,
 			pickupContactPhone: workflowFormAddressState.pickupContactPhone,
 			pickupWindow: workflowFormAddressState.pickupWindow,
 			pickupAppointmentNeeded: workflowFormAddressState.pickupAppointmentNeeded,
 			dropoffCompanyName: workflowFormAddressState.dropoffCompanyName,
 			dropoffAddress: workflowFormAddressState.dropoffAddress,
-			dropoffCity: workflowFormAddressState.dropoffCity,
-			dropoffProvince: workflowFormAddressState.dropoffProvince,
-			dropoffCountry: workflowFormAddressState.dropoffCountry,
 			dropoffContactName: workflowFormAddressState.dropoffContactName,
 			dropoffContactPhone: workflowFormAddressState.dropoffContactPhone,
 			dropoffWindow: workflowFormAddressState.dropoffWindow,
