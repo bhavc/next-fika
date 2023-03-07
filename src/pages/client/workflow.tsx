@@ -11,7 +11,6 @@ import { WorkflowFormNotesInputs } from "@/features/Client/Workflow/NewWorkflowF
 
 import NewWorkflowFormAddress from "@/features/Client/Workflow/NewWorkflowFormAddress";
 import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
-import NewWorkflowFormDispatcher from "@/features/Client/Workflow/NewWorkflowFormDispatcher";
 import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
 import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
 
@@ -23,7 +22,7 @@ import AlertIcon from "public/svg/alert-circle.svg";
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(3);
+	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -177,8 +176,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								handleGoBack={handleGoBack}
 							/>
 						)}
-						{step === 3 && <NewWorkflowFormDispatcher />}
-						{step === 4 && (
+						{step === 3 && (
 							<NewWorkflowFormReview
 								workflowFormAddressState={workflowFormAddressState}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}

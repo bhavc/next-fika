@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const uploadFile = async (file: File) => {
 	const formData = new FormData();

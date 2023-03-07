@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const createWorkflow = async (userToken: string | undefined, workflowData: any) => {
 	const response = await fetch(`${BASE_URL}/workflow/`, {

@@ -9,8 +9,14 @@ export default function Settings() {
 		<>
 			<DashboardLayout>
 				<main className="items-center justify-center">
-					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
-						<h1 className="text-3xl text-left mb-4">Settings</h1>
+					<h1 className="text-3xl text-left my-4 ml-4">Settings</h1>
+
+					<div className="px-4">
+						<div className="card bg-base-100 shadow-xl">
+							<div className="card-body">
+								<p>If a dog chews shoes whose shoes does he choose?</p>
+							</div>
+						</div>
 					</div>
 				</main>
 			</DashboardLayout>
@@ -23,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
-	let userData;
+	let userData = {};
 
 	if (!userToken) {
 		return {

@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
-	let userData;
+	let userData = {};
 
 	if (!userToken) {
 		return {

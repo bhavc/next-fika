@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL_LOCAL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const postLogin = async (data: any) => {
 	const response = await fetch(`${BASE_URL}/auth/login`, {

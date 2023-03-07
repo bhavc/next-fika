@@ -11,7 +11,6 @@ const nextConfig = {
 		return config;
 	},
 	images: {
-		// domains: ["storage.cloud.google.com/"],
 		remotePatterns: [
 			{
 				protocol: "https",
