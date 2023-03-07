@@ -14,10 +14,7 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 	const {
 		register,
 		handleSubmit,
-		watch,
-		formState: { errors },
-		setValue,
-		control
+		formState: { errors }
 	} = useForm<FormInputs>();
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
 		const { email, password } = data;

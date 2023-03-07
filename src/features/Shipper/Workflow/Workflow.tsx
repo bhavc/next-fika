@@ -1,9 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PDFIcon from "public/svg/PDF_file_icon.svg";
-import TextIcon from "public/svg/file-text.svg";
-
 import type { WorkflowType } from "@/features/Shipper/Workflow/types";
 
 interface WorkflowProps {

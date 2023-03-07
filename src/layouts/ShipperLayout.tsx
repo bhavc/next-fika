@@ -35,7 +35,7 @@ export default function ShipperLayout({ children }: LayoutProps) {
 				<div className="drawer-side">
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />
 					<div className="flex flex-col justify-between w-72 bg-primary">
-						<ul className="menu text-base-content w-60 pl-10 pt-4 gap-4">
+						<ul className="menu text-base-content w-60 pl-4 pt-4 gap-4">
 							<Link
 								href={"/shipper"}
 								className={`hover:bg-accent p-2 rounded-md ${
@@ -76,7 +76,7 @@ export default function ShipperLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 						</ul>
-						<ul className="menu text-base-content w-60 pl-10 gap-4">
+						<ul className="menu text-base-content w-60 pl-4">
 							<Link
 								href={"/shipper/settings"}
 								className={`hover:bg-accent p-2 rounded-md ${

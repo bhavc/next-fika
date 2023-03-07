@@ -8,8 +8,19 @@ export default function Carrier({ userData }: { userData: any }) {
 	return (
 		<>
 			<CarrierLayout>
-				<main className="items-center justify-center px-4">
-					<h1 className="text-3xl mt-2 mb-4 ml-4 text-left">Welcome, username</h1>
+				<main className="flex items-center justify-center">
+					<div className="hero min-h-screen bg-[url('/jpeg/client_main.jpeg')]">
+						<div className="hero-overlay bg-opacity-60"></div>
+						<div className="hero-content text-center text-neutral-content">
+							<div className="max-w-md">
+								<h1 className="mb-5 text-5xl font-bold">Hello, User</h1>
+								<p className="mb-5">
+									Welcome to Fika. Here you will be able to view shipments assigned to your company
+									and assign shipments to your drivers
+								</p>
+							</div>
+						</div>
+					</div>
 				</main>
 			</CarrierLayout>
 		</>
