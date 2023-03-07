@@ -22,18 +22,17 @@ export default function GoogleAddressAutocomplete({
 	const errorRef = error?.ref;
 	const errorRefName = errorRef?.name;
 
-	const [address, setAddress] = useState("");
+	const [address, setAddress] = useState(value);
 
-	const { placesService, placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
-		usePlacesService({
-			apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_AUTOCOMPLETE,
-			options: {
-				componentRestrictions: {
-					country: ["ke", "ca"]
-				},
-				input: ""
-			}
-		});
+	const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } = usePlacesService({
+		apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_AUTOCOMPLETE,
+		options: {
+			componentRestrictions: {
+				country: ["ke", "ca"]
+			},
+			input: ""
+		}
+	});
 
 	const handleAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setAddress(event.target.value);
@@ -41,39 +40,6 @@ export default function GoogleAddressAutocomplete({
 		const input = event.target.value;
 		getPlacePredictions({ input });
 	};
-
-	// type LocationDetailsType = {
-	// 	long_name: string;
-	// 	short_name: string;
-	// 	types: string[];
-	// };
-
-	// const getLocationDetails = async ({
-	// 	placeId
-	// }: {
-	// 	placeId: string;
-	// }): Promise<string | undefined> => {
-	// 	return new Promise((resolve, reject) => {
-	// 		placesService?.getDetails({ placeId }, (data) => {
-	// 			if (!data || !data.address_components) {
-	// 				reject("Error getting address details");
-	// 			}
-
-	// 			// const addressComponents = data?.address_components as LocationDetailsType[];
-	// 			const formattedAddress = data?.formatted_address;
-
-	// 			resolve(formattedAddress);
-	// 		});
-	// 	});
-	// };
-
-	// const getParsedLocationDetails = async ({ placeId }: { placeId: string }) => {
-	// 	const formattedAddress: string | undefined = await getLocationDetails({
-	// 		placeId
-	// 	});
-
-	// 	return { formattedAddress };
-	// };
 
 	const handleSelectedAddress = async (data: any) => {
 		const addressDescription = data.description;

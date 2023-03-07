@@ -1,11 +1,11 @@
-import ClientLayout from "@/layouts/ClientLayout";
+import ShipperLayout from "@/layouts/ShipperLayout";
 import Link from "next/link";
 
 import { getWorkflowById } from "@/api/workflow";
 
-import Workflow from "@/features/Client/Workflow/Workflow";
+import Workflow from "@/features/Shipper/Workflow/Workflow";
 
-import type { WorkflowType } from "@/features/Client/Workflow/types";
+import type { WorkflowType } from "@/features/Shipper/Workflow/types";
 import type { GetServerSideProps } from "next";
 
 import IconLeft from "public/svg/arrow-left.svg";
@@ -13,10 +13,10 @@ import IconLeft from "public/svg/arrow-left.svg";
 export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
 	return (
 		<>
-			<ClientLayout>
+			<ShipperLayout>
 				<main className="items-center justify-center px-4">
 					<div className="flex flex-col w-full bg-slate-100 rounded-b-md p-4 mt-4">
-						<Link href={"/client/workflows"} className="btn btn-circle bg-primary">
+						<Link href={"/shipper/workflows"} className="btn btn-circle bg-primary">
 							<IconLeft />
 						</Link>
 						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
@@ -24,7 +24,7 @@ export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
 
 					<Workflow workflow={workflow} />
 				</main>
-			</ClientLayout>
+			</ShipperLayout>
 		</>
 	);
 }
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowId || Array.isArray(workflowId)) {
 		return {
 			redirect: {
-				destination: "/client/workflows",
+				destination: "/shipper/workflows",
 				statusCode: 302
 			}
 		};
@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowData) {
 		return {
 			redirect: {
-				destination: "/client/workflows",
+				destination: "/shipper/workflows",
 				statusCode: 302
 			}
 		};

@@ -117,3 +117,9 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowS
 			return "slate-200";
 	}
 };
+
+export const mapAddressToRegion = (address: string) => {
+	const splitAddress = address.split(",");
+	const country = splitAddress[splitAddress.length - 1];
+	return country;
+};

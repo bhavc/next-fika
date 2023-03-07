@@ -3,27 +3,29 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
-import ClientLayout from "@/layouts/ClientLayout";
+import ShipperLayout from "@/layouts/ShipperLayout";
 
-import { WorkflowFormAddressInputs } from "@/features/Client/Workflow/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Client/Workflow/NewWorkflowFormNotes";
+import { WorkflowFormAddressInputs } from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
+import { WorkflowFormNotesInputs } from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
 
-import NewWorkflowFormAddress from "@/features/Client/Workflow/NewWorkflowFormAddress";
-// import NewWorkflowFormSelectDispatcher from "@/features/Client/Workflow/NewWorkflowFormSelectDispatcher";
-import NewWorkflowFormContainerDetails from "@/features/Client/Workflow/NewWorkflowFormContainerDetails";
-import NewWorkflowFormNotes from "@/features/Client/Workflow/NewWorkflowFormNotes";
-import NewWorkflowFormReview from "@/features/Client/Workflow/NewWorkflowReview";
+import NewWorkflowFormAddress from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
+import NewWorkflowFormSelectCarrier from "@/features/Shipper/Workflow/NewWorkflowFormSelectCarrier";
+import NewWorkflowFormContainerDetails from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
+import NewWorkflowFormNotes from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
+import NewWorkflowFormReview from "@/features/Shipper/Workflow/NewWorkflowReview";
 
 import { createWorkflow } from "@/api/workflow";
 
-import { FileType } from "@/features/Client/Workflow/types";
+import { FileType } from "@/features/Shipper/Workflow/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
+import { getCarriers } from "@/api/carriers";
+import { mapAddressToRegion } from "@/features/Shipper/Workflow/helpers";
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(1);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -44,6 +46,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			t1Number: "",
 			borderCrossing: ""
 		});
+
 	const [workflowFormContainerDetailsState, setWorkflowFormContainerDetailsState] =
 		useState<WorkflowFormContainerDetailsInputs>({
 			useCustomPricing: false,
@@ -76,9 +79,18 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	});
 
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
-	const [selectedDispatcher, setSelectedDispatcher] = useState<number | null>(null);
-	const handleSelectedDispatcher = (dispatcherId: number) => {
-		setSelectedDispatcher(dispatcherId);
+	const [selectedCarrier, setSelectedCarrier] = useState<number | null>(null);
+	const [carriers, setCarriers] = useState<{
+		favoriteCarriers: any[];
+		restCarriers: any[];
+	}>({
+		favoriteCarriers: [],
+		restCarriers: []
+	});
+
+	// TODO handle this better
+	const handleSelectedCarrier = (carrierId: number) => {
+		setSelectedCarrier(carrierId);
 	};
 
 	const handleNextStep = () => {
@@ -117,7 +129,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		try {
 			const response = await createWorkflow(userToken, workflowData);
 			toast.success(response.message);
-			router.push("/client/workflows");
+			router.push("/shipper/workflows");
 		} catch (err) {
 			toast.error("Error creating workflow");
 		}
@@ -132,9 +144,27 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		element?.scrollIntoView({ behavior: "smooth" });
 	}, [step]);
 
+	useEffect(() => {
+		if (step === 1) {
+			const carrierRegion = mapAddressToRegion(workflowFormAddressState.pickupAddress);
+			getCarriers("userToken", carrierRegion)
+				.then((value) => {
+					setCarriers(value);
+				})
+				.catch((err) => {
+					toast.error("Error getting a carrier list. Please try creating a delivery request later");
+				});
+			// if (!carriers) {
+			// 	toast.error("Error getting a carrier list. Please try creating a delivery request later");
+			// }
+
+			// setCarriers(carriers);
+		}
+	}, [step, workflowFormAddressState.pickupAddress]);
+
 	return (
 		<>
-			<ClientLayout>
+			<ShipperLayout>
 				<main id="workflowParent" className="px-4 overflow-auto">
 					<div className="bg-slate-100 mt-2 px-4">
 						<h1 id="workflowHeader" className="text-3xl mt-4 text-left rounded-t-md p-4">
@@ -159,20 +189,23 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								workflowFormAddressState={workflowFormAddressState}
 							/>
 						)}
-						{/* {step === 1 && (
-							<NewWorkflowFormSelectDispatcher
-								selectedDispatcher={selectedDispatcher}
-								handleSelectedDispatcher={handleSelectedDispatcher}
-							/>
-						)} */}
 						{step === 1 && (
+							<NewWorkflowFormSelectCarrier
+								selectedCarrier={selectedCarrier}
+								handleSelectedCarrier={handleSelectedCarrier}
+								carriers={carriers}
+								handleNextStep={handleNextStep}
+								handleGoBack={handleGoBack}
+							/>
+						)}
+						{step === 2 && (
 							<NewWorkflowFormContainerDetails
 								handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
 								handleGoBack={handleGoBack}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
 							/>
 						)}
-						{step === 2 && (
+						{step === 3 && (
 							<NewWorkflowFormNotes
 								handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
 								workflowFormNotesState={workflowFormNotesState}
@@ -181,7 +214,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								handleGoBack={handleGoBack}
 							/>
 						)}
-						{step === 3 && (
+						{step === 4 && (
 							<NewWorkflowFormReview
 								workflowFormAddressState={workflowFormAddressState}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
@@ -193,7 +226,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 						)}
 					</div>
 				</main>
-			</ClientLayout>
+			</ShipperLayout>
 		</>
 	);
 }

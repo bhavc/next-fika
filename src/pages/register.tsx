@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { useCookies } from "react-cookie";
 
 import RegisterType from "@/features/Register/RegisterType";
-import RegisterFormDispatch from "@/features/Register/RegisterFormDispatch";
+import RegisterForm from "@/features/Register/RegisterForm";
 import MainNavBar from "@/components/Nav/MainNavbar";
 
 import { UserType } from "@/features/User/types";
@@ -37,18 +37,18 @@ export default function Register() {
 
 	const accountTypeCards: AccountTypeCard[] = [
 		{
-			type: "Client",
+			type: "Shipper",
 			imageUrl: "whatever",
-			title: "Client",
+			title: "Shipper",
 			body: "I want to get something shipped"
 		},
 		{
-			type: "Dispatcher",
+			type: "Carrier",
 			imageUrl: "whatever",
-			title: "Dispatcher",
+			title: "Carrier",
 			body: "I want to oversee shipments"
 		}
-		// Dispatcher will be registered by the company
+		// Driver will be registered by the company
 		// {
 		// 	type: "Driver",
 		// 	imageUrl: "whatever",
@@ -97,14 +97,14 @@ export default function Register() {
 			toast.success("Successfully registered");
 
 			switch (selectedAccountType) {
-				case "Client":
-					return router.push("/client");
-				case "Dispatcher":
+				case "Shipper":
+					return router.push("/shipper");
+				case "Carrier":
 					return router.push("/dashboard");
 				case "Driver":
 					return router.push("/driver");
 				default:
-					return router.push("/client");
+					return router.push("/shipper");
 			}
 		} catch (err) {
 			toast.error("Error registering");
@@ -126,7 +126,7 @@ export default function Register() {
 						/>
 					)}
 					{currentStep === 1 && (
-						<RegisterFormDispatch
+						<RegisterForm
 							selectedAccountType={selectedAccountType}
 							setPreviousStep={setPreviousStep}
 							handleSubmitRegistration={handleSubmitRegistration}
@@ -168,7 +168,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = null;
 	}
 
-	const appRoute = mapUserTypeToAppRoute(userData?.client);
+	const appRoute = mapUserTypeToAppRoute(userData?.role);
 
 	if (isLoggedIn && appRoute) {
 		return {

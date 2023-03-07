@@ -1,11 +1,11 @@
 import { GetServerSideProps } from "next";
 
-import ClientLayout from "@/layouts/ClientLayout";
+import ShipperLayout from "@/layouts/ShipperLayout";
 
-export default function Client() {
+export default function Shipper() {
 	return (
 		<>
-			<ClientLayout>
+			<ShipperLayout>
 				<main className="flex items-center justify-center">
 					<div className="hero min-h-screen bg-[url('/jpeg/client_main.jpeg')]">
 						<div className="hero-overlay bg-opacity-60"></div>
@@ -20,7 +20,7 @@ export default function Client() {
 						</div>
 					</div>
 				</main>
-			</ClientLayout>
+			</ShipperLayout>
 		</>
 	);
 }

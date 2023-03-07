@@ -43,7 +43,7 @@ export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 				</td>
 				<td>{formattedDate}</td>
 				<th>
-					<Link href={`/client/workflow/${id}`} className="btn btn-circle bg-primary">
+					<Link href={`/shipper/workflow/${id}`} className="btn btn-circle bg-primary">
 						<IconRight />
 					</Link>
 				</th>

@@ -3,7 +3,7 @@ import type { GetServerSideProps } from "next";
 import { getWorkflowsByUserId } from "@/api/workflow";
 
 import DashboardLayout from "@/layouts/DashboardLayout";
-import WorkflowTableList from "@/features/Client/Workflow/WorkflowTableList";
+import WorkflowTableList from "@/features/Shipper/Workflow/WorkflowTableList";
 
 export default function Workflows({ workflows }: { workflows: any[] }) {
 	return (

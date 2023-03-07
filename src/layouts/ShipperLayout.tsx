@@ -2,9 +2,10 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import ClientNavbar from "@/components/Nav/ClientNavbar";
+import ShipperNavbar from "@/components/Nav/ShipperNavbar";
 
 import MenuIcon from "public/svg/menu.svg";
+import HomeIcon from "public/svg/home.svg";
 import NewIcon from "public/svg/circle-plus.svg";
 import HistoryIcon from "public/svg/history.svg";
 import SettingsIcon from "public/svg/settings.svg";
@@ -14,7 +15,7 @@ interface LayoutProps {
 	children: ReactNode;
 }
 
-export default function ClientLayout({ children }: LayoutProps) {
+export default function ShipperLayout({ children }: LayoutProps) {
 	const router = useRouter();
 
 	const currentPath = router.pathname;
@@ -27,7 +28,7 @@ export default function ClientLayout({ children }: LayoutProps) {
 
 	return (
 		<>
-			<ClientNavbar leftSideItems={leftSideButtons} />
+			<ShipperNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
 				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
@@ -36,9 +37,22 @@ export default function ClientLayout({ children }: LayoutProps) {
 					<div className="flex flex-col justify-between w-72 bg-primary">
 						<ul className="menu text-base-content w-60 pl-10 pt-4 gap-4">
 							<Link
-								href={"/client/workflow"}
+								href={"/shipper"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/client/workflow" ? "bg-accent" : "bg-inherit"
+									currentPath === "/shipper" ? "bg-accent" : "bg-inherit"
+								}`}
+							>
+								<div className="flex flex-row">
+									<div className="mt-2">
+										<HomeIcon width={24} height={24} stroke="white" />
+									</div>
+									<p className="prose lg:prose-xl pl-2 text-white">Home</p>
+								</div>
+							</Link>
+							<Link
+								href={"/shipper/workflow"}
+								className={`hover:bg-accent p-2 rounded-md ${
+									currentPath === "/shipper/workflow" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
@@ -49,9 +63,9 @@ export default function ClientLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 							<Link
-								href={"/client/workflows"}
+								href={"/shipper/workflows"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/client/workflows" ? "bg-accent" : "bg-inherit"
+									currentPath === "/shipper/workflows" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
@@ -64,9 +78,9 @@ export default function ClientLayout({ children }: LayoutProps) {
 						</ul>
 						<ul className="menu text-base-content w-60 pl-10 gap-4">
 							<Link
-								href={"/client/settings"}
+								href={"/shipper/settings"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/client/settings" ? "bg-accent" : "bg-inherit"
+									currentPath === "/shipper/settings" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">

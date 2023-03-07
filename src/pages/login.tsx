@@ -30,14 +30,14 @@ export default function Login() {
 			toast.success("Successfully registered");
 
 			switch (user.role) {
-				case "Client":
-					return router.push("/client");
-				case "Dispatcher":
+				case "Shipper":
+					return router.push("/shipper");
+				case "Carrier":
 					return router.push("/dashboard");
 				case "Driver":
 					return router.push("/driver");
 				default:
-					return router.push("/client");
+					return router.push("/shipper");
 			}
 		} catch (err) {
 			toast.error("Error logging in. Recheck your email/pass or try again later");
@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = null;
 	}
 
-	const appRoute = mapUserTypeToAppRoute(userData?.client);
+	const appRoute = mapUserTypeToAppRoute(userData?.role);
 
 	if (isLoggedIn && appRoute) {
 		return {

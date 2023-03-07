@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import DashboardNavbar from "@/components/Nav/DashboardNavbar";
 
 import MenuIcon from "public/svg/menu.svg";
+import HomeIcon from "public/svg/home.svg";
 import HistoryIcon from "public/svg/history.svg";
 import SettingsIcon from "public/svg/settings.svg";
 import LogoutIcon from "public/svg/logout.svg";
@@ -36,6 +36,19 @@ export default function DashboardLayout({ children }: LayoutProps) {
 					<label htmlFor="my-drawer-2" className="drawer-overlay" />
 					<div className="flex flex-col justify-between w-72 bg-primary">
 						<ul className="menu text-base-content w-60 pl-4 pt-4 gap-4">
+							<Link
+								href={"/dashboard"}
+								className={`hover:bg-accent p-2 rounded-md ${
+									currentPath === "/dashboard" ? "bg-accent" : "bg-inherit"
+								}`}
+							>
+								<div className="flex flex-row">
+									<div className="mt-2">
+										<HomeIcon width={24} height={24} stroke="white" />
+									</div>
+									<p className="prose lg:prose-xl pl-2 text-white">Home</p>
+								</div>
+							</Link>
 							<Link
 								href={"/dashboard/workflows"}
 								className={`hover:bg-accent p-2 rounded-md ${

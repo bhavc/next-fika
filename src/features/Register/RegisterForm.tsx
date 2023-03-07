@@ -89,7 +89,7 @@ export default function RegisterForm({
 									placeholder="Fika Ltd."
 									className="input w-full max-w-xs"
 									{...register("company", {
-										required: "Provide your companies name if you are a dispatcher"
+										required: "Provide your companies name if you are a carrier"
 									})}
 								/>
 							</div>
