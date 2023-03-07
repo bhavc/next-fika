@@ -2,7 +2,7 @@ export type UserType = "Shipper" | "Carrier" | "Driver";
 
 export const mapUserTypeToAppRoute = (userType: UserType | undefined) => {
 	if (userType === "Carrier") {
-		return "/dashboard";
+		return "/carrier";
 	}
 
 	if (userType === "Driver") {

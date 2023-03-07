@@ -106,6 +106,8 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowS
 		case "Draft":
 			return "slate-200";
 		case "Triage":
+			return "sky-400";
+		case "Allocated":
 			return "secondary-content";
 		case "In Progress":
 			return "warning";

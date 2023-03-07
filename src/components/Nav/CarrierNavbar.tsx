@@ -8,7 +8,7 @@ interface NavbarProps {
 	rightSideItems?: any[];
 }
 
-export default function DashboardNavbar({ leftSideItems, rightSideItems }: NavbarProps) {
+export default function CarrierNavbar({ leftSideItems, rightSideItems }: NavbarProps) {
 	return (
 		<div className="navbar bg-slate-100 justify-between">
 			<div className="w-1/3 justify-left items-center">

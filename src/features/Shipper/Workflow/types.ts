@@ -1,6 +1,7 @@
 export type WorkflowStatus =
 	| "Draft"
 	| "Triage"
+	| "Allocated"
 	| "In Progress"
 	| "Shipped"
 	| "Cancelled"

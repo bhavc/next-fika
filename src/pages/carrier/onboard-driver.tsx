@@ -2,18 +2,18 @@ import type { GetServerSideProps } from "next";
 
 import { getCurrentUser } from "@/api/user";
 
-import DashboardLayout from "@/layouts/DashboardLayout";
+import CarrierLayout from "@/layouts/CarrierLayout";
 
 export default function OnboardDriver() {
 	return (
 		<>
-			<DashboardLayout>
+			<CarrierLayout>
 				<main className="items-center justify-center">
 					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
 						<h1 className="text-3xl text-left mb-4">Onboard Driver</h1>
 					</div>
 				</main>
-			</DashboardLayout>
+			</CarrierLayout>
 		</>
 	);
 }

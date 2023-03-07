@@ -14,7 +14,6 @@ export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
 
 		const formattedDate = formatDateStringToDate(created_at);
 		const badgeColor = mapWorkflowTableListBadgeColorToStatus(status);
-
 		return (
 			<tr key={index}>
 				<td className="w-8">

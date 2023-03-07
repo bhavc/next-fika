@@ -2,20 +2,20 @@ import type { GetServerSideProps } from "next";
 
 import { getWorkflowsByUserId } from "@/api/workflow";
 
-import DashboardLayout from "@/layouts/DashboardLayout";
+import CarrierLayout from "@/layouts/CarrierLayout";
 import WorkflowTableList from "@/features/Shipper/Workflow/WorkflowTableList";
 
 export default function Workflows({ workflows }: { workflows: any[] }) {
 	return (
 		<>
-			<DashboardLayout>
+			<CarrierLayout>
 				<main className="items-center justify-center">
 					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
 						<h1 className="text-3xl text-left mb-4">View your past Workflows</h1>
 						<WorkflowTableList workflows={workflows} />
 					</div>
 				</main>
-			</DashboardLayout>
+			</CarrierLayout>
 		</>
 	);
 }

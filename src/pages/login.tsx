@@ -33,7 +33,7 @@ export default function Login() {
 				case "Shipper":
 					return router.push("/shipper");
 				case "Carrier":
-					return router.push("/dashboard");
+					return router.push("/carrier");
 				case "Driver":
 					return router.push("/driver");
 				default:

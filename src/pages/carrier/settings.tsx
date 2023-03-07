@@ -1,4 +1,4 @@
-import DashboardLayout from "@/layouts/DashboardLayout";
+import CarrierLayout from "@/layouts/CarrierLayout";
 
 import { getCurrentUser } from "@/api/user";
 
@@ -7,7 +7,7 @@ import type { GetServerSideProps } from "next";
 export default function Settings() {
 	return (
 		<>
-			<DashboardLayout>
+			<CarrierLayout>
 				<main className="items-center justify-center">
 					<h1 className="text-3xl text-left my-4 ml-4">Settings</h1>
 
@@ -19,7 +19,7 @@ export default function Settings() {
 						</div>
 					</div>
 				</main>
-			</DashboardLayout>
+			</CarrierLayout>
 		</>
 	);
 }

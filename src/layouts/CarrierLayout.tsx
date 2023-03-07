@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import DashboardNavbar from "@/components/Nav/DashboardNavbar";
+import CarrierNavbar from "@/components/Nav/CarrierNavbar";
 
 import MenuIcon from "public/svg/menu.svg";
 import HomeIcon from "public/svg/home.svg";
@@ -15,7 +15,7 @@ interface LayoutProps {
 	children: ReactNode;
 }
 
-export default function DashboardLayout({ children }: LayoutProps) {
+export default function CarrierLayout({ children }: LayoutProps) {
 	const router = useRouter();
 
 	const currentPath = router.pathname;
@@ -28,7 +28,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
 
 	return (
 		<>
-			<DashboardNavbar leftSideItems={leftSideButtons} />
+			<CarrierNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)]">
 				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
@@ -37,9 +37,9 @@ export default function DashboardLayout({ children }: LayoutProps) {
 					<div className="flex flex-col justify-between w-72 bg-primary">
 						<ul className="menu text-base-content w-60 pl-4 pt-4 gap-4">
 							<Link
-								href={"/dashboard"}
+								href={"/carrier"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/dashboard" ? "bg-accent" : "bg-inherit"
+									currentPath === "/carrier" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
@@ -50,9 +50,9 @@ export default function DashboardLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 							<Link
-								href={"/dashboard/workflows"}
+								href={"/carrier/workflows"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/dashboard/workflows" ? "bg-accent" : "bg-inherit"
+									currentPath === "/carrier/workflows" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
@@ -63,9 +63,9 @@ export default function DashboardLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 							<Link
-								href={"/dashboard/onboard-driver"}
+								href={"/carrier/onboard-driver"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/dashboard/onboard-driver" ? "bg-accent" : "bg-inherit"
+									currentPath === "/carrier/onboard-driver" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
@@ -78,9 +78,9 @@ export default function DashboardLayout({ children }: LayoutProps) {
 						</ul>
 						<ul className="menu text-base-content w-60 pl-4">
 							<Link
-								href={"/dashboard/settings"}
+								href={"/carrier/settings"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/dashboard/settings" ? "bg-accent" : "bg-inherit"
+									currentPath === "/carrier/settings" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">
