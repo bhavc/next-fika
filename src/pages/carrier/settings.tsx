@@ -1,9 +1,11 @@
 import { useState, useRef, MouseEvent, ChangeEvent, use } from "react";
 import CarrierLayout from "@/layouts/CarrierLayout";
 
+import { uploadFiles } from "@/api/fileUpload";
 import { getCurrentUser } from "@/api/user";
 
 import type { GetServerSideProps } from "next";
+import { toast } from "react-hot-toast";
 
 const regionsServiced = [
 	{ id: 1, label: "North America", value: "northAmerica" },
@@ -20,16 +22,32 @@ const areasServices = [
 ];
 
 export default function Settings() {
+	const [avatarData, setAvatarData] = useState({});
+
 	const hiddenFileInput = useRef<HTMLInputElement>(null);
 
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
 		hiddenFileInput?.current?.click();
 	};
 
-	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.currentTarget.files?.[0];
 
+		if (!file) {
+			return;
+		}
+
+		const fileList = [file];
 		// make a request to the backend
+		try {
+			const res = await uploadFiles(fileList);
+			const uploadFileData = res.uploadFileData;
+			const avatarDataResponse = uploadFileData?.[0];
+
+			setAvatarData(avatarDataResponse);
+		} catch (err) {
+			toast.error("error uploading image");
+		}
 	};
 
 	return (
@@ -104,6 +122,7 @@ export default function Settings() {
 											type="text"
 											placeholder="fikafreight@gmail.com"
 											className="input w-full border-neutral"
+											disabled
 										/>
 									</div>
 								</div>
@@ -165,7 +184,7 @@ export default function Settings() {
 								</div>
 								<div className="flex flex-col flex-wrap gap-4 w-full">
 									<div className="flex flex-row gap-2 w-5/12">
-										<label className="">Smartphone access available to drivers?</label>
+										<label className="9o">Smartphone access available to drivers?</label>
 										<input type="checkbox" className="checkbox border-neutral" />
 									</div>
 									<div className="flex flex-row gap-2 w-5/12">
