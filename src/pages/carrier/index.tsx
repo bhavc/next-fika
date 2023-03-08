@@ -1,24 +1,34 @@
-import { GetServerSideProps } from "next";
+import Link from "next/link";
+
+import { getCurrentUser } from "@/api/user";
+
+import { doesUserRequireSettings } from "@/features/Carrier/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 
-import { getCurrentUser } from "@/api/user";
+import type { GetServerSideProps } from "next";
+import type { UserCarrier } from "@/features/Carrier/types";
+
 import AlertIcon from "public/svg/alert-circle.svg";
 
-export default function Carrier({ userData }: { userData: any }) {
-	const isVerified = false;
-
+export default function Carrier({ requiresVerify }: { requiresVerify: boolean }) {
 	return (
 		<>
 			<CarrierLayout>
 				<main>
-					{!isVerified && (
-						<div className="alert alert-info shadow-lg absolute top-20 z-10">
-							<div>
-								<AlertIcon />
-								<span className="text-white">
-									Save all of your files to upload in the final section
-								</span>
+					{requiresVerify && (
+						<div className="flex align-middle justify-center">
+							<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
+								<div>
+									<AlertIcon />
+									<span className="text-white">
+										Before you get started, we need some information from you. Head over to the{" "}
+										<Link href="/carrier/settings" className="underline">
+											settings
+										</Link>{" "}
+										page.
+									</span>
+								</div>
 							</div>
 						</div>
 					)}
@@ -47,7 +57,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
-	let userData = {};
+	let userData: UserCarrier = {
+		id: null,
+		first_name: null,
+		last_name: null,
+		company_name: "",
+		phone_number: null,
+		emergency_numbers: null,
+		gender: null,
+		languages_supported: null,
+		smartphone_access: null,
+		livetracking_available: null,
+		dashcam_setup: null,
+		areas_serviced: null,
+		region_serviced: null,
+		bucket_storage_urls: null,
+		created_at: "",
+		modified_at: "",
+		role: ""
+	};
 
 	if (!userToken) {
 		return {
@@ -67,10 +95,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// TODO check the users role and redirect in that case
 	// check if the user has verified their info and if not, correct the issue
+	const requiresVerify = doesUserRequireSettings(userData);
 
 	return {
 		props: {
-			userData
+			userData,
+			requiresVerify
 		}
 	};
 };

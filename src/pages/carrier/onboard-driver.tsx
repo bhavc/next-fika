@@ -1,16 +1,41 @@
-import type { GetServerSideProps } from "next";
+import Link from "next/link";
 
 import { getCurrentUser } from "@/api/user";
 
+import { doesUserRequireSettings } from "@/features/Carrier/helpers";
+
 import CarrierLayout from "@/layouts/CarrierLayout";
 
-export default function OnboardDriver() {
+import type { GetServerSideProps } from "next";
+import type { UserCarrier } from "@/features/Carrier/types";
+
+import AlertIcon from "public/svg/alert-circle.svg";
+
+export default function OnboardDriver({ requiresVerify }: { requiresVerify: boolean }) {
 	return (
 		<>
 			<CarrierLayout>
-				<main className="items-center justify-center">
-					<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
-						<h1 className="text-3xl text-left mb-4">Onboard Driver</h1>
+				<main>
+					{requiresVerify && (
+						<div className="flex align-middle justify-center mt-4">
+							<div className="alert alert-info shadow-lg w-5/6">
+								<div>
+									<AlertIcon />
+									<span className="text-white">
+										Before you get started, we need some information from you. Head over to the{" "}
+										<Link href="/carrier/settings" className="underline">
+											settings
+										</Link>{" "}
+										page.
+									</span>
+								</div>
+							</div>
+						</div>
+					)}
+					<div className="items-center justify-center">
+						<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
+							<h1 className="text-3xl text-left mb-4">Onboard Driver</h1>
+						</div>
 					</div>
 				</main>
 			</CarrierLayout>
@@ -23,7 +48,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
-	let userData = {};
+	let userData: UserCarrier = {
+		id: null,
+		first_name: null,
+		last_name: null,
+		company_name: "",
+		phone_number: null,
+		emergency_numbers: null,
+		gender: null,
+		languages_supported: null,
+		smartphone_access: null,
+		livetracking_available: null,
+		dashcam_setup: null,
+		areas_serviced: null,
+		region_serviced: null,
+		bucket_storage_urls: null,
+		created_at: "",
+		modified_at: "",
+		role: ""
+	};
 
 	if (!userToken) {
 		return {
@@ -41,9 +84,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		console.log("err", err);
 	}
 
+	const requiresVerify = doesUserRequireSettings(userData);
+
 	return {
 		props: {
-			userData
+			userData,
+			requiresVerify
 		}
 	};
 };

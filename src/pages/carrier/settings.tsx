@@ -3,8 +3,11 @@ import CarrierLayout from "@/layouts/CarrierLayout";
 
 import { uploadFiles } from "@/api/fileUpload";
 import { getCurrentUser } from "@/api/user";
+import { doesUserRequireSettings } from "@/features/Carrier/helpers";
 
 import type { GetServerSideProps } from "next";
+import type { UserCarrier } from "@/features/Carrier/types";
+
 import { toast } from "react-hot-toast";
 
 const regionsServiced = [
@@ -21,7 +24,9 @@ const areasServices = [
 	{ id: 4, label: "Cross Border", value: "crossBorder" }
 ];
 
-export default function Settings() {
+export default function Settings({ userData }: { userData: UserCarrier }) {
+	console.log("userData", userData);
+
 	const [avatarData, setAvatarData] = useState({});
 
 	const hiddenFileInput = useRef<HTMLInputElement>(null);
@@ -118,6 +123,10 @@ export default function Settings() {
 									</div>
 									<div className="flex flex-col gap-2 w-5/12">
 										<label className="text-xl">Email</label>
+										<p className="text-sm pl-4">
+											*Can not change email at this time. If you would like to change your email,
+											please reach out to us
+										</p>
 										<input
 											type="text"
 											placeholder="fikafreight@gmail.com"
@@ -210,7 +219,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
-	let userData = {};
+	let userData: UserCarrier = {
+		id: null,
+		first_name: null,
+		last_name: null,
+		company_name: "",
+		phone_number: null,
+		emergency_numbers: null,
+		gender: null,
+		languages_supported: null,
+		smartphone_access: null,
+		livetracking_available: null,
+		dashcam_setup: null,
+		areas_serviced: null,
+		region_serviced: null,
+		bucket_storage_urls: null,
+		created_at: "",
+		modified_at: "",
+		role: ""
+	};
 
 	if (!userToken) {
 		return {
@@ -227,8 +254,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	} catch (err) {
 		console.log("err", err);
 	}
-
-	console.log("userData", userData);
 
 	return {
 		props: {

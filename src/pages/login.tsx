@@ -23,6 +23,7 @@ export default function Login() {
 
 		try {
 			const response = await postLogin(data);
+
 			const token = response.token;
 			const user = response.user;
 
