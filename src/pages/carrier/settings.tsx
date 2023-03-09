@@ -36,6 +36,7 @@ export type WorkflowFormAddressInputs = {
 	clientCompanyPhone: string;
 	clientCompanyEmergencyPhone: string;
 	clientCompanyEmail: string;
+	clientCompanyPassword: string;
 	clientRegionsServiced: string[];
 	clientAreasServiced: string[];
 	clientLanguagesSupported: string[];
@@ -252,6 +253,20 @@ export default function Settings({
 												className="input w-full border-neutral"
 												disabled
 												{...register("clientCompanyEmail")}
+											/>
+										</div>
+										<div className="flex flex-col gap-2 w-full sm:w-1/2">
+											<label className="text-xl">Password</label>
+											<p className="text-sm pl-4 text-slate-500">
+												*Can not change password at this time. If you would like to change your
+												password, please reach out to us
+											</p>
+											<input
+												type="text"
+												placeholder="********"
+												className="input w-full border-neutral"
+												disabled
+												{...register("clientCompanyPassword")}
 											/>
 										</div>
 									</div>
