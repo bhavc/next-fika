@@ -37,7 +37,6 @@ export default function NewWorkflowFormAddress({
 		register,
 		handleSubmit,
 		control,
-		watch,
 		formState: { errors }
 	} = useForm<WorkflowFormAddressInputs>({
 		defaultValues: {

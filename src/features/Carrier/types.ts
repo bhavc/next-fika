@@ -1,8 +1,10 @@
 export type UserCarrier = {
+	// todo add company address
 	id: number | null;
 	first_name: string | null;
 	last_name: string | null;
 	company_name: string;
+	company_address: string | null;
 	phone_number: string | null;
 	emergency_numbers: string | null;
 	gender: string | null;

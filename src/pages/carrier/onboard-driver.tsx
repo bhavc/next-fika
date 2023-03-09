@@ -18,7 +18,7 @@ export default function OnboardDriver({ requiresVerify }: { requiresVerify: bool
 				<main>
 					{requiresVerify && (
 						<div className="flex align-middle justify-center mt-4">
-							<div className="alert alert-info shadow-lg w-5/6">
+							<div className="alert alert-info align-middle justify-center shadow-lg w-5/6">
 								<div>
 									<AlertIcon />
 									<span className="text-white">
@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		first_name: null,
 		last_name: null,
 		company_name: "",
+		company_address: "",
 		phone_number: null,
 		emergency_numbers: null,
 		gender: null,
