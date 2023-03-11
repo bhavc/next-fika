@@ -6,7 +6,7 @@ import Image from "next/image";
 import CarrierLayout from "@/layouts/CarrierLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
 
-import { uploadFiles } from "@/api/fileUpload";
+import { updateProfileImage } from "@/api/fileUpload";
 import { getCurrentUser, editUserData } from "@/api/user";
 
 import { doesUserRequireSettings } from "@/features/Carrier/helpers";
@@ -54,6 +54,8 @@ export default function Settings({
 	requiresVerify: boolean;
 	userToken: string;
 }) {
+	console.log("userData", userData);
+
 	const clientCompanyName = userData.company_name;
 	const clientCompanyAddress = userData.company_address || "";
 	const clientCompanyPhone = userData.phone_number || "";
@@ -64,6 +66,9 @@ export default function Settings({
 	const clientHasSmartphoneAccess = Boolean(userData.smartphone_access);
 	const clientHasLiveTracking = Boolean(userData.livetracking_available);
 	const clientHasDashcam = Boolean(userData.dashcam_setup);
+	const clientAvatar = userData.avatar_image_data;
+
+	console.log("clientAvatar", clientAvatar);
 
 	const {
 		register,
@@ -85,12 +90,18 @@ export default function Settings({
 		}
 	});
 
-	const [avatarData, setAvatarData] = useState<{ url: string }>({ url: "" });
+	const [avatarData, setAvatarData] = useState<{
+		url: string;
+		name: string;
+		type: string;
+		blobName: string;
+	}>(clientAvatar);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const hiddenFileInput = useRef<HTMLInputElement>(null);
 
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
+		event.preventDefault();
 		hiddenFileInput?.current?.click();
 	};
 
@@ -112,11 +123,12 @@ export default function Settings({
 		const fileList = [file];
 		// make a request to the backend
 		try {
-			const res = await uploadFiles(fileList);
-			const uploadFileData = res.uploadFileData;
-			const avatarDataResponse = uploadFileData?.[0];
+			const res = await updateProfileImage(userToken, fileList);
+			console.log("res", res);
+			const avatarDataResponse = res.data;
 
 			setAvatarData(avatarDataResponse);
+			toast.success(res.message);
 		} catch (err) {
 			toast.error("Error uploading image. Please try again later");
 		} finally {
@@ -126,10 +138,7 @@ export default function Settings({
 
 	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
 		try {
-			console.log("submit data", data);
-			console.log("user token", userToken);
 			const response = await editUserData(userToken, data);
-			console.log("response", response);
 
 			toast.success(response.message);
 		} catch (err) {
@@ -139,6 +148,7 @@ export default function Settings({
 	};
 
 	const mapImageUploadStatusToComponent = () => {
+		console.log("avatarData", avatarData);
 		if (avatarData) {
 			return <Image src={avatarData.url} alt="profile" width={24} height={24} />;
 		} else if (isLoading) {
@@ -175,7 +185,6 @@ export default function Settings({
 										<div className="ml-8">
 											<input
 												type="file"
-												id="imgupload"
 												className="hidden"
 												ref={hiddenFileInput}
 												onChange={handleFileChange}
@@ -414,6 +423,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		dashcam_setup: null,
 		areas_serviced: null,
 		region_serviced: null,
+		avatar_image_data: null,
 		bucket_storage_urls: null,
 		created_at: "",
 		modified_at: "",

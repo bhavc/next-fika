@@ -14,6 +14,7 @@ export type UserCarrier = {
 	dashcam_setup: boolean | null;
 	areas_serviced: string[] | null;
 	region_serviced: string[] | null;
+	avatar_image_data: any | null;
 	bucket_storage_urls: any[] | null;
 	created_at: string;
 	modified_at: string;

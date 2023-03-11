@@ -23,7 +23,7 @@ export const Fetch = async ({ method, userToken, body, url, isFormData }: FetchP
 	const response = await fetch(`${BASE_URL}/${url}`, {
 		headers,
 		method,
-		body: JSON.stringify(body)
+		body: isFormData ? body : JSON.stringify(body)
 	});
 
 	return response;
