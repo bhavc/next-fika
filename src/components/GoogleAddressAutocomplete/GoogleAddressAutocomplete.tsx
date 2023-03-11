@@ -64,6 +64,7 @@ export default function GoogleAddressAutocomplete({
 					}`}
 					onChange={handleAddressChange}
 					value={address}
+					placeholder="123 Edward Street, Toronto, ON, Canada"
 				/>
 			</div>
 			{placePredictions && placePredictions.length > 0 && (

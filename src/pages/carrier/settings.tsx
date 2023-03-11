@@ -7,7 +7,7 @@ import CarrierLayout from "@/layouts/CarrierLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
 
 import { uploadFiles } from "@/api/fileUpload";
-import { getCurrentUser } from "@/api/user";
+import { getCurrentUser, editUserData } from "@/api/user";
 
 import { doesUserRequireSettings } from "@/features/Carrier/helpers";
 
@@ -47,10 +47,12 @@ export type WorkflowFormAddressInputs = {
 
 export default function Settings({
 	userData,
-	requiresVerify
+	requiresVerify,
+	userToken
 }: {
 	userData: UserCarrier;
 	requiresVerify: boolean;
+	userToken: string;
 }) {
 	const clientCompanyName = userData.company_name;
 	const clientCompanyAddress = userData.company_address || "";
@@ -122,8 +124,18 @@ export default function Settings({
 		}
 	};
 
-	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = (data) => {
-		console.log("submit data", data);
+	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
+		try {
+			console.log("submit data", data);
+			console.log("user token", userToken);
+			const response = await editUserData(userToken, data);
+			console.log("response", response);
+
+			toast.success(response.message);
+		} catch (err) {
+			console.log(err);
+			toast.error("Error updating user");
+		}
 	};
 
 	const mapImageUploadStatusToComponent = () => {
@@ -428,6 +440,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
+			userToken,
 			userData,
 			requiresVerify
 		}

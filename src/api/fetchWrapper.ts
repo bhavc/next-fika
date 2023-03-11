@@ -5,26 +5,16 @@ interface FetchProps {
 	userToken?: string;
 	body?: any;
 	url: string;
-	isAuthRoute?: boolean;
 	isFormData?: boolean;
 	// headers: { [key: string]: string };
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const Fetch = async ({
-	method,
-	userToken,
-	body,
-	url,
-	isAuthRoute,
-	isFormData
-}: FetchProps) => {
-	const headers: { [key: string]: string } = {};
-
-	if (isAuthRoute) {
-		headers.Authorization = `Bearer ${userToken}`;
-	}
+export const Fetch = async ({ method, userToken, body, url, isFormData }: FetchProps) => {
+	const headers: { [key: string]: string } = {
+		Authorization: `Bearer ${userToken}`
+	};
 
 	if (!isFormData) {
 		headers["Content-Type"] = "application/json";
