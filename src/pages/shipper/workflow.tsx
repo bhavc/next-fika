@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
@@ -136,6 +136,13 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		setUploadedFiles(data);
 	};
 
+	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
+	};
+
 	useEffect(() => {
 		const element = document.getElementById("workflowHeader");
 		element?.scrollIntoView({ behavior: "smooth" });
@@ -207,6 +214,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								handleUploadedFiles={handleUploadedFiles}
 								handleGoBack={handleGoBack}
 								userToken={userToken}
+								handleUploadedFileRemove={handleUploadedFileRemove}
 							/>
 						)}
 						{step === 4 && (

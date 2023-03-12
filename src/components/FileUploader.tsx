@@ -1,18 +1,21 @@
-import { useState, InputHTMLAttributes } from "react";
+import { useState, MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDropzone } from "react-dropzone";
 import { uploadFiles } from "@/api/fileUpload";
 import { toast } from "react-hot-toast";
 
+import CloseIcon from "public/svg/icon-x.svg";
 import FileUploadIcon from "public/svg/file-upload.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
+import TrashIcon from "public/svg/trash.svg";
 
 interface FileUploaderProps {
 	uploadedFiles: any[];
 	handleUploadedFiles: (data: any[]) => void;
 	userToken: string;
+	handleUploadedFileRemove: (event: MouseEvent<HTMLElement>, key: number) => void;
 }
 
 type ResponseType = {
@@ -25,7 +28,8 @@ type ResponseType = {
 export default function FileUploader({
 	uploadedFiles,
 	handleUploadedFiles,
-	userToken
+	userToken,
+	handleUploadedFileRemove
 }: FileUploaderProps) {
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -92,33 +96,46 @@ export default function FileUploader({
 				<div className="flex flex-col gap-4 mt-4">
 					{imageFiles?.map((file, key) => {
 						return (
-							<Link href={file.url} key={key} target="_blank">
-								<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
-									<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
-									<div className="flex justify-center items-center">
-										<h2>{file.name}</h2>
+							<div key={key} className="bg-secondary">
+								<Link href={file.url} key={key} target="_blank">
+									<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
+										<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
+										<div className="flex justify-center items-center">
+											<h2>{file.name}</h2>
+										</div>
 									</div>
-								</div>
-							</Link>
+								</Link>
+								<button className="absolute right-0">
+									<CloseIcon />
+								</button>
+							</div>
 						);
 					})}
 				</div>
 				<div className="flex flex-col gap-4">
 					{nonImageFiles?.map((file, key) => {
 						return (
-							<Link href={file.url} key={key} target="_blank">
-								<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
-									{file.type === "application/pdf" ? (
-										<PDFIcon height={48} width={48} />
-									) : (
-										<TextIcon height={48} width={48} />
-									)}
+							<div key={key} className="flex">
+								<Link href={file.url} target="_blank">
+									<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
+										{file.type === "application/pdf" ? (
+											<PDFIcon height={48} width={48} />
+										) : (
+											<TextIcon height={48} width={48} />
+										)}
 
-									<div className="flex justify-center items-center">
-										<h2>{file.name}</h2>
+										<div className="flex justify-center items-center">
+											<h2>{file.name}</h2>
+										</div>
 									</div>
-								</div>
-							</Link>
+								</Link>
+								<button
+									className="z-10 relative bottom-6 right-4 hover:opacity-75"
+									onClick={(e) => handleUploadedFileRemove(e, key)}
+								>
+									<TrashIcon width={30} height={30} />
+								</button>
+							</div>
 						);
 					})}
 				</div>

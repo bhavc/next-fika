@@ -1,4 +1,4 @@
-import { useState, useRef, MouseEvent, ChangeEvent, use } from "react";
+import { useState, useRef, MouseEvent, ChangeEvent } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
@@ -106,6 +106,13 @@ export default function Settings({
 
 	const handleUploadedFiles = (data: any[]) => {
 		setUploadedFiles(data);
+	};
+
+	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
 	};
 
 	const handleProfileImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -316,6 +323,7 @@ export default function Settings({
 													uploadedFiles={uploadedFiles}
 													handleUploadedFiles={handleUploadedFiles}
 													userToken={userToken}
+													handleUploadedFileRemove={handleUploadedFileRemove}
 												/>
 											</div>
 										</div>

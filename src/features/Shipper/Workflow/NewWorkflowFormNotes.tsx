@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import { MouseEvent } from "react";
 import FileUploader from "@/components/FileUploader";
 
 import IconRight from "public/svg/arrow-right.svg";
@@ -19,6 +19,7 @@ interface NewWorkflowFormNotesProps {
 	uploadedFiles: any[];
 	handleUploadedFiles: (data: any[]) => void;
 	userToken: string;
+	handleUploadedFileRemove: (event: MouseEvent<HTMLElement>, key: number) => void;
 }
 
 export default function NewWorkflowFormNotes({
@@ -27,7 +28,8 @@ export default function NewWorkflowFormNotes({
 	workflowFormNotesState,
 	uploadedFiles,
 	handleUploadedFiles,
-	userToken
+	userToken,
+	handleUploadedFileRemove
 }: NewWorkflowFormNotesProps) {
 	const {
 		register,
@@ -59,6 +61,7 @@ export default function NewWorkflowFormNotes({
 								uploadedFiles={uploadedFiles}
 								handleUploadedFiles={handleUploadedFiles}
 								userToken={userToken}
+								handleUploadedFileRemove={handleUploadedFileRemove}
 							/>
 						</div>
 					</div>
