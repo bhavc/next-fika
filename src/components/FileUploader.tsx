@@ -12,6 +12,7 @@ import TextIcon from "public/svg/file-text.svg";
 interface FileUploaderProps {
 	uploadedFiles: any[];
 	handleUploadedFiles: (data: any[]) => void;
+	userToken: string;
 }
 
 type ResponseType = {
@@ -20,8 +21,12 @@ type ResponseType = {
 	type: string;
 };
 
-export default function FileUploader({ uploadedFiles, handleUploadedFiles }: FileUploaderProps) {
-	// const [uploadedFiles, setUploadedFiles] = useState<ResponseType[]>([]);
+// TODO add tanstack react query here so usertoken can be passed in
+export default function FileUploader({
+	uploadedFiles,
+	handleUploadedFiles,
+	userToken
+}: FileUploaderProps) {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleOnDrop = async (
@@ -31,7 +36,7 @@ export default function FileUploader({ uploadedFiles, handleUploadedFiles }: Fil
 	) => {
 		try {
 			setIsLoading(true);
-			const res = await uploadFiles(acceptedFiles);
+			const res = await uploadFiles(userToken, acceptedFiles);
 
 			const uploadFileData = res.uploadFileData as ResponseType[];
 			handleUploadedFiles([...uploadedFiles, ...uploadFileData]);

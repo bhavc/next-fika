@@ -73,6 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		areasServiced: null,
 		regionServiced: null,
 		bucketStorageUrls: null,
+		insuranceFileData: null,
 		avatarImageData: null,
 		role: ""
 	};

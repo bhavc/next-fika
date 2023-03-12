@@ -206,6 +206,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								uploadedFiles={uploadedFiles}
 								handleUploadedFiles={handleUploadedFiles}
 								handleGoBack={handleGoBack}
+								userToken={userToken}
 							/>
 						)}
 						{step === 4 && (

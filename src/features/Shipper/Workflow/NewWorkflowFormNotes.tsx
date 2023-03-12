@@ -18,6 +18,7 @@ interface NewWorkflowFormNotesProps {
 	workflowFormNotesState: WorkflowFormNotesInputs;
 	uploadedFiles: any[];
 	handleUploadedFiles: (data: any[]) => void;
+	userToken: string;
 }
 
 export default function NewWorkflowFormNotes({
@@ -25,7 +26,8 @@ export default function NewWorkflowFormNotes({
 	handleSubmitWorkflow,
 	workflowFormNotesState,
 	uploadedFiles,
-	handleUploadedFiles
+	handleUploadedFiles,
+	userToken
 }: NewWorkflowFormNotesProps) {
 	const {
 		register,
@@ -56,6 +58,7 @@ export default function NewWorkflowFormNotes({
 							<FileUploader
 								uploadedFiles={uploadedFiles}
 								handleUploadedFiles={handleUploadedFiles}
+								userToken={userToken}
 							/>
 						</div>
 					</div>

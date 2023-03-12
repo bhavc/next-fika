@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
+import FileUploader from "@/components/FileUploader";
 
 import { updateProfileImage } from "@/api/fileUpload";
 import { getCurrentUser, editUserData } from "@/api/user";
@@ -65,6 +66,7 @@ export default function Settings({
 	const clientHasLiveTracking = Boolean(userData.hasLivetrackingAvailable);
 	const clientHasDashcam = Boolean(userData.hasDashcamSetup);
 	const clientAvatar = userData.avatarImageData;
+	const clientInsuranceFileData = userData.insuranceFileData || [];
 
 	const {
 		register,
@@ -93,6 +95,7 @@ export default function Settings({
 		blobName: string;
 	}>(clientAvatar);
 	const [isLoading, setIsLoading] = useState(true);
+	const [uploadedFiles, setUploadedFiles] = useState<any[]>(clientInsuranceFileData);
 
 	const hiddenFileInput = useRef<HTMLInputElement>(null);
 
@@ -101,7 +104,11 @@ export default function Settings({
 		hiddenFileInput?.current?.click();
 	};
 
-	const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+	const handleUploadedFiles = (data: any[]) => {
+		setUploadedFiles(data);
+	};
+
+	const handleProfileImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
 		setIsLoading(true);
 		const file = event.currentTarget.files?.[0];
 
@@ -133,7 +140,13 @@ export default function Settings({
 
 	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
 		try {
-			const response = await editUserData(userToken, data);
+			const profileSubmitData = {
+				...data,
+				carrierInsuranceFiles: uploadedFiles
+			};
+
+			const response = await editUserData(userToken, profileSubmitData);
+			// todo: add react query here
 
 			toast.success(response.message);
 		} catch (err) {
@@ -181,7 +194,7 @@ export default function Settings({
 												type="file"
 												className="hidden"
 												ref={hiddenFileInput}
-												onChange={handleFileChange}
+												onChange={handleProfileImageChange}
 											/>
 											<div>
 												<button className="avatar placeholder" onClick={handleClick}>
@@ -211,18 +224,19 @@ export default function Settings({
 												className={`input w-full ${
 													errors.clientCompanyName ? "border-error" : "border-neutral"
 												}`}
-												{...register("clientCompanyName", { required: true })}
+												{...register("clientCompanyName")}
 											/>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Address</label>
+												<p className="text-sm pl-4 text-error">*Required</p>
 											</div>
 											<Controller
 												name="clientCompanyAddress"
-												rules={{
-													required: true
-												}}
+												// rules={{
+												// 	required: true
+												// }}
 												control={control}
 												render={({ field: { onChange, value, name }, fieldState: { error } }) => (
 													<GoogleAddressAutocomplete
@@ -244,7 +258,7 @@ export default function Settings({
 												className={`input w-full ${
 													errors.clientCompanyPhone ? "border-error" : "border-neutral"
 												}`}
-												{...register("clientCompanyPhone", { required: true })}
+												{...register("clientCompanyPhone")}
 											/>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
@@ -253,7 +267,7 @@ export default function Settings({
 												type="text"
 												placeholder="+19671111567"
 												className="input w-full border-neutral"
-												{...(register("clientCompanyEmergencyPhone"), { required: false })}
+												{...register("clientCompanyEmergencyPhone")}
 											/>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
@@ -285,15 +299,36 @@ export default function Settings({
 											/>
 										</div>
 									</div>
-
 									<div className="divider" />
+
+									<div>
+										<h2 className="text-xl">Upload Files</h2>
+										<p className="text-sm pl-4 text-slate-500">
+											Add any and all documents relating to your insurance. Once validated, we will
+											clear your account so you can manage your deliveries
+										</p>
+										<p className="text-sm pl-4 text-slate-500">
+											*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)
+										</p>
+										<div className="my-2 w-full sm:w-1/2">
+											<div className="mt-1 flex">
+												<FileUploader
+													uploadedFiles={uploadedFiles}
+													handleUploadedFiles={handleUploadedFiles}
+													userToken={userToken}
+												/>
+											</div>
+										</div>
+									</div>
+									<div className="divider" />
+
 									<div className="flex flex-row gap-4 w-full mb-4">
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">
 													Specify Regions where you are able to ship to
 												</label>
-												<p className="text-sm pl-4 text-slate-500">*Select all that apply</p>
+												<p className="text-sm pl-4 text-error">*Required. Select all that apply</p>
 											</div>
 											<select
 												className={`select w-full max-w-s ${
@@ -301,7 +336,7 @@ export default function Settings({
 												}`}
 												defaultValue={[]}
 												multiple
-												{...register("clientAreasServiced", { required: true })}
+												{...register("clientAreasServiced")}
 											>
 												<option value="" disabled>
 													Choose a region
@@ -320,7 +355,7 @@ export default function Settings({
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Specify Areas serviced</label>
-												<p className="text-sm pl-4 text-slate-500">*Select all that apply</p>
+												<p className="text-sm pl-4 text-error">*Required. Select all that apply</p>
 											</div>
 											<select
 												className={`select w-full max-w-s ${
@@ -329,7 +364,7 @@ export default function Settings({
 												defaultValue={[]}
 												multiple
 												size={5}
-												{...register("clientRegionsServiced", { required: true })}
+												{...register("clientRegionsServiced")}
 											>
 												<option value="" disabled>
 													Choose an area
@@ -347,12 +382,13 @@ export default function Settings({
 									<div className="flex flex-row flex-wrap gap-4 w-full">
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<label className="text-xl">Languages Supported</label>
+											<p className="text-sm pl-4 text-error">*Required</p>
 											<textarea
 												placeholder="English, French, Swahili"
 												className={`input w-full h-20 ${
 													errors.clientLanguagesSupported ? "border-error" : "border-neutral"
 												} px-4 py-2`}
-												{...register("clientLanguagesSupported", { required: true })}
+												{...register("clientLanguagesSupported")}
 											/>
 										</div>
 									</div>
@@ -418,6 +454,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		areasServiced: null,
 		regionServiced: null,
 		bucketStorageUrls: null,
+		insuranceFileData: null,
 		avatarImageData: null,
 		role: ""
 	};

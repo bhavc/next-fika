@@ -3,17 +3,13 @@ import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
 export default function Logout() {
-	const [cookie, setCookie] = useCookies(["user"]);
+	const [cookie, setCookie, removeCookie] = useCookies(["user"]);
 	const router = useRouter();
 
 	useEffect(() => {
-		setCookie("user", "", {
-			maxAge: 0,
-			expires: new Date()
-		});
-
+		removeCookie("user");
 		router.push("/");
-	}, [router, setCookie]);
+	}, [router, removeCookie]);
 
 	return (
 		<div className="flex justify-center items-center center h-screen">
@@ -21,3 +17,5 @@ export default function Logout() {
 		</div>
 	);
 }
+
+// TODO delete cookie properly

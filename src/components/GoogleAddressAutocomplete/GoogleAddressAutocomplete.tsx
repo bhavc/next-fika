@@ -8,13 +8,15 @@ interface GoogleAddressAutocomplete {
 	onChange: any;
 	value: any;
 	name: string;
+	label?: string;
 }
 
 export default function GoogleAddressAutocomplete({
 	error,
 	value,
 	onChange,
-	name
+	name,
+	label
 }: GoogleAddressAutocomplete) {
 	const refContainer = useRef(null);
 	const { isOutsideRef } = useOutsideRef(refContainer);
@@ -55,7 +57,7 @@ export default function GoogleAddressAutocomplete({
 
 	return (
 		<div>
-			<label>Address*</label>
+			{label && <label>{label}</label>}
 			<div className="mt-1 flex rounded-md shadow-sm">
 				<input
 					type="text"

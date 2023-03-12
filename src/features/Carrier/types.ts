@@ -15,6 +15,7 @@ export type UserCarrier = {
 	areasServiced: string[] | null;
 	regionServiced: string[] | null;
 	avatarImageData: any | null;
+	insuranceFileData: { name: string; blobName: string; type: string }[] | null;
 	bucketStorageUrls: any[] | null;
 	role: string;
 };

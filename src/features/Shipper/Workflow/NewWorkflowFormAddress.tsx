@@ -128,6 +128,7 @@ export default function NewWorkflowFormAddress({
 							value={value}
 							name={name}
 							error={error}
+							label={"Address*"}
 						/>
 					)}
 				/>
@@ -217,6 +218,7 @@ export default function NewWorkflowFormAddress({
 								value={value}
 								name={name}
 								error={error}
+								label={"Address*"}
 							/>
 						)}
 					/>
