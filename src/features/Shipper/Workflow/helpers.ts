@@ -123,5 +123,5 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowS
 export const mapAddressToRegion = (address: string) => {
 	const splitAddress = address.split(",");
 	const country = splitAddress[splitAddress.length - 1];
-	return country;
+	return country.trim();
 };

@@ -54,8 +54,6 @@ export default function Settings({
 	requiresVerify: boolean;
 	userToken: string;
 }) {
-	console.log("userData", userData);
-
 	const clientCompanyName = userData.companyName;
 	const clientCompanyAddress = userData.companyAddress || "";
 	const clientCompanyPhone = userData.phoneNumber || "";

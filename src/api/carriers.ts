@@ -1,3 +1,6 @@
+import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
+import { Fetch } from "./fetchWrapper";
+
 const favoriteCarriers = [
 	{
 		id: 1,
@@ -67,27 +70,26 @@ const restCarriers = [
 	}
 ];
 
-export const getCarriers = async (userToken: string | undefined, region: string) => {
-	// const response = await fetch(`${BASE_URL}/auth/login`, {
-	// 	method: "POST",
-	// 	headers: {
-	// 		"Content-Type": "application/json",
-	// 		Authorization: `Bearer ${userToken}`
-	// 	},
-	// 	body: JSON.stringify(data)
-	// });
+// export const getCarriers = async (userToken: string | undefined, region: string) => {
+// 	const carriers = {
+// 		favoriteCarriers,
+// 		restCarriers
+// 	};
 
-	// if (!response.ok) {
-	// 	const text = await response.text();
-	// 	throw new Error(text);
-	// }
+// 	return carriers;
+// };
 
-	// return response.json();
+export const getCarriers = async (userToken: string | undefined, carrierCountry: string) => {
+	const response = await Fetch({
+		method: "GET",
+		userToken,
+		url: `user/getCarrierByRegion/${carrierCountry}`
+	});
 
-	const carriers = {
-		favoriteCarriers,
-		restCarriers
-	};
+	if (!response.ok) {
+		const errorMessage = await response.text();
+		throw new Error(errorMessage);
+	}
 
-	return carriers;
+	return response.json();
 };

@@ -18,6 +18,7 @@ import NewWorkflowFormReview from "@/features/Shipper/Workflow/NewWorkflowReview
 import { createWorkflow } from "@/api/workflow";
 
 import { FileType } from "@/features/Shipper/Workflow/types";
+import type { UserCarrier } from "../../features/Carrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 import { getCarriers } from "@/api/carriers";
@@ -80,17 +81,13 @@ export default function Workflow({ userToken }: { userToken: string }) {
 
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
 	const [selectedCarrier, setSelectedCarrier] = useState<number | null>(null);
-	const [carriers, setCarriers] = useState<{
-		favoriteCarriers: any[];
-		restCarriers: any[];
-	}>({
-		favoriteCarriers: [],
-		restCarriers: []
-	});
+	const [carriers, setCarriers] = useState<UserCarrier[]>([]);
 
 	// TODO handle this better
-	const handleSelectedCarrier = (carrierId: number) => {
-		setSelectedCarrier(carrierId);
+	const handleSelectedCarrier = (carrierId: number | null) => {
+		if (carrierId) {
+			setSelectedCarrier(carrierId);
+		}
 	};
 
 	const handleNextStep = () => {
@@ -146,21 +143,18 @@ export default function Workflow({ userToken }: { userToken: string }) {
 
 	useEffect(() => {
 		if (step === 1) {
-			const carrierRegion = mapAddressToRegion(workflowFormAddressState.pickupAddress);
-			getCarriers("userToken", carrierRegion)
+			const carrierCountry = mapAddressToRegion(workflowFormAddressState.pickupAddress);
+
+			getCarriers(userToken, carrierCountry)
 				.then((value) => {
-					setCarriers(value);
+					const responseData = value.data;
+					setCarriers(responseData);
 				})
 				.catch((err) => {
 					toast.error("Error getting a carrier list. Please try creating a delivery request later");
 				});
-			// if (!carriers) {
-			// 	toast.error("Error getting a carrier list. Please try creating a delivery request later");
-			// }
-
-			// setCarriers(carriers);
 		}
-	}, [step, workflowFormAddressState.pickupAddress]);
+	}, [step, workflowFormAddressState.pickupAddress, userToken]);
 
 	return (
 		<>
