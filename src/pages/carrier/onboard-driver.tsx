@@ -50,22 +50,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let userData: UserCarrier = {
 		id: null,
-		first_name: null,
-		last_name: null,
-		company_name: "",
-		company_address: "",
-		phone_number: null,
-		emergency_numbers: null,
+		firstName: null,
+		lastName: null,
+		companyName: "",
+		companyAddress: "",
+		phoneNumber: null,
+		emergencyNumbers: null,
 		gender: null,
-		languages_supported: null,
-		smartphone_access: null,
-		livetracking_available: null,
-		dashcam_setup: null,
-		areas_serviced: null,
-		region_serviced: null,
-		bucket_storage_urls: null,
-		created_at: "",
-		modified_at: "",
+		languagesSupported: null,
+		smartphoneAccess: null,
+		livetrackingAvailable: null,
+		dashcamSetup: null,
+		areasServiced: null,
+		regionServiced: null,
+		bucketStorageUrls: null,
+		avatarImageData: null,
 		role: ""
 	};
 
@@ -79,8 +78,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const responseData = await getCurrentUser(userToken);
-		userData = responseData;
+		const response = await getCurrentUser(userToken);
+		userData = response.data;
 	} catch (err) {
 		console.log("err", err);
 	}

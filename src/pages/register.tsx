@@ -163,7 +163,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let userData;
 
 	try {
-		userData = await getCurrentUser(userToken);
+		const response = await getCurrentUser(userToken);
+		userData = response.data;
 	} catch (err) {
 		userData = null;
 	}

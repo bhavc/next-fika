@@ -1,22 +1,20 @@
 export type UserCarrier = {
 	// todo add company address
 	id: number | null;
-	first_name: string | null;
-	last_name: string | null;
-	company_name: string;
-	company_address: string | null;
-	phone_number: string | null;
-	emergency_numbers: string | null;
+	firstName: string | null;
+	lastName: string | null;
+	companyName: string;
+	companyAddress: string | null;
+	phoneNumber: string | null;
+	emergencyNumbers: string | null;
 	gender: string | null;
-	languages_supported: string[] | null;
-	smartphone_access: boolean | null;
-	livetracking_available: boolean | null;
-	dashcam_setup: boolean | null;
-	areas_serviced: string[] | null;
-	region_serviced: string[] | null;
-	avatar_image_data: any | null;
-	bucket_storage_urls: any[] | null;
-	created_at: string;
-	modified_at: string;
+	languagesSupported: string[] | null;
+	hasSmartphoneAccess: boolean | null;
+	hasLivetrackingAvailable: boolean | null;
+	hasDashcamSetup: boolean | null;
+	areasServiced: string[] | null;
+	regionServiced: string[] | null;
+	avatarImageData: any | null;
+	bucketStorageUrls: any[] | null;
 	role: string;
 };

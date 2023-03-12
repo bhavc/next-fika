@@ -28,7 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// need to validate user here
 	try {
-		userData = await getCurrentUser(userToken);
+		const response = await getCurrentUser(userToken);
+		userData = response.data;
 	} catch (err) {
 		userData = null;
 	}

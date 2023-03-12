@@ -56,19 +56,17 @@ export default function Settings({
 }) {
 	console.log("userData", userData);
 
-	const clientCompanyName = userData.company_name;
-	const clientCompanyAddress = userData.company_address || "";
-	const clientCompanyPhone = userData.phone_number || "";
-	const clientCompanyEmergencyPhone = userData.emergency_numbers || "";
-	const clientRegionsServiced = userData.region_serviced || [];
-	const clientAreasServiced = userData.areas_serviced || [];
-	const clientLanguagesSupported = userData.languages_supported || [];
-	const clientHasSmartphoneAccess = Boolean(userData.smartphone_access);
-	const clientHasLiveTracking = Boolean(userData.livetracking_available);
-	const clientHasDashcam = Boolean(userData.dashcam_setup);
-	const clientAvatar = userData.avatar_image_data;
-
-	console.log("clientAvatar", clientAvatar);
+	const clientCompanyName = userData.companyName;
+	const clientCompanyAddress = userData.companyAddress || "";
+	const clientCompanyPhone = userData.phoneNumber || "";
+	const clientCompanyEmergencyPhone = userData.emergencyNumbers || "";
+	const clientRegionsServiced = userData.regionServiced || [];
+	const clientAreasServiced = userData.areasServiced || [];
+	const clientLanguagesSupported = userData.languagesSupported || [];
+	const clientHasSmartphoneAccess = Boolean(userData.hasSmartphoneAccess);
+	const clientHasLiveTracking = Boolean(userData.hasLivetrackingAvailable);
+	const clientHasDashcam = Boolean(userData.hasDashcamSetup);
+	const clientAvatar = userData.avatarImageData;
 
 	const {
 		register,
@@ -124,7 +122,6 @@ export default function Settings({
 		// make a request to the backend
 		try {
 			const res = await updateProfileImage(userToken, fileList);
-			console.log("res", res);
 			const avatarDataResponse = res.data;
 
 			setAvatarData(avatarDataResponse);
@@ -142,13 +139,12 @@ export default function Settings({
 
 			toast.success(response.message);
 		} catch (err) {
-			console.log(err);
+			console.log("err", err);
 			toast.error("Error updating user");
 		}
 	};
 
 	const mapImageUploadStatusToComponent = () => {
-		console.log("avatarData", avatarData);
 		if (avatarData) {
 			return <Image src={avatarData.url} alt="profile" width={24} height={24} />;
 		} else if (isLoading) {
@@ -356,7 +352,7 @@ export default function Settings({
 											<textarea
 												placeholder="English, French, Swahili"
 												className={`input w-full h-20 ${
-													errors.clientAreasServiced ? "border-error" : "border-neutral"
+													errors.clientLanguagesSupported ? "border-error" : "border-neutral"
 												} px-4 py-2`}
 												{...register("clientLanguagesSupported", { required: true })}
 											/>
@@ -410,23 +406,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let userData: UserCarrier = {
 		id: null,
-		first_name: null,
-		last_name: null,
-		company_name: "",
-		company_address: "",
-		phone_number: null,
-		emergency_numbers: null,
+		firstName: null,
+		lastName: null,
+		companyName: "",
+		companyAddress: "",
+		phoneNumber: null,
+		emergencyNumbers: null,
 		gender: null,
-		languages_supported: null,
-		smartphone_access: null,
-		livetracking_available: null,
-		dashcam_setup: null,
-		areas_serviced: null,
-		region_serviced: null,
-		avatar_image_data: null,
-		bucket_storage_urls: null,
-		created_at: "",
-		modified_at: "",
+		languagesSupported: null,
+		hasSmartphoneAccess: null,
+		hasLivetrackingAvailable: null,
+		hasDashcamSetup: null,
+		areasServiced: null,
+		regionServiced: null,
+		bucketStorageUrls: null,
+		avatarImageData: null,
 		role: ""
 	};
 
@@ -440,8 +434,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const responseData = await getCurrentUser(userToken);
-		userData = responseData;
+		const response = await getCurrentUser(userToken);
+		userData = response.data;
 	} catch (err) {
 		console.log("err", err);
 	}
