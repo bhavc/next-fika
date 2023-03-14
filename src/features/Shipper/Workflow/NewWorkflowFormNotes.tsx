@@ -5,9 +5,6 @@ import FileUploader from "@/components/FileUploader";
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
 
-// TODO There will be a new workflow form for mobile
-// and a new workflow form for desktop
-
 export type WorkflowFormNotesInputs = {
 	notes: string;
 };
@@ -43,9 +40,6 @@ export default function NewWorkflowFormNotes({
 
 	const onSubmit: SubmitHandler<WorkflowFormNotesInputs> = (data) => {
 		handleSubmitWorkflow(data);
-
-		// TODO
-		// make a request to the backend, register the user
 	};
 
 	return (

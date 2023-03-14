@@ -8,10 +8,12 @@ interface WorkflowProps {
 }
 
 export default function Workflow({ workflow }: WorkflowProps) {
+	console.log("workflow", workflow);
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;
-	const uploadedFiles = workflow?.file_urls;
+	const uploadedFiles = workflow?.fileUrls;
+	const selectedCarrier = workflow.selectedCarrier;
 
 	const {
 		containerNumber,
@@ -62,8 +64,8 @@ export default function Workflow({ workflow }: WorkflowProps) {
 	const { notes } = workflowNotes;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-	const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
-	const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
+	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
+	// const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
 
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
@@ -139,6 +141,32 @@ export default function Workflow({ workflow }: WorkflowProps) {
 						) : (
 							<p>The price has already been determined by your trucking team</p>
 						)}
+					</div>
+				</div>
+				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+
+				{/* TODO: add details about the carrier */}
+				<h2 className="text-xl mb-2">Selected Carrier</h2>
+				<div className="flex flex-col items-center justify-center">
+					<div className="card w-96 bg-base-100 shadow-xl">
+						<div className="card-body">
+							<h2 className="card-title">
+								{selectedCarrier?.companyName}
+								<div className="badge badge-secondary">Used Before</div>
+							</h2>
+							<p>We serve this best in the North American and African regions!</p>
+
+							{/* TODO change this to a better label value */}
+							<div className="card-actions justify-end">
+								{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
+									return (
+										<div key={index} className="badge badge-outline">
+											{areaServiced}
+										</div>
+									);
+								})}
+							</div>
+						</div>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

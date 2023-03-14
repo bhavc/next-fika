@@ -95,7 +95,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = response.data;
 	} catch (err) {
 		workflowData = null;
-		console.log("err", err);
+		console.info("err", err);
 	}
 
 	const requiresVerify = doesUserRequireSettings(userData);

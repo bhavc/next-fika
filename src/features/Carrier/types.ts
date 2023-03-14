@@ -1,5 +1,4 @@
 export type UserCarrier = {
-	// todo add company address
 	id: number | null;
 	firstName: string | null;
 	lastName: string | null;

@@ -1,6 +1,9 @@
 import { WorkflowFormAddressInputs } from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
 import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
 import { WorkflowFormNotesInputs } from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
+
+import type { UserCarrier } from "../../Carrier/types";
+
 import Image from "next/image";
 import Link from "next/link";
 import IconLeft from "public/svg/arrow-left.svg";
@@ -11,6 +14,7 @@ interface NewWorkflowFormNotesProps {
 	workflowFormAddressState: WorkflowFormAddressInputs;
 	workflowFormContainerDetailsState: WorkflowFormContainerDetailsInputs;
 	workflowFormNotesState: WorkflowFormNotesInputs;
+	selectedCarrier?: UserCarrier;
 	handleGoBack: () => void;
 	handleSubmit: () => void;
 	uploadedFiles: any[];
@@ -20,6 +24,7 @@ export default function NewWorkflowFormReview({
 	workflowFormAddressState,
 	workflowFormContainerDetailsState,
 	workflowFormNotesState,
+	selectedCarrier,
 	handleGoBack,
 	handleSubmit,
 	uploadedFiles
@@ -156,6 +161,32 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
+				{/* TODO: add details about the carrier */}
+				<h2 className="text-xl mb-2">Selected Carrier</h2>
+				<div className="flex flex-col items-center justify-center">
+					<div className="card w-96 bg-base-100 shadow-xl">
+						<div className="card-body">
+							<h2 className="card-title">
+								{selectedCarrier?.companyName}
+								<div className="badge badge-secondary">Used Before</div>
+							</h2>
+							<p>We serve this best in the North American and African regions!</p>
+
+							{/* TODO change this to a better label value */}
+							<div className="card-actions justify-end">
+								{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
+									return (
+										<div key={index} className="badge badge-outline">
+											{areaServiced}
+										</div>
+									);
+								})}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+
 				<div>
 					<h2 className="text-xl mb-2">Goods Description:</h2>
 					<div className="ml-28">
@@ -164,7 +195,6 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
 					<div>
@@ -269,7 +299,7 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{imageFiles && imageFiles.length > 0 && (
+				{uploadedFiles && uploadedFiles.length > 0 && (
 					<div>
 						<h2 className="text-xl mb-4">Your uploaded files: </h2>
 						<div className="flex flex-col gap-4">

@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		const response = await getCurrentUser(userToken);
 		userData = response.data;
 	} catch (err) {
-		console.log("err", err);
+		console.info("err", err);
 	}
 
 	// TODO check the users role and redirect in that case

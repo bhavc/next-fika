@@ -45,7 +45,6 @@ export default function FileUploader({
 			const uploadFileData = res.uploadFileData as ResponseType[];
 			handleUploadedFiles([...uploadedFiles, ...uploadFileData]);
 		} catch (err) {
-			// TODO throw a snackbar here
 			toast.error("Error uploading file.");
 		} finally {
 			setIsLoading(false);

@@ -7,12 +7,16 @@ import Badge from "@/components/Badge";
 import { formatDateStringToDate } from "@/utils/time";
 import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
 
-export default function WorkflowTableList({ workflows }: { workflows: any[] }) {
-	const rows = workflows.map((workflow, index) => {
-		const { workflowAddressData, status, created_at, id } = workflow;
-		const { pickupAddress, dropoffAddress } = workflowAddressData;
+import type { WorkflowType } from "./types";
 
-		const formattedDate = formatDateStringToDate(created_at);
+export default function WorkflowTableList({ workflows }: { workflows: WorkflowType[] }) {
+	const rows = workflows.map((workflow, index) => {
+		const { workflowAddressData, status, createdAt, id } = workflow;
+
+		const pickupAddress = workflowAddressData.pickupAddress;
+		const dropoffAddress = workflowAddressData.dropoffAddress;
+
+		const formattedDate = formatDateStringToDate(createdAt);
 		const badgeColor = mapWorkflowTableListBadgeColorToStatus(status);
 		return (
 			<tr key={index}>

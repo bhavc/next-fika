@@ -80,13 +80,13 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	});
 
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
-	const [selectedCarrier, setSelectedCarrier] = useState<number | null>(null);
+	const [selectedCarrier, setSelectedCarrier] = useState<UserCarrier | undefined>(undefined);
 	const [carriers, setCarriers] = useState<UserCarrier[]>([]);
 
-	// TODO handle this better
 	const handleSelectedCarrier = (carrierId: number | null) => {
 		if (carrierId) {
-			setSelectedCarrier(carrierId);
+			const mappedCarrier = carriers.find((carrier) => carrier.id === carrierId);
+			setSelectedCarrier(mappedCarrier);
 		}
 	};
 
@@ -120,6 +120,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			workflowAddressData: workflowFormAddressState,
 			workflowContainerData: workflowFormContainerDetailsState,
 			workflowNotes: workflowFormNotesState,
+			selectedCarrier,
 			uploadedFiles
 		};
 
@@ -222,6 +223,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								workflowFormAddressState={workflowFormAddressState}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
 								workflowFormNotesState={workflowFormNotesState}
+								selectedCarrier={selectedCarrier}
 								uploadedFiles={uploadedFiles}
 								handleGoBack={handleGoBack}
 								handleSubmit={handleSubmitReview}

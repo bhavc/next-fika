@@ -1,3 +1,5 @@
+import { UserCarrier } from "@/features/Carrier/types";
+
 export type WorkflowStatus =
 	| "Draft"
 	| "Triage"
@@ -68,11 +70,12 @@ export type WorkflowType = {
 	id: string;
 	user_for: string;
 	status: WorkflowStatus;
+	selectedCarrier: UserCarrier;
 	workflowAddressData: WorkflowAddressDataType;
 	workflowContainerData: WorkflowContainerDataType;
 	workflowNotes: WorkflowNotesType;
 	uploadedFiles: FileType[];
-	file_urls: FileType[];
-	created_at: string;
-	modified_at: string;
+	fileUrls: FileType[];
+	createdAt: string;
+	modifiedAt: string;
 };

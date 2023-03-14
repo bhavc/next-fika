@@ -12,8 +12,7 @@ import IconLeft from "public/svg/arrow-left.svg";
 // TODO add pagination
 
 interface NewWorkflowFormSelectCarrierProps {
-	selectedCarrier: number | null;
-	// carriers: { favoriteCarriers: any[]; restCarriers: any[] };
+	selectedCarrier?: UserCarrier;
 	carriers: UserCarrier[];
 	handleSelectedCarrier: (carrierId: number | null) => void;
 	handleNextStep: () => void;
@@ -27,66 +26,18 @@ export default function NewWorkflowFormSelectCarrier({
 	handleNextStep,
 	handleGoBack
 }: NewWorkflowFormSelectCarrierProps) {
-	// TODO pass this data in instead of hard coding it
-	const [viewCardDetail, setViewCardDetail] = useState(null);
-
-	// const { favoriteCarriers, restCarriers } = carriers;
-
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
 			<h2 className="prose prose-2xl">Select Your carrier</h2>
-			{/* <div className="px-4">
-				<h3 className="prose prose-xl">Favorites/Frequently used</h3>
-				<div className="flex flex-row flex-wrap gap-4">
-					{favoriteCarriers?.map((carrier, index) => {
-						return (
-							<button key={index} onClick={() => handleSelectedCarrier(carrier.id)}>
-								<div
-									className={`card w-96 ${
-										selectedCarrier === carrier.id ? "bg-accent-content" : "bg-base-100"
-									} shadow-xl`}
-								>
-									<figure>
-										<Image
-											src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-											alt="Company Logo"
-											height={"40"}
-											width={"40"}
-										/>
-									</figure>
-									<div className="card-body">
-										<h2 className="card-title">
-											{carrier.companyName}
-											<div className="badge badge-secondary">Used Before</div>
-										</h2>
-										<p>If a dog chews shoes whose shoes does he choose?</p>
-
-										<div className="card-actions justify-end">
-											{carrier.areasServiced.map((areaServiced: string, index: number) => {
-												return (
-													<div key={index} className="badge badge-outline">
-														{areaServiced}
-													</div>
-												);
-											})}
-										</div>
-									</div>
-								</div>
-							</button>
-						);
-					})}
-				</div>
-			</div> */}
 			<div className="divider" />
 			<div className="px-4">
-				{/* <h3 className="prose prose-xl">Others</h3> */}
 				<div className="flex flex-row flex-wrap gap-4">
 					{carriers?.map((carrier, index) => {
 						return (
 							<button key={index} onClick={() => handleSelectedCarrier(carrier.id)}>
 								<div
 									className={`card w-96 ${
-										selectedCarrier === carrier.id ? "bg-accent-content" : "bg-base-100"
+										selectedCarrier?.id === carrier.id ? "bg-accent-content" : "bg-base-100"
 									} shadow-xl`}
 								>
 									{/* <figure>

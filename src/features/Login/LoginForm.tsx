@@ -23,9 +23,6 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 			email,
 			password
 		});
-
-		// TODO
-		// make a request to the backend, register the user
 	};
 
 	return (

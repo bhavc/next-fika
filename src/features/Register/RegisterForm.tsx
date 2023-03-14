@@ -47,9 +47,6 @@ export default function RegisterForm({
 			company,
 			phone
 		});
-
-		// TODO
-		// make a request to the backend, register the user
 	};
 
 	return (
