@@ -8,7 +8,6 @@ interface WorkflowProps {
 }
 
 export default function Workflow({ workflow }: WorkflowProps) {
-	console.log("workflow", workflow);
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;

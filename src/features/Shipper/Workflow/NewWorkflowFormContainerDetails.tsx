@@ -83,11 +83,16 @@ export default function NewWorkflowFormContainerDetails({
 
 	const selectedCargoType = watch("cargoType");
 	const selectedCargoTypeData = mapSelectedCargoValueToDimensions(selectedCargoType);
+	const selectedCargoWeight = selectedCargoTypeData.weight;
+	const watchedNetWeight = watch("netWeight");
+	const calculatedGrossWeight = +watchedNetWeight + +selectedCargoWeight;
 
 	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs> = (data) => {
-		data.height = selectedCargoTypeData.height;
-		data.width = selectedCargoTypeData.width;
-		data.length = selectedCargoTypeData.length;
+		data.height = selectedCargoTypeData.height as string;
+		data.width = selectedCargoTypeData.width as string;
+		data.length = selectedCargoTypeData.length as string;
+		data.netWeight = `${data.netWeight}kg`;
+		data.grossWeight = `${calculatedGrossWeight}kg`;
 
 		handleSubmitWorkflow(data);
 	};
@@ -243,9 +248,10 @@ export default function NewWorkflowFormContainerDetails({
 				<div className="mb-2 grid grid-cols-3 gap-2">
 					<div>
 						<label>Net Weight*</label>
+						<p className="text-sm pl-4 text-slate-500">*In kilograms (kg)</p>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
-								type="text"
+								type="number"
 								placeholder="20467.310 KG"
 								className={`input w-full ${errors.netWeight ? "border-error" : "border-neutral"}`}
 								{...register("netWeight", { required: true })}
@@ -254,17 +260,22 @@ export default function NewWorkflowFormContainerDetails({
 					</div>
 					<div>
 						<label>Gross Weight*</label>
+						<p className="text-sm pl-4 text-slate-500">*In kilograms (kg)</p>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
-								type="text"
-								placeholder="20467.310 KG"
-								className={`input w-full ${errors.grossWeight ? "border-error" : "border-neutral"}`}
-								{...register("grossWeight", { required: true })}
+								type="number"
+								placeholder="20467.310"
+								className={`input w-full bg-slate-200 ${
+									errors.grossWeight ? "border-error" : "border-neutral"
+								}`}
+								value={calculatedGrossWeight}
+								readOnly
 							/>
 						</div>
 					</div>
 					<div>
 						<label>Goods Volume*</label>
+						<p className="text-sm pl-4 text-slate-500">*Please specify units</p>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
