@@ -26,7 +26,7 @@ import { mapAddressToRegion } from "@/features/Shipper/Workflow/helpers";
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(2);
+	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",

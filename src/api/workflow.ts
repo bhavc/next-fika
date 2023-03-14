@@ -17,8 +17,12 @@ export const createWorkflow = async (userToken: string | undefined, workflowData
 	return response.json();
 };
 
-export const getWorkflowsByUserId = async (userToken: string | undefined) => {
-	const response = await fetch(`${BASE_URL}/workflow/`, {
+export const getWorkflowsByUserId = async (userToken: string | undefined, searchValue: string) => {
+	const queryParams = new URLSearchParams({
+		searchValue: searchValue
+	});
+
+	const response = await fetch(`${BASE_URL}/workflow?${queryParams}`, {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${userToken}`
