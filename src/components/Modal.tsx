@@ -3,7 +3,7 @@ import cn from "classnames";
 interface ModalProps {
 	open: boolean;
 	title: string;
-	body: string;
+	body: JSX.Element;
 	cancelText: string;
 	handleCancel: () => void;
 	continueText: string;
@@ -28,8 +28,8 @@ export default function Modal({
 		<>
 			<div className={modalClass}>
 				<div className="modal-box">
-					<h3 className="font-bold text-lg">{title}</h3>
-					<p className="py-4 text-center">{body}</p>
+					<h3 className="font-bold text-lg mb-2 text-center">{title}</h3>
+					{body}
 					<div className="modal-action justify-between">
 						<button className="btn btn-error" onClick={handleCancel}>
 							{cancelText}

@@ -163,7 +163,12 @@ export default function Workflow({ userToken }: { userToken: string }) {
 					toast.error("Error getting a carrier list. Please try creating a delivery request later");
 				});
 		}
-	}, [step, workflowFormAddressState.pickupAddress, userToken]);
+	}, [
+		step,
+		workflowFormAddressState.pickupAddress,
+		workflowFormAddressState.dropoffAddress,
+		userToken
+	]);
 
 	return (
 		<>

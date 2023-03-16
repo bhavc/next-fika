@@ -138,7 +138,7 @@ export default function Workflow({ workflow }: WorkflowProps) {
 						{useCustomPricing ? (
 							<p>Price: {customPrice}</p>
 						) : (
-							<p>The price has already been determined by your trucking team</p>
+							<p>The price has already been determined by your team</p>
 						)}
 					</div>
 				</div>
@@ -282,6 +282,15 @@ export default function Workflow({ workflow }: WorkflowProps) {
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+
+				{/* TODO add shipper notes here */}
+				{/* <div>
+					<h2 className="text-xl">Delivery Notes</h2>
+					<div className="ml-28">
+						<p>{notes || "n/a"}</p>
+					</div>
+				</div>
+				<div className="mt-6 mb-6 border-b-2 border-slate-300" /> */}
 
 				{uploadedFiles && uploadedFiles.length > 0 && (
 					<div>

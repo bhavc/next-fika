@@ -155,7 +155,7 @@ export default function NewWorkflowFormReview({
 						{useCustomPricing ? (
 							<p>Price: {customPrice}</p>
 						) : (
-							<p>The price has already been determined by your trucking team</p>
+							<p>The price has already been determined by your team</p>
 						)}
 					</div>
 				</div>

@@ -29,3 +29,25 @@ export const doesUserRequireSettings = (user: UserCarrier) => {
 
 	return true;
 };
+
+export const getCarrierWorkflowModalStatusChangeCopy = (workflowStatus: CarrierWorkflowStatus) => {
+	switch (workflowStatus) {
+		case "Allocated":
+			return {
+				titleText: "Allocate Shipment?",
+				bodyText:
+					"By setting the shipment to Allocated, you are agreeing to being the carrier for the delivery. This means you agree with the price, pickup, delivery and other requests of the shipment"
+			};
+		case "Rejected":
+			return {
+				titleText: "Reject Shipment?",
+				bodyText:
+					"By Rejecting the shipment, you do not agree to taking on the delivery. This can not be undone."
+			};
+		default:
+			return {
+				titleText: "Are you sure?",
+				bodyText: "Please confirm the details of the delivery"
+			};
+	}
+};

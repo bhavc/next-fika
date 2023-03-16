@@ -4,6 +4,8 @@ import { ChangeEvent } from "react";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 
+import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/CarrierWorkflows/helpers";
+
 import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
@@ -27,12 +29,17 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
+
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [modalOpen, setModalOpen] = useState(false);
+	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
+
+	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
 	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		setNewStatus(event.target.value as CarrierWorkflowStatus);
+		setWorkflowStatusChangeNotes("");
 	};
 
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
@@ -43,7 +50,8 @@ export default function WorkflowId({
 	const handleConfirmModal = async () => {
 		try {
 			const updateData = {
-				status: newStatus
+				status: newStatus,
+				carrierNotes: workflowStatusChangeNotes
 			};
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 			setPreviousStatus(newStatus);
@@ -58,6 +66,19 @@ export default function WorkflowId({
 	const handleCancelModal = () => {
 		setModalOpen(false);
 	};
+
+	const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
+		setWorkflowStatusChangeNotes(event.target.value);
+	};
+
+	const ModalTextArea = (
+		<textarea
+			placeholder="Add any other notes here that you may want the shipper to know"
+			className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
+			onChange={handleWorkflowStatusChangeNotes}
+			value={workflowStatusChangeNotes}
+		/>
+	);
 
 	return (
 		<>
@@ -81,16 +102,23 @@ export default function WorkflowId({
 					</div>
 
 					<div className="flex justify-end align-middle bg-slate-100 px-4">
-						<WorkflowStatusDropdown handleStatusChange={handleStatusChange} status={newStatus} />
+						<WorkflowStatusDropdown
+							handleStatusChange={handleStatusChange}
+							newStatus={newStatus}
+							previousStatus={previousStatus}
+						/>
 					</div>
 
 					<CarrierWorkflow workflow={workflow} />
 				</main>
 				<Modal
 					open={modalOpen}
-					title={"Are you sure you want Continue"}
+					title={titleText}
 					body={
-						"Ensure you've checked all of the delivery details carefully especially price and locations"
+						<div>
+							<p className="mb-4">{bodyText}</p>
+							{ModalTextArea}
+						</div>
 					}
 					cancelText={"Cancel"}
 					handleCancel={handleCancelModal}

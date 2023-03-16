@@ -118,16 +118,26 @@ export default function NewWorkflowFormContainerDetails({
 					{isUseCustomPricing && (
 						<div>
 							<label>Custom Price*</label>
-							<div className="mt-1 flex rounded-md shadow-sm">
+							<label className="input-group mt-2">
+								<span>$</span>
 								<input
 									type="text"
-									placeholder="$500 USD"
-									className={`input w-full ${
+									placeholder="250.00"
+									className={`input input-bordered ${
 										errors.customPrice ? "border-error" : "border-neutral"
 									}`}
-									{...register("customPrice", { required: isUseCustomPricing })}
+									{...register("customPrice", {
+										required: isUseCustomPricing,
+										pattern: /^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i
+									})}
 								/>
-							</div>
+								<span>USD</span>
+							</label>
+							{errors.customPrice && (
+								<p className="text-error mt-1">
+									*Please enter a valid numeric price in USD with two (2) decimal places
+								</p>
+							)}
 						</div>
 					)}
 				</div>

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import CarrierWorkflowPricing from "./CarrierWorkflowPricing";
+
 import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/types";
 
 interface CarrierWorkflowProps {
@@ -12,7 +14,6 @@ export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;
 	const uploadedFiles = workflow?.fileUrls;
-	const selectedCarrier = workflow.selectedCarrier;
 
 	const {
 		containerNumber,
@@ -135,14 +136,9 @@ export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
 					<div className="ml-28">
-						{useCustomPricing ? (
-							<p>Price: {customPrice}</p>
-						) : (
-							<p>The price has already been determined by your trucking team</p>
-						)}
+						<CarrierWorkflowPricing useCustomPricing={useCustomPricing} customPrice={customPrice} />
 					</div>
 				</div>
-				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
