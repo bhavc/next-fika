@@ -2,12 +2,12 @@ import Link from "next/link";
 
 import { getCurrentUser } from "@/api/user";
 
-import { doesUserRequireSettings } from "@/features/Carrier/helpers";
+import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 
 import type { GetServerSideProps } from "next";
-import type { UserCarrier } from "@/features/Carrier/types";
+import type { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 

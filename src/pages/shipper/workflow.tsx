@@ -18,7 +18,7 @@ import NewWorkflowFormReview from "@/features/Shipper/Workflow/NewWorkflowReview
 import { createWorkflow } from "@/api/workflow";
 
 import { FileType } from "@/features/Shipper/Workflow/types";
-import type { UserCarrier } from "../../features/Carrier/types";
+import type { UserCarrier } from "../../features/Carrier/CarrierWorkflows/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 import { getCarriers } from "@/api/carriers";

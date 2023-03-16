@@ -10,10 +10,10 @@ import FileUploader from "@/components/FileUploader";
 import { updateProfileImage } from "@/api/fileUpload";
 import { getCurrentUser, editUserData } from "@/api/user";
 
-import { doesUserRequireSettings } from "@/features/Carrier/helpers";
+import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
 import type { GetServerSideProps } from "next";
-import type { UserCarrier } from "@/features/Carrier/types";
+import type { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 

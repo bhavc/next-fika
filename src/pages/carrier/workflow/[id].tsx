@@ -1,30 +1,30 @@
-import ShipperLayout from "@/layouts/ShipperLayout";
+import CarrierLayout from "@/layouts/CarrierLayout";
 import Link from "next/link";
 
 import { getWorkflowByWorkflowId } from "@/api/workflow";
 
-import Workflow from "@/features/Shipper/Workflow/Workflow";
+import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
 
-import type { WorkflowType } from "@/features/Shipper/Workflow/types";
+import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/types";
 import type { GetServerSideProps } from "next";
 
 import IconLeft from "public/svg/arrow-left.svg";
 
-export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
+export default function WorkflowId({ workflow }: { workflow: CarrierWorkflowType }) {
 	return (
 		<>
-			<ShipperLayout>
+			<CarrierLayout>
 				<main className="items-center justify-center px-4">
 					<div className="flex flex-col w-full bg-slate-100 rounded-b-md p-4 mt-4">
-						<Link href={"/shipper/workflows"} className="btn btn-circle bg-primary">
+						<Link href={"/carrier/workflows"} className="btn btn-circle bg-primary">
 							<IconLeft />
 						</Link>
 						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
 					</div>
 
-					<Workflow workflow={workflow} />
+					<CarrierWorkflow workflow={workflow} />
 				</main>
-			</ShipperLayout>
+			</CarrierLayout>
 		</>
 	);
 }
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const { cookies } = req;
 	const userToken = cookies.user;
-	let workflowData: WorkflowType | null;
+	let workflowData: CarrierWorkflowType | null;
 
 	if (!userToken) {
 		return {
@@ -49,15 +49,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowId || Array.isArray(workflowId)) {
 		return {
 			redirect: {
-				destination: "/shipper/workflows",
+				destination: "/carrier/workflows",
 				statusCode: 302
 			}
 		};
 	}
-	console.log("do we get hre");
+
+	console.log("workflowId", workflowId);
 
 	try {
 		const response = await getWorkflowByWorkflowId(userToken, workflowId);
+		console.log("do we get here 2");
 		workflowData = response.workflow;
 	} catch (err) {
 		workflowData = null;
@@ -66,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowData) {
 		return {
 			redirect: {
-				destination: "/shipper/workflows",
+				destination: "/carrier/workflows",
 				statusCode: 302
 			}
 		};

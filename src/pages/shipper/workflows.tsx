@@ -33,7 +33,7 @@ export default function Workflows({ userToken }: { userToken: string }) {
 	// };
 
 	useEffect(() => {
-		getWorkflowsByUserId(userToken, searchValue)
+		getWorkflowsByUserId(userToken)
 			.then((workflowData) => {
 				setWorkflows(workflowData.workflows);
 			})

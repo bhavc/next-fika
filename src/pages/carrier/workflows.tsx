@@ -2,14 +2,14 @@ import Link from "next/link";
 
 import { getCurrentUser } from "@/api/user";
 
-import { getWorkflowsByUserId } from "@/api/workflow";
-import { doesUserRequireSettings } from "@/features/Carrier/helpers";
+import { getWorkflowsForCarrier } from "@/api/workflow";
+import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
-import WorkflowTableList from "@/features/Shipper/Workflow/WorkflowTableList";
+import WorkflowTableList from "@/features/Carrier/CarrierWorkflows/AssignedWorkflows";
 
 import type { GetServerSideProps } from "next";
-import type { UserCarrier } from "@/features/Carrier/types";
+import type { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 
@@ -42,8 +42,8 @@ export default function Workflows({
 					)}
 					<div className="items-center justify-center">
 						<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
-							<h1 className="text-3xl text-left mb-4">View your past Workflows</h1>
-							<WorkflowTableList workflows={workflows} />
+							<h1 className="text-3xl text-left mb-4">View your assigned Workflows</h1>
+							<WorkflowTableList workflows={workflows} isLoading={false} />
 						</div>
 					</div>
 				</main>
@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	try {
 		// TODO here you want to get the assigned to user workflows
-		workflowData = await getWorkflowsByUserId(userToken);
+		workflowData = await getWorkflowsForCarrier(userToken);
 		const response = await getCurrentUser(userToken);
 		userData = response.data;
 	} catch (err) {

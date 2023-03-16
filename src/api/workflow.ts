@@ -17,12 +17,12 @@ export const createWorkflow = async (userToken: string | undefined, workflowData
 	return response.json();
 };
 
-export const getWorkflowsByUserId = async (userToken: string | undefined, searchValue: string) => {
-	const queryParams = new URLSearchParams({
-		searchValue: searchValue
-	});
+export const getWorkflowsByUserId = async (userToken: string | undefined) => {
+	// const queryParams = new URLSearchParams({
+	// 	searchValue: searchValue
+	// });
 
-	const response = await fetch(`${BASE_URL}/workflow?${queryParams}`, {
+	const response = await fetch(`${BASE_URL}/workflow`, {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${userToken}`
@@ -37,7 +37,26 @@ export const getWorkflowsByUserId = async (userToken: string | undefined, search
 	return response.json();
 };
 
-export const getWorkflowById = async (userToken: string | undefined, workflowId: string) => {
+export const getWorkflowsForCarrier = async (userToken: string | undefined) => {
+	const response = await fetch(`${BASE_URL}/workflow/carrierFor`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${userToken}`
+		},
+		method: "GET"
+	});
+
+	if (!response.ok) {
+		throw new Error("getWorkflowsForCarrier - could not get workflows for user");
+	}
+
+	return response.json();
+};
+
+export const getWorkflowByWorkflowId = async (
+	userToken: string | undefined,
+	workflowId: string
+) => {
 	const response = await fetch(`${BASE_URL}/workflow/${workflowId}`, {
 		headers: {
 			"Content-Type": "application/json",
@@ -47,7 +66,7 @@ export const getWorkflowById = async (userToken: string | undefined, workflowId:
 	});
 
 	if (!response.ok) {
-		throw new Error("getWorkflowsByUserId - could not get workflows for user");
+		throw new Error("getWorkflowByWorkflowId - could not get workflows for user");
 	}
 
 	return response.json();

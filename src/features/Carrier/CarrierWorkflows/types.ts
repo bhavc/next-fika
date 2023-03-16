@@ -1,6 +1,25 @@
-import { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
+export type UserCarrier = {
+	id: number | null;
+	firstName: string | null;
+	lastName: string | null;
+	companyName: string;
+	companyAddress: string | null;
+	phoneNumber: string | null;
+	emergencyNumbers: string | null;
+	gender: string | null;
+	languagesSupported: string[] | null;
+	hasSmartphoneAccess: boolean | null;
+	hasLivetrackingAvailable: boolean | null;
+	hasDashcamSetup: boolean | null;
+	areasServiced: string[] | null;
+	regionServiced: string[] | null;
+	avatarImageData: any | null;
+	insuranceFileData: { name: string; blobName: string; type: string }[] | null;
+	bucketStorageUrls: any[] | null;
+	role: string;
+};
 
-export type WorkflowStatus =
+export type CarrierWorkflowStatus =
 	| "Draft"
 	| "Triage"
 	| "Allocated"
@@ -16,7 +35,7 @@ export type FileType = {
 	blob: string;
 };
 
-export type WorkflowAddressDataType = {
+export type CarrierWorkflowAddressDataType = {
 	t1Number?: string;
 	bolNumber?: string;
 	pickupWindow: string;
@@ -36,7 +55,7 @@ export type WorkflowAddressDataType = {
 	dropOffAppointmentNeeded?: boolean;
 };
 
-export type WorkflowContainerDataType = {
+export type CarrierWorkflowContainerDataType = {
 	width: string;
 	frozen?: boolean;
 	height: string;
@@ -62,18 +81,18 @@ export type WorkflowContainerDataType = {
 	requiresControlledAtmosphere?: boolean;
 };
 
-export type WorkflowNotesType = {
+export type CarrierWorkflowNotesType = {
 	notes?: string;
 };
 
-export type WorkflowType = {
+export type CarrierWorkflowType = {
 	id: string;
 	user_for: string;
-	status: WorkflowStatus;
+	status: CarrierWorkflowStatus;
 	selectedCarrier: UserCarrier;
-	workflowAddressData: WorkflowAddressDataType;
-	workflowContainerData: WorkflowContainerDataType;
-	workflowNotes: WorkflowNotesType;
+	workflowAddressData: CarrierWorkflowAddressDataType;
+	workflowContainerData: CarrierWorkflowContainerDataType;
+	workflowNotes: CarrierWorkflowNotesType;
 	uploadedFiles: FileType[];
 	fileUrls: FileType[];
 	createdAt: string;
