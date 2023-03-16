@@ -7,11 +7,11 @@ import RegisterType from "@/features/Register/RegisterType";
 import RegisterForm from "@/features/Register/RegisterForm";
 import MainNavBar from "@/components/Nav/MainNavbar";
 
-import { UserType } from "@/features/User/types";
+import type { UserType } from "@/features/types";
 
 import { postRegister } from "@/api/registration";
 import { getCurrentUser } from "@/api/user";
-import { mapUserTypeToAppRoute } from "@/features/User/types";
+import { mapUserTypeToAppRoute } from "@/features/helpers";
 
 import type { GetServerSideProps } from "next";
 

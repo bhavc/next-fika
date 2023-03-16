@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/api/user";
-import { mapUserTypeToAppRoute } from "@/features/User/types";
+import { mapUserTypeToAppRoute } from "@/features/helpers";
 
 import MainNavBar from "@/components/Nav/MainNavbar";
 

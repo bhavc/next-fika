@@ -1,4 +1,4 @@
-export type UserType = "Shipper" | "Carrier" | "Driver";
+import type { UserType } from "@/features/types";
 
 export const mapUserTypeToAppRoute = (userType: UserType | undefined) => {
 	if (userType === "Carrier") {

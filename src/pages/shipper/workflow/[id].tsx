@@ -54,7 +54,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			}
 		};
 	}
-	console.log("do we get hre");
 
 	try {
 		const response = await getWorkflowByWorkflowId(userToken, workflowId);

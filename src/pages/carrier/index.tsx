@@ -7,7 +7,7 @@ import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/hel
 import CarrierLayout from "@/layouts/CarrierLayout";
 
 import type { GetServerSideProps } from "next";
-import type { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
+import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 

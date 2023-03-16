@@ -9,7 +9,7 @@ import CarrierLayout from "@/layouts/CarrierLayout";
 import WorkflowTableList from "@/features/Carrier/CarrierWorkflows/AssignedWorkflows";
 
 import type { GetServerSideProps } from "next";
-import type { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
+import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 

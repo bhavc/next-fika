@@ -1,16 +1,13 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { getWorkflowsByUserId } from "@/api/workflow";
-import { debounce } from "@/utils/debounce";
 
 import ShipperLayout from "@/layouts/ShipperLayout";
 import WorkflowTableList from "@/features/Shipper/Workflow/WorkflowTableList";
 
 import type { GetServerSideProps } from "next";
-import type { MouseEvent } from "react";
 import type { WorkflowType } from "@/features/Shipper/Workflow/types";
 
-import SearchIcon from "public/svg/search.svg";
 import { toast } from "react-hot-toast";
 
 export default function Workflows({ userToken }: { userToken: string }) {

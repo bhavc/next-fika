@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 
 import { postLogin } from "@/api/login";
 import { getCurrentUser } from "@/api/user";
-import { mapUserTypeToAppRoute } from "@/features/User/types";
+import { mapUserTypeToAppRoute } from "@/features/helpers";
 
 import LoginForm from "@/features/Login/LoginForm";
 import MainNavBar from "@/components/Nav/MainNavbar";
