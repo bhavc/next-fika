@@ -1,15 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useCookies } from "react-cookie";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
 
 export default function Logout() {
-	const [cookie, setCookie, removeCookie] = useCookies(["user"]);
 	const router = useRouter();
 
 	useEffect(() => {
-		removeCookie("user");
+		deleteCookie("user");
 		router.push("/");
-	}, [router, removeCookie]);
+	}, [router]);
 
 	return (
 		<div className="flex justify-center items-center center h-screen">

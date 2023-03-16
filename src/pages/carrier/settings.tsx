@@ -24,11 +24,10 @@ const regionsServiced = [
 
 export type AreasServiced = "Local" | "Provincial" | "Cross Country" | "Cross Border";
 
-const areasServices = [
+const areasServicedOptions = [
 	{ id: 1, label: "Local", value: "local" },
-	{ id: 2, label: "Provincial", value: "provincial" },
-	{ id: 3, label: "Cross Country", value: "crossCountry" },
-	{ id: 4, label: "Cross Border", value: "crossBorder" }
+	{ id: 2, label: "Cross Province/State", value: "crossProvince" },
+	{ id: 3, label: "Cross Border", value: "crossBorder" }
 ];
 
 export type WorkflowFormAddressInputs = {
@@ -377,10 +376,10 @@ export default function Settings({
 												<option value="" disabled>
 													Choose an area
 												</option>
-												{areasServices.map((region) => {
+												{areasServicedOptions.map((area) => {
 													return (
-														<option key={region.id} value={region.value}>
-															{region.label}
+														<option key={area.id} value={area.value}>
+															{area.label}
 														</option>
 													);
 												})}

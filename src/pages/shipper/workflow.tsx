@@ -5,15 +5,15 @@ import { toast } from "react-hot-toast";
 
 import ShipperLayout from "@/layouts/ShipperLayout";
 
-import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormNotes";
+import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
+import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
 
-import NewWorkflowFormAddress from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormAddress";
-import NewWorkflowFormSelectCarrier from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormSelectCarrier";
-import NewWorkflowFormContainerDetails from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormContainerDetails";
-import NewWorkflowFormNotes from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormNotes";
-import NewWorkflowFormReview from "@/features/Shipper/ShipperWorkflows/NewWorkflowReview";
+import NewWorkflowFormAddress from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
+import NewWorkflowFormSelectCarrier from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormSelectCarrier";
+import NewWorkflowFormContainerDetails from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
+import NewWorkflowFormNotes from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
+import NewWorkflowFormReview from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowReview";
 
 import { createWorkflow } from "@/api/workflow";
 
@@ -22,7 +22,7 @@ import type { UserCarrier } from "../../features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 import { getCarriers } from "@/api/carriers";
-import { mapAddressToRegion } from "@/features/Shipper/ShipperWorkflows/helpers";
+import { getCountryFromAddress } from "@/features/Shipper/ShipperWorkflows/helpers";
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
@@ -151,9 +151,10 @@ export default function Workflow({ userToken }: { userToken: string }) {
 
 	useEffect(() => {
 		if (step === 1) {
-			const carrierCountry = mapAddressToRegion(workflowFormAddressState.pickupAddress);
+			const pickupCountry = getCountryFromAddress(workflowFormAddressState.pickupAddress);
+			const dropoffCountry = getCountryFromAddress(workflowFormAddressState.dropoffAddress);
 
-			getCarriers(userToken, carrierCountry)
+			getCarriers({ userToken, pickupCountry, dropoffCountry })
 				.then((value) => {
 					const responseData = value.data;
 					setCarriers(responseData);

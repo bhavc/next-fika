@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-import { useCookies } from "react-cookie";
+import { setCookie } from "cookies-next";
 
 import RegisterType from "@/features/Register/RegisterType";
 import RegisterForm from "@/features/Register/RegisterForm";
@@ -23,7 +23,6 @@ export default function Register() {
 
 	const [selectedAccountType, setSelectedAccountType] = useState<UserType | null>(null);
 	const [currentStep, setCurrentStep] = useState(0);
-	const [_, setCookie] = useCookies(["user"]);
 
 	const shouldShowForwardButton = currentStep === 0 && selectedAccountType;
 	const shouldShowBackButton = currentStep === 1;

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { useCookies } from "react-cookie";
+import { setCookie } from "cookies-next";
+
 import { toast } from "react-hot-toast";
 
 import { postLogin } from "@/api/login";
@@ -12,7 +13,6 @@ import MainNavBar from "@/components/Nav/MainNavbar";
 import type { GetServerSideProps } from "next";
 
 export default function Login() {
-	const [cookie, setCookie] = useCookies(["user"]);
 	const router = useRouter();
 
 	const handleSubmitLogin = async ({ email, password }: { email: string; password: string }) => {

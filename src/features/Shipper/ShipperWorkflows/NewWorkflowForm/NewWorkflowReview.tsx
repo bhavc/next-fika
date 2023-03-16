@@ -1,8 +1,8 @@
-import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormNotes";
+import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
+import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
 
-import type { UserCarrier } from "../../Carrier/CarrierWorkflows/types";
+import type { UserCarrier } from "../../../Carrier/UserCarrier/types";
 
 import Image from "next/image";
 import Link from "next/link";

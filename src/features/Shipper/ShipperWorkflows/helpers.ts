@@ -135,7 +135,7 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: ShipperWo
 	}
 };
 
-export const mapAddressToRegion = (address: string) => {
+export const getCountryFromAddress = (address: string) => {
 	const splitAddress = address.split(",");
 	const country = splitAddress[splitAddress.length - 1];
 	return country.trim();

@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { valueToDimensionsMap, mapSelectedCargoValueToDimensions } from "./helpers";
+import { valueToDimensionsMap, mapSelectedCargoValueToDimensions } from "../helpers";
 
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";

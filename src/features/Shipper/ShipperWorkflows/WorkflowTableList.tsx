@@ -3,6 +3,7 @@ import TruckIcon from "public/svg/truck-loading.svg";
 import IconRight from "public/svg/arrow-right.svg";
 
 import Badge from "@/components/Badge";
+import WorkflowStatusBadge from "./WorkflowStatusBadge";
 
 import { formatDateStringToDate } from "@/utils/time";
 import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
@@ -62,7 +63,7 @@ export default function WorkflowTableList({
 					</div>
 				</td>
 				<td>
-					<Badge color={badgeColor}>{status}</Badge>
+					<WorkflowStatusBadge workflowStatus={status}>{status}</WorkflowStatusBadge>
 				</td>
 				<td>{formattedDate}</td>
 				<th>
