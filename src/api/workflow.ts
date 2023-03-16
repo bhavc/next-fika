@@ -1,3 +1,5 @@
+import { Fetch } from "./fetchWrapper";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const createWorkflow = async (userToken: string | undefined, workflowData: any) => {
@@ -67,6 +69,29 @@ export const getWorkflowByWorkflowId = async (
 
 	if (!response.ok) {
 		throw new Error("getWorkflowByWorkflowId - could not get workflows for user");
+	}
+
+	return response.json();
+};
+
+export const editWorkflowByWorkflowId = async ({
+	userToken,
+	workflowId,
+	body
+}: {
+	userToken: string | undefined;
+	workflowId: string;
+	body: any;
+}) => {
+	const response = await Fetch({
+		method: "PATCH",
+		userToken,
+		body,
+		url: `workflow/${workflowId}`
+	});
+
+	if (!response.ok) {
+		throw new Error("editWorkflowByWorkflowId - could not create workflow");
 	}
 
 	return response.json();

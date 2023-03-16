@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import Link from "next/link";
 import { ChangeEvent } from "react";
 
-import { getWorkflowByWorkflowId } from "@/api/workflow";
+import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
@@ -15,14 +15,38 @@ import type {
 import type { GetServerSideProps } from "next";
 
 import IconLeft from "public/svg/arrow-left.svg";
+import { toast } from "react-hot-toast";
 
-export default function WorkflowId({ workflow }: { workflow: CarrierWorkflowType }) {
+export default function WorkflowId({
+	workflow,
+	userToken
+}: {
+	workflow: CarrierWorkflowType;
+	userToken: string;
+}) {
 	const workflowStatus = workflow.status;
+	const workflowId = workflow.id;
 
 	const [status, setStatus] = useState(workflowStatus);
 
 	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		setStatus(event.target.value as CarrierWorkflowStatus);
+	};
+
+	// TODO add a modal that confirms whether a user is sure
+	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+
+		try {
+			const updateData = {
+				status
+			};
+
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error updateing workflow");
+		}
 	};
 
 	return (
@@ -36,7 +60,11 @@ export default function WorkflowId({ workflow }: { workflow: CarrierWorkflowType
 							<IconLeft />
 						</Link>
 						<div>
-							<button className="btn btn-primary" disabled={status === workflowStatus}>
+							<button
+								className="btn btn-primary"
+								disabled={status === workflowStatus}
+								onClick={handleSaveChanges}
+							>
 								Save All
 							</button>
 						</div>
@@ -59,6 +87,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const { cookies } = req;
 	const userToken = cookies.user;
+
 	let workflowData: CarrierWorkflowType | null;
 
 	if (!userToken) {
@@ -79,11 +108,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 
-	console.log("workflowId", workflowId);
-
 	try {
 		const response = await getWorkflowByWorkflowId(userToken, workflowId);
-		console.log("do we get here 2");
 		workflowData = response.workflow;
 	} catch (err) {
 		workflowData = null;
@@ -100,7 +126,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			workflow: workflowData
+			workflow: workflowData,
+			userToken
 		}
 	};
 };

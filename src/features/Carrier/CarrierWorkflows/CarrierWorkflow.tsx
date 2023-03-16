@@ -144,30 +144,6 @@ export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{/* TODO: add details about the carrier */}
-				<h2 className="text-xl mb-2">Selected Carrier</h2>
-				<div className="flex flex-col items-center justify-center">
-					<div className="card w-96 bg-base-100 shadow-xl">
-						<div className="card-body">
-							<h2 className="card-title">
-								{selectedCarrier?.companyName}
-								<div className="badge badge-secondary">Used Before</div>
-							</h2>
-							<p>We serve this best in the North American and African regions!</p>
-
-							{/* TODO change this to a better label value */}
-							<div className="card-actions justify-end">
-								{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
-									return (
-										<div key={index} className="badge badge-outline">
-											{areaServiced}
-										</div>
-									);
-								})}
-							</div>
-						</div>
-					</div>
-				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div>

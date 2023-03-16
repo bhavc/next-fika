@@ -1,4 +1,4 @@
-type FETCH_METHOD = "GET" | "POST" | "PUT" | "DELETE";
+type FETCH_METHOD = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface FetchProps {
 	method: FETCH_METHOD;
@@ -27,10 +27,4 @@ export const Fetch = async ({ method, userToken, body, url, isFormData }: FetchP
 	});
 
 	return response;
-
-	// if (!response.ok) {
-	// 	throw new Error("");
-	// }
-
-	// return response.json();
 };
