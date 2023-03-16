@@ -1,4 +1,5 @@
-import { UserCarrier, CarrierWorkflowStatus } from "./types";
+import type { CarrierWorkflowStatus } from "./types";
+import type { UserCarrier } from "../UserCarrier/types";
 
 export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: CarrierWorkflowStatus) => {
 	switch (workflowStatus) {
@@ -13,6 +14,8 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: CarrierWo
 		case "Shipped":
 			return "success";
 		case "Cancelled":
+			return "error";
+		case "Rejected":
 			return "error";
 		default:
 			return "slate-200";

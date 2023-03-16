@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { getWorkflowsByUserId } from "@/api/workflow";
 
 import ShipperLayout from "@/layouts/ShipperLayout";
-import WorkflowTableList from "@/features/Shipper/Workflow/WorkflowTableList";
+import WorkflowTableList from "@/features/Shipper/ShipperWorkflows/WorkflowTableList";
 
 import type { GetServerSideProps } from "next";
-import type { WorkflowType } from "@/features/Shipper/Workflow/types";
+import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 
 import { toast } from "react-hot-toast";
 

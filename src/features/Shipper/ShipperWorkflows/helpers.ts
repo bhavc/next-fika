@@ -1,4 +1,4 @@
-import { WorkflowStatus } from "./types";
+import { ShipperWorkflowStatus } from "./types";
 
 export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string | number } } = {
 	"0": {
@@ -114,7 +114,7 @@ export const mapSelectedCargoValueToDimensions = (selectedNumber: string) => {
 	};
 };
 
-export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowStatus) => {
+export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: ShipperWorkflowStatus) => {
 	switch (workflowStatus) {
 		case "Draft":
 			return "slate-200";
@@ -127,6 +127,8 @@ export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: WorkflowS
 		case "Shipped":
 			return "success";
 		case "Cancelled":
+			return "error";
+		case "Rejected":
 			return "error";
 		default:
 			return "slate-200";

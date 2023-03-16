@@ -1,25 +1,49 @@
-import CarrierLayout from "@/layouts/CarrierLayout";
+import { useState } from "react";
 import Link from "next/link";
+import { ChangeEvent } from "react";
 
 import { getWorkflowByWorkflowId } from "@/api/workflow";
 
+import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
+import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
 
-import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/types";
+import type {
+	CarrierWorkflowStatus,
+	CarrierWorkflowType
+} from "@/features/Carrier/CarrierWorkflows/types";
 import type { GetServerSideProps } from "next";
 
 import IconLeft from "public/svg/arrow-left.svg";
 
 export default function WorkflowId({ workflow }: { workflow: CarrierWorkflowType }) {
+	const workflowStatus = workflow.status;
+
+	const [status, setStatus] = useState(workflowStatus);
+
+	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		setStatus(event.target.value as CarrierWorkflowStatus);
+	};
+
 	return (
 		<>
 			<CarrierLayout>
 				<main className="items-center justify-center px-4">
-					<div className="flex flex-col w-full bg-slate-100 rounded-b-md p-4 mt-4">
+					<h1 className="text-3xl mt-4 px-4 text-left">Delivery</h1>
+
+					<div className="flex flex-row w-full justify-between bg-slate-100 rounded-b-md p-4 mt-4">
 						<Link href={"/carrier/workflows"} className="btn btn-circle bg-primary">
 							<IconLeft />
 						</Link>
-						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
+						<div>
+							<button className="btn btn-primary" disabled={status === workflowStatus}>
+								Save All
+							</button>
+						</div>
+					</div>
+
+					<div className="flex justify-end align-middle bg-slate-100 px-4">
+						<WorkflowStatusDropdown handleStatusChange={handleStatusChange} status={status} />
 					</div>
 
 					<CarrierWorkflow workflow={workflow} />

@@ -5,24 +5,24 @@ import { toast } from "react-hot-toast";
 
 import ShipperLayout from "@/layouts/ShipperLayout";
 
-import { WorkflowFormAddressInputs } from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
+import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormAddress";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormContainerDetails";
+import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormNotes";
 
-import NewWorkflowFormAddress from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
-import NewWorkflowFormSelectCarrier from "@/features/Shipper/Workflow/NewWorkflowFormSelectCarrier";
-import NewWorkflowFormContainerDetails from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
-import NewWorkflowFormNotes from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
-import NewWorkflowFormReview from "@/features/Shipper/Workflow/NewWorkflowReview";
+import NewWorkflowFormAddress from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormAddress";
+import NewWorkflowFormSelectCarrier from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormSelectCarrier";
+import NewWorkflowFormContainerDetails from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormContainerDetails";
+import NewWorkflowFormNotes from "@/features/Shipper/ShipperWorkflows/NewWorkflowFormNotes";
+import NewWorkflowFormReview from "@/features/Shipper/ShipperWorkflows/NewWorkflowReview";
 
 import { createWorkflow } from "@/api/workflow";
 
-import { FileType } from "@/features/Shipper/Workflow/types";
+import { FileType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { UserCarrier } from "../../features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 import { getCarriers } from "@/api/carriers";
-import { mapAddressToRegion } from "@/features/Shipper/Workflow/helpers";
+import { mapAddressToRegion } from "@/features/Shipper/ShipperWorkflows/helpers";
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();

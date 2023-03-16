@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { UserCarrier } from "../../Carrier/CarrierWorkflows/types";
+import { UserCarrier } from "../../Carrier/UserCarrier/types";
 
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";

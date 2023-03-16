@@ -83,7 +83,11 @@ export default function NewWorkflowFormAddress({
 					</div>
 
 					<div>
-						<label>Shipment Number</label>
+						{/* TODO: This will be generated if not provided */}
+						<div className="flex flex-row">
+							<label>Shipment Number</label>
+							<p className="text-sm pl-4 text-slate-500">*This will be generated if not provided</p>
+						</div>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"

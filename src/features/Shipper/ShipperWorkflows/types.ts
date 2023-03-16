@@ -1,11 +1,12 @@
-import { UserCarrier } from "@/features/Carrier/CarrierWorkflows/types";
+import { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 
-export type WorkflowStatus =
+export type ShipperWorkflowStatus =
 	| "Draft"
 	| "Triage"
 	| "Allocated"
 	| "In Progress"
 	| "Shipped"
+	| "Rejected"
 	| "Cancelled"
 	| "Deleted";
 
@@ -69,7 +70,7 @@ export type WorkflowNotesType = {
 export type WorkflowType = {
 	id: string;
 	user_for: string;
-	status: WorkflowStatus;
+	status: ShipperWorkflowStatus;
 	selectedCarrier: UserCarrier;
 	workflowAddressData: WorkflowAddressDataType;
 	workflowContainerData: WorkflowContainerDataType;

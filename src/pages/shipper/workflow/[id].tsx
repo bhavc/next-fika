@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import { getWorkflowByWorkflowId } from "@/api/workflow";
 
-import Workflow from "@/features/Shipper/Workflow/Workflow";
+import Workflow from "@/features/Shipper/ShipperWorkflows/Workflow";
 
-import type { WorkflowType } from "@/features/Shipper/Workflow/types";
+import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { GetServerSideProps } from "next";
 
 import IconLeft from "public/svg/arrow-left.svg";

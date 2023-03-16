@@ -1,34 +1,19 @@
-import { WorkflowFormAddressInputs } from "@/features/Shipper/Workflow/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/Workflow/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Shipper/Workflow/NewWorkflowFormNotes";
-
-import type { UserCarrier } from "../../Carrier/CarrierWorkflows/types";
-
 import Image from "next/image";
 import Link from "next/link";
-import IconLeft from "public/svg/arrow-left.svg";
-import PDFIcon from "public/svg/PDF_file_icon.svg";
-import TextIcon from "public/svg/file-text.svg";
 
-interface NewWorkflowFormNotesProps {
-	workflowFormAddressState: WorkflowFormAddressInputs;
-	workflowFormContainerDetailsState: WorkflowFormContainerDetailsInputs;
-	workflowFormNotesState: WorkflowFormNotesInputs;
-	selectedCarrier?: UserCarrier;
-	handleGoBack: () => void;
-	handleSubmit: () => void;
-	uploadedFiles: any[];
+import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
+
+interface WorkflowProps {
+	workflow: WorkflowType;
 }
 
-export default function NewWorkflowFormReview({
-	workflowFormAddressState,
-	workflowFormContainerDetailsState,
-	workflowFormNotesState,
-	selectedCarrier,
-	handleGoBack,
-	handleSubmit,
-	uploadedFiles
-}: NewWorkflowFormNotesProps) {
+export default function Workflow({ workflow }: WorkflowProps) {
+	const workflowAddressData = workflow?.workflowAddressData;
+	const workflowContainerData = workflow?.workflowContainerData;
+	const workflowNotes = workflow?.workflowNotes;
+	const uploadedFiles = workflow?.fileUrls;
+	const selectedCarrier = workflow.selectedCarrier;
+
 	const {
 		containerNumber,
 		dropOffAppointmentNeeded,
@@ -47,7 +32,7 @@ export default function NewWorkflowFormReview({
 		bolNumber,
 		t1Number,
 		borderCrossing
-	} = workflowFormAddressState;
+	} = workflowAddressData;
 
 	const {
 		useCustomPricing,
@@ -73,18 +58,16 @@ export default function NewWorkflowFormReview({
 		dropoffTerminalName,
 		isReturn,
 		returnDepotName
-	} = workflowFormContainerDetailsState;
+	} = workflowContainerData;
 
-	const { notes } = workflowFormNotesState;
+	const { notes } = workflowNotes;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-	const imageFiles = uploadedFiles.filter((file) => imageFileTypes.includes(file.type));
-	const nonImageFiles = uploadedFiles.filter((file) => !imageFileTypes.includes(file.type));
+	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
+	// const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
 
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
-			<h1 className="text-2xl text-left rounded-t-md mb-4 underline">Review your order</h1>
-
 			<div className="border-2 border-slate-300 p-4">
 				<div>
 					<h2 className="text-xl mb-2">Container & Shipment #:</h2>
@@ -195,6 +178,7 @@ export default function NewWorkflowFormReview({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
+				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
 					<div>
@@ -303,7 +287,7 @@ export default function NewWorkflowFormReview({
 					<div>
 						<h2 className="text-xl mb-4">Your uploaded files: </h2>
 						<div className="flex flex-col gap-4">
-							{imageFiles?.map((file, key) => {
+							{uploadedFiles?.map((file, key) => {
 								return (
 									<Link href={file.url} key={key} target="_blank">
 										<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
@@ -316,40 +300,8 @@ export default function NewWorkflowFormReview({
 								);
 							})}
 						</div>
-						<div className="flex flex-col gap-4">
-							{nonImageFiles?.map((file, key) => {
-								return (
-									<Link href={file.url} key={key} target="_blank">
-										<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
-											{file.type === "application/pdf" ? (
-												<PDFIcon height={48} width={48} />
-											) : (
-												<TextIcon height={48} width={48} />
-											)}
-
-											<div className="flex justify-center items-center">
-												<h2>{file.name}</h2>
-											</div>
-										</div>
-									</Link>
-								);
-							})}
-						</div>
 					</div>
 				)}
-			</div>
-
-			<div className="flex flex-row justify-between">
-				<div className="justify-start">
-					<button className="btn btn-circle bg-primary mt-10" onClick={handleGoBack}>
-						<IconLeft />
-					</button>
-				</div>
-				<div className="justify-end">
-					<button className="btn btn-lg bg-primary mt-10" onClick={handleSubmit}>
-						Submit
-					</button>
-				</div>
 			</div>
 		</div>
 	);

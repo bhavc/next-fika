@@ -6,6 +6,7 @@ export type CarrierWorkflowStatus =
 	| "Allocated"
 	| "In Progress"
 	| "Shipped"
+	| "Rejected"
 	| "Cancelled"
 	| "Deleted";
 

@@ -252,7 +252,7 @@ export default function NewWorkflowFormContainerDetails({
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="number"
-								placeholder="20467.310 KG"
+								placeholder="467.310"
 								className={`input w-full ${errors.netWeight ? "border-error" : "border-neutral"}`}
 								{...register("netWeight", { required: true })}
 							/>
