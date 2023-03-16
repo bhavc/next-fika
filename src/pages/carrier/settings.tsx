@@ -447,8 +447,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let userData: UserCarrier = {
 		id: null,
-		firstName: null,
-		lastName: null,
 		companyName: "",
 		companyAddress: "",
 		phoneNumber: null,

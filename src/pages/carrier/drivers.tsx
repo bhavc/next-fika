@@ -13,7 +13,7 @@ import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 
-export default function Workflows({
+export default function Drivers({
 	workflows,
 	requiresVerify
 }: {
@@ -42,8 +42,7 @@ export default function Workflows({
 					)}
 					<div className="items-center justify-center">
 						<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
-							<h1 className="text-3xl text-left mb-4">View your assigned Workflows</h1>
-							<WorkflowTableList workflows={workflows} isLoading={false} />
+							<h1 className="text-3xl text-left mb-4">Manage your Drivers here</h1>
 						</div>
 					</div>
 				</main>

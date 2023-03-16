@@ -10,6 +10,7 @@ import HistoryIcon from "public/svg/history.svg";
 import SettingsIcon from "public/svg/settings.svg";
 import LogoutIcon from "public/svg/logout.svg";
 import UserPlus from "public/svg/user-plus.svg";
+import User from "public/svg/user-circle.svg";
 
 interface LayoutProps {
 	children: ReactNode;
@@ -60,6 +61,19 @@ export default function CarrierLayout({ children }: LayoutProps) {
 										<HistoryIcon stroke="white" />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Assigned Deliveries</p>
+								</div>
+							</Link>
+							<Link
+								href={"/carrier/drivers"}
+								className={`hover:bg-accent p-2 rounded-md ${
+									currentPath === "/carrier/drivers" ? "bg-accent" : "bg-inherit"
+								}`}
+							>
+								<div className="flex flex-row">
+									<div className="mt-2">
+										<User width={24} height={24} stroke="white" />
+									</div>
+									<p className="prose lg:prose-xl pl-2 text-white">Drivers</p>
 								</div>
 							</Link>
 							<Link
