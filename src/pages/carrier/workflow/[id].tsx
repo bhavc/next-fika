@@ -1,4 +1,4 @@
-import { useState, MouseEvent } from "react";
+import { useState, MouseEvent, use } from "react";
 import Link from "next/link";
 import { ChangeEvent } from "react";
 
@@ -7,6 +7,7 @@ import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflo
 import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
+import Modal from "@/components/Modal";
 
 import type {
 	CarrierWorkflowStatus,
@@ -26,27 +27,36 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
-
-	const [status, setStatus] = useState(workflowStatus);
+	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
+	const [newStatus, setNewStatus] = useState(workflowStatus);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		setStatus(event.target.value as CarrierWorkflowStatus);
+		setNewStatus(event.target.value as CarrierWorkflowStatus);
 	};
 
-	// TODO add a modal that confirms whether a user is sure
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
+		setModalOpen(true);
+	};
 
+	const handleConfirmModal = async () => {
 		try {
 			const updateData = {
-				status
+				status: newStatus
 			};
-
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			setPreviousStatus(newStatus);
 			toast.success(response.message);
 		} catch (err) {
 			toast.error("Error updateing workflow");
+		} finally {
+			setModalOpen(false);
 		}
+	};
+
+	const handleCancelModal = () => {
+		setModalOpen(false);
 	};
 
 	return (
@@ -62,7 +72,7 @@ export default function WorkflowId({
 						<div>
 							<button
 								className="btn btn-primary"
-								disabled={status === workflowStatus}
+								disabled={newStatus === previousStatus}
 								onClick={handleSaveChanges}
 							>
 								Save All
@@ -71,11 +81,22 @@ export default function WorkflowId({
 					</div>
 
 					<div className="flex justify-end align-middle bg-slate-100 px-4">
-						<WorkflowStatusDropdown handleStatusChange={handleStatusChange} status={status} />
+						<WorkflowStatusDropdown handleStatusChange={handleStatusChange} status={newStatus} />
 					</div>
 
 					<CarrierWorkflow workflow={workflow} />
 				</main>
+				<Modal
+					open={modalOpen}
+					title={"Are you sure you want Continue"}
+					body={
+						"Ensure you've checked all of the delivery details carefully especially price and locations"
+					}
+					cancelText={"Cancel"}
+					handleCancel={handleCancelModal}
+					continueText={"Continue"}
+					handleContinue={handleConfirmModal}
+				/>
 			</CarrierLayout>
 		</>
 	);
