@@ -8,6 +8,8 @@ import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/Carr
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
+import CarrierWorkflowPricing from "@/features/Carrier/CarrierWorkflows/CarrierWorkflowPricing";
+
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
 import Modal from "@/components/Modal";
 
@@ -85,10 +87,19 @@ export default function WorkflowId({
 
 	const handleConfirmModal = async () => {
 		try {
-			const updateData = {
+			const updateData: { [key: string]: string } = {
 				status: newStatus,
 				carrierNotes: workflowStatusChangeNotes
 			};
+
+			if (carrierQuoteRequest) {
+				updateData.carrierQuote = carrierQuoteRequest;
+			}
+
+			if (carrierCounterRequest) {
+				updateData.carrierCounter = carrierCounterRequest;
+			}
+
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 			setPreviousStatus(newStatus);
 			toast.success(response.message);
@@ -96,6 +107,7 @@ export default function WorkflowId({
 			toast.error("Error updateing workflow");
 		} finally {
 			setModalOpen(false);
+			setQuotePriceError(false);
 		}
 	};
 
@@ -146,16 +158,19 @@ export default function WorkflowId({
 						/>
 					</div>
 
-					<CarrierWorkflow
-						workflow={workflow}
-						handleBidSelectChange={handleBidSelectChange}
-						bidSelectValue={bidSelectValue}
-						carrierQuoteRequest={carrierQuoteRequest}
-						handleCarrierQuoteRequest={handleCarrierQuoteRequest}
-						quotePriceError={quotePriceError}
-						handleCarrierCounterRequest={handleCarrierCounterRequest}
-						carrierCounterRequest={carrierCounterRequest}
-					/>
+					<CarrierWorkflow workflow={workflow}>
+						<CarrierWorkflowPricing
+							useCustomPricing={workflow.workflowContainerData.useCustomPricing}
+							customPrice={workflow.workflowContainerData.customPrice}
+							handleBidSelectChange={handleBidSelectChange}
+							bidSelectValue={bidSelectValue}
+							carrierQuoteRequest={carrierQuoteRequest}
+							handleCarrierQuoteRequest={handleCarrierQuoteRequest}
+							quotePriceError={quotePriceError}
+							handleCarrierCounterRequest={handleCarrierCounterRequest}
+							carrierCounterRequest={carrierCounterRequest}
+						/>
+					</CarrierWorkflow>
 				</main>
 				<Modal
 					open={modalOpen}

@@ -8,25 +8,10 @@ import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/ty
 
 interface CarrierWorkflowProps {
 	workflow: CarrierWorkflowType;
-	handleBidSelectChange: (event: ChangeEvent<HTMLInputElement>) => void;
-	bidSelectValue: string;
-	carrierQuoteRequest: string;
-	handleCarrierQuoteRequest: (event: ChangeEvent<HTMLInputElement>) => void;
-	carrierCounterRequest: string;
-	handleCarrierCounterRequest: (event: ChangeEvent<HTMLInputElement>) => void;
-	quotePriceError: boolean;
+	children: JSX.Element;
 }
 
-export default function CarrierWorkflow({
-	workflow,
-	handleBidSelectChange,
-	bidSelectValue,
-	carrierQuoteRequest,
-	handleCarrierQuoteRequest,
-	carrierCounterRequest,
-	handleCarrierCounterRequest,
-	quotePriceError
-}: CarrierWorkflowProps) {
+export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;
@@ -152,19 +137,7 @@ export default function CarrierWorkflow({
 
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
-					<div className="mx-8">
-						<CarrierWorkflowPricing
-							useCustomPricing={useCustomPricing}
-							customPrice={customPrice}
-							handleBidSelectChange={handleBidSelectChange}
-							bidSelectValue={bidSelectValue}
-							carrierQuoteRequest={carrierQuoteRequest}
-							handleCarrierQuoteRequest={handleCarrierQuoteRequest}
-							carrierCounterRequest={carrierCounterRequest}
-							handleCarrierCounterRequest={handleCarrierCounterRequest}
-							quotePriceError={quotePriceError}
-						/>
-					</div>
+					{children}
 				</div>
 
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

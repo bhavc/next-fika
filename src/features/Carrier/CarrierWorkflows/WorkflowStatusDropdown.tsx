@@ -20,8 +20,7 @@ export default function WorkflowStatusDropdown({
 			value: "Counter Price",
 			disabled: !Boolean(workflow?.workflowContainerData?.useCustomPricing)
 		},
-		{ label: "Rejected", value: "Rejected", disabled: previousStatus === "Allocated" },
-		{ label: "Triage dummy", value: "Triage1" }
+		{ label: "Rejected", value: "Rejected", disabled: previousStatus === "Allocated" }
 	];
 
 	return (

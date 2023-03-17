@@ -29,7 +29,8 @@ export default function CarrierWorkflowPricing({
 	quotePriceError
 }: CarrierWorkflowPricingProps) {
 	let returnedComponent;
-
+	console.log("useCustomPricing", useCustomPricing);
+	// TODO: Check workflow status as well
 	if (!useCustomPricing) {
 		returnedComponent = (
 			<form>
