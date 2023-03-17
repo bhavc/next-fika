@@ -36,8 +36,8 @@ export default function WorkflowId({
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState("accept");
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
-	const [quotePriceError, setQuotePriceError] = useState(false);
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState("");
+	const [quotePriceError, setQuotePriceError] = useState(false);
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
@@ -55,7 +55,15 @@ export default function WorkflowId({
 				bidSelectValue !== "counter"
 			) {
 				setQuotePriceError(true);
-				toast.error("You must ensure you counter the price with a valid price");
+				toast.error("You must ensure you counter the price with a valid price.");
+				return;
+			}
+		}
+
+		if (newStatus === "Allocated") {
+			if (carrierQuoteRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null) {
+				setQuotePriceError(true);
+				toast.error("You must ensure you provide a valid quote price.");
 				return;
 			}
 		}
