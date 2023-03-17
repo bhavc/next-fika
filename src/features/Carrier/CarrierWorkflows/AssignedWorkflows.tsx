@@ -2,11 +2,9 @@ import Link from "next/link";
 import TruckIcon from "public/svg/truck-loading.svg";
 import IconRight from "public/svg/arrow-right.svg";
 
-import Badge from "@/components/Badge";
 import WorkflowStatusBadge from "./WorkflowStatusBadge";
 
 import { formatDateStringToDate } from "@/utils/time";
-import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
 
 import type { CarrierWorkflowType } from "./types";
 

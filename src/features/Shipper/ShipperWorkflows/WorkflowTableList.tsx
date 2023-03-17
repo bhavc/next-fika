@@ -1,11 +1,9 @@
 import Link from "next/link";
 import IconRight from "public/svg/arrow-right.svg";
 
-import Badge from "@/components/Badge";
 import WorkflowStatusBadge from "./WorkflowStatusBadge";
 
 import { formatDateStringToDate } from "@/utils/time";
-import { mapWorkflowTableListBadgeColorToStatus } from "./helpers";
 
 import type { WorkflowType } from "./types";
 

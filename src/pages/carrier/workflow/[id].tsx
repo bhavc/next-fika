@@ -34,6 +34,8 @@ export default function WorkflowId({
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
+	const [bidSelectValue, setBidSelectValue] = useState("accept");
+	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
@@ -45,6 +47,14 @@ export default function WorkflowId({
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		setModalOpen(true);
+	};
+
+	const handleBidSelectChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setBidSelectValue(event.target.value);
+	};
+
+	const handleCarrierQuoteRequest = (event: ChangeEvent<HTMLInputElement>) => {
+		setCarrierQuoteRequest(event.target.value);
 	};
 
 	const handleConfirmModal = async () => {
@@ -109,7 +119,13 @@ export default function WorkflowId({
 						/>
 					</div>
 
-					<CarrierWorkflow workflow={workflow} />
+					<CarrierWorkflow
+						workflow={workflow}
+						handleBidSelectChange={handleBidSelectChange}
+						bidSelectValue={bidSelectValue}
+						carrierQuoteRequest={carrierQuoteRequest}
+						handleCarrierQuoteRequest={handleCarrierQuoteRequest}
+					/>
 				</main>
 				<Modal
 					open={modalOpen}

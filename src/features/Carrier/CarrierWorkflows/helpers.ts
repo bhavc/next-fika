@@ -1,27 +1,6 @@
 import type { CarrierWorkflowStatus } from "./types";
 import type { UserCarrier } from "../UserCarrier/types";
 
-export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: CarrierWorkflowStatus) => {
-	switch (workflowStatus) {
-		case "Draft":
-			return "slate-200";
-		case "Triage":
-			return "sky-400";
-		case "Allocated":
-			return "secondary-content";
-		case "In Progress":
-			return "warning";
-		case "Shipped":
-			return "success";
-		case "Cancelled":
-			return "error";
-		case "Rejected":
-			return "error";
-		default:
-			return "slate-200";
-	}
-};
-
 export const doesUserRequireSettings = (user: UserCarrier) => {
 	if (user.areasServiced && user.regionServiced && user.languagesSupported) {
 		return false;
@@ -37,6 +16,12 @@ export const getCarrierWorkflowModalStatusChangeCopy = (workflowStatus: CarrierW
 				titleText: "Allocate Shipment?",
 				bodyText:
 					"By setting the shipment to Allocated, you are agreeing to being the carrier for the delivery. This means you agree with the price, pickup, delivery and other requests of the shipment"
+			};
+		case "Counter Price":
+			return {
+				titleText: "Counter Price",
+				bodyText:
+					"By Rejecting the shipment, you do not agree to taking on the delivery. This can not be undone."
 			};
 		case "Rejected":
 			return {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MouseEvent, ChangeEvent } from "react";
 
 import CarrierWorkflowPricing from "./CarrierWorkflowPricing";
 
@@ -7,9 +8,19 @@ import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/ty
 
 interface CarrierWorkflowProps {
 	workflow: CarrierWorkflowType;
+	handleBidSelectChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	bidSelectValue: string;
+	carrierQuoteRequest: string;
+	handleCarrierQuoteRequest: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
+export default function CarrierWorkflow({
+	workflow,
+	handleBidSelectChange,
+	bidSelectValue,
+	carrierQuoteRequest,
+	handleCarrierQuoteRequest
+}: CarrierWorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowNotes = workflow?.workflowNotes;
@@ -135,8 +146,15 @@ export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
 
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
-					<div className="ml-28">
-						<CarrierWorkflowPricing useCustomPricing={useCustomPricing} customPrice={customPrice} />
+					<div className="mx-8">
+						<CarrierWorkflowPricing
+							useCustomPricing={useCustomPricing}
+							customPrice={customPrice}
+							handleBidSelectChange={handleBidSelectChange}
+							bidSelectValue={bidSelectValue}
+							carrierQuoteRequest={carrierQuoteRequest}
+							handleCarrierQuoteRequest={handleCarrierQuoteRequest}
+						/>
 					</div>
 				</div>
 
@@ -150,7 +168,6 @@ export default function CarrierWorkflow({ workflow }: CarrierWorkflowProps) {
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
 					<div>

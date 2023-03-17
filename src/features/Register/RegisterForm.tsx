@@ -1,6 +1,5 @@
-import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { UserType } from "../User/types";
+import { UserType } from "../types";
 
 type FormInputs = {
 	email: string;

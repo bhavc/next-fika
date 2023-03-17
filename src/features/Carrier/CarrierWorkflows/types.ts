@@ -3,6 +3,7 @@ import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 export type CarrierWorkflowStatus =
 	| "Draft"
 	| "Triage"
+	| "Counter Price"
 	| "Allocated"
 	| "In Progress"
 	| "Shipped"

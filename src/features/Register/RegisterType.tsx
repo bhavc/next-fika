@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { UserType } from "../User/types";
+import { UserType } from "../types";
 
 interface RegisterTypeProps {
 	selectedAccountType: UserType | null;

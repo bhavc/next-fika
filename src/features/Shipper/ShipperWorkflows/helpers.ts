@@ -114,27 +114,6 @@ export const mapSelectedCargoValueToDimensions = (selectedNumber: string) => {
 	};
 };
 
-export const mapWorkflowTableListBadgeColorToStatus = (workflowStatus: ShipperWorkflowStatus) => {
-	switch (workflowStatus) {
-		case "Draft":
-			return "slate-200";
-		case "Triage":
-			return "sky-400";
-		case "Allocated":
-			return "secondary-content";
-		case "In Progress":
-			return "warning";
-		case "Shipped":
-			return "success";
-		case "Cancelled":
-			return "error";
-		case "Rejected":
-			return "error";
-		default:
-			return "slate-200";
-	}
-};
-
 export const getCountryFromAddress = (address: string) => {
 	const splitAddress = address.split(",");
 	const country = splitAddress[splitAddress.length - 1];
