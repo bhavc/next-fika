@@ -12,6 +12,9 @@ interface CarrierWorkflowProps {
 	bidSelectValue: string;
 	carrierQuoteRequest: string;
 	handleCarrierQuoteRequest: (event: ChangeEvent<HTMLInputElement>) => void;
+	carrierCounterRequest: string;
+	handleCarrierCounterRequest: (event: ChangeEvent<HTMLInputElement>) => void;
+	quotePriceError: boolean;
 }
 
 export default function CarrierWorkflow({
@@ -19,7 +22,10 @@ export default function CarrierWorkflow({
 	handleBidSelectChange,
 	bidSelectValue,
 	carrierQuoteRequest,
-	handleCarrierQuoteRequest
+	handleCarrierQuoteRequest,
+	carrierCounterRequest,
+	handleCarrierCounterRequest,
+	quotePriceError
 }: CarrierWorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
@@ -154,6 +160,9 @@ export default function CarrierWorkflow({
 							bidSelectValue={bidSelectValue}
 							carrierQuoteRequest={carrierQuoteRequest}
 							handleCarrierQuoteRequest={handleCarrierQuoteRequest}
+							carrierCounterRequest={carrierCounterRequest}
+							handleCarrierCounterRequest={handleCarrierCounterRequest}
+							quotePriceError={quotePriceError}
 						/>
 					</div>
 				</div>

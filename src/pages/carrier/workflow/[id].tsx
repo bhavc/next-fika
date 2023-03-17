@@ -36,6 +36,8 @@ export default function WorkflowId({
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState("accept");
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
+	const [quotePriceError, setQuotePriceError] = useState(false);
+	const [carrierCounterRequest, setCarrierCounterRequest] = useState("");
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
@@ -46,6 +48,18 @@ export default function WorkflowId({
 
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
+
+		if (newStatus === "Counter Price") {
+			if (
+				carrierCounterRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null ||
+				bidSelectValue !== "counter"
+			) {
+				setQuotePriceError(true);
+				toast.error("You must ensure you counter the price with a valid price");
+				return;
+			}
+		}
+
 		setModalOpen(true);
 	};
 
@@ -55,6 +69,10 @@ export default function WorkflowId({
 
 	const handleCarrierQuoteRequest = (event: ChangeEvent<HTMLInputElement>) => {
 		setCarrierQuoteRequest(event.target.value);
+	};
+
+	const handleCarrierCounterRequest = (event: ChangeEvent<HTMLInputElement>) => {
+		setCarrierCounterRequest(event.target.value);
 	};
 
 	const handleConfirmModal = async () => {
@@ -116,6 +134,7 @@ export default function WorkflowId({
 							handleStatusChange={handleStatusChange}
 							newStatus={newStatus}
 							previousStatus={previousStatus}
+							workflow={workflow}
 						/>
 					</div>
 
@@ -125,6 +144,9 @@ export default function WorkflowId({
 						bidSelectValue={bidSelectValue}
 						carrierQuoteRequest={carrierQuoteRequest}
 						handleCarrierQuoteRequest={handleCarrierQuoteRequest}
+						quotePriceError={quotePriceError}
+						handleCarrierCounterRequest={handleCarrierCounterRequest}
+						carrierCounterRequest={carrierCounterRequest}
 					/>
 				</main>
 				<Modal

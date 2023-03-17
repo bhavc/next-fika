@@ -21,7 +21,7 @@ export const getCarrierWorkflowModalStatusChangeCopy = (workflowStatus: CarrierW
 			return {
 				titleText: "Counter Price",
 				bodyText:
-					"By Rejecting the shipment, you do not agree to taking on the delivery. This can not be undone."
+					"By countering the price on this shipment, you do not agree to taking on the delivery at the current price. The deliverer has the option to renegotiate the price."
 			};
 		case "Rejected":
 			return {

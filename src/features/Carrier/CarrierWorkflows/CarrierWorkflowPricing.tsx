@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { MouseEvent, ChangeEvent } from "react";
 
 export type CarrierWorkflowPricingFormInputs = {
-	notes: string;
+	quotePrice: string;
 };
 
 interface CarrierWorkflowPricingProps {
@@ -12,6 +12,9 @@ interface CarrierWorkflowPricingProps {
 	bidSelectValue: string;
 	carrierQuoteRequest: string;
 	handleCarrierQuoteRequest: (event: ChangeEvent<HTMLInputElement>) => void;
+	carrierCounterRequest: string;
+	handleCarrierCounterRequest: (event: ChangeEvent<HTMLInputElement>) => void;
+	quotePriceError: boolean;
 }
 
 export default function CarrierWorkflowPricing({
@@ -20,14 +23,12 @@ export default function CarrierWorkflowPricing({
 	handleBidSelectChange,
 	bidSelectValue,
 	carrierQuoteRequest,
-	handleCarrierQuoteRequest
+	handleCarrierQuoteRequest,
+	carrierCounterRequest,
+	handleCarrierCounterRequest,
+	quotePriceError
 }: CarrierWorkflowPricingProps) {
 	let returnedComponent;
-
-	// if theres no custom price, maybe user has to add the price of this
-	// if there is a custom price, we can reject or accept the price
-
-	// user can accept or reject this, if theres a custom price
 
 	if (!useCustomPricing) {
 		returnedComponent = (
@@ -43,7 +44,10 @@ export default function CarrierWorkflowPricing({
 							<span>$</span>
 							<input
 								type="text"
-								className="input input-bordered"
+								placeholder="250.00"
+								className={`input input-bordered ${
+									quotePriceError ? "border-error" : "border-neutral"
+								}`}
 								value={carrierQuoteRequest}
 								onChange={handleCarrierQuoteRequest}
 							/>
@@ -68,12 +72,24 @@ export default function CarrierWorkflowPricing({
 						</p>
 						<label className="input-group mt-4 flex ml-4">
 							<span>$</span>
-							<input
-								type="text"
-								className="input input-bordered w-28 md:w-56"
-								defaultValue={customPrice}
-								disabled={bidSelectValue !== "counter"}
-							/>
+							{bidSelectValue === "accept" ? (
+								<input
+									type="text"
+									className={`input input-bordered`}
+									value={customPrice}
+									disabled
+								/>
+							) : (
+								<input
+									type="text"
+									placeholder="250.00"
+									className={`input input-bordered ${
+										quotePriceError ? "border-error" : "border-neutral"
+									}`}
+									value={carrierCounterRequest}
+									onChange={handleCarrierCounterRequest}
+								/>
+							)}
 							<span>USD</span>
 						</label>
 					</div>
