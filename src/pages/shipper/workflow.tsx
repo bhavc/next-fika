@@ -48,6 +48,9 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			borderCrossing: ""
 		});
 
+	// TODO split this up so it makes more sense on the backend
+	const [workflowFormPriceState, setWorkflowFormPriceState] = useState();
+
 	const [workflowFormContainerDetailsState, setWorkflowFormContainerDetailsState] =
 		useState<WorkflowFormContainerDetailsInputs>({
 			useCustomPricing: false,
@@ -76,7 +79,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		});
 
 	const [workflowFormNotesState, setWorkflowFormNotesState] = useState<WorkflowFormNotesInputs>({
-		notes: ""
+		shipperNotes: ""
 	});
 
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
@@ -119,7 +122,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		const workflowData = {
 			workflowAddressData: workflowFormAddressState,
 			workflowContainerData: workflowFormContainerDetailsState,
-			workflowNotes: workflowFormNotesState,
+			shipperNotes: workflowFormNotesState.shipperNotes,
 			selectedCarrier,
 			uploadedFiles
 		};

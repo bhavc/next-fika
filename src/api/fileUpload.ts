@@ -1,23 +1,5 @@
 import { Fetch } from "./fetchWrapper";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-export const uploadFile = async (file: File) => {
-	const formData = new FormData();
-	formData.append("file", file, file.name);
-
-	const response = await fetch(`${BASE_URL}/fileUpload/file`, {
-		method: "POST",
-		body: formData
-	});
-
-	if (!response.ok) {
-		throw new Error("uploadFile - could not upload file");
-	}
-
-	return response.json();
-};
-
 export const uploadFiles = async (userToken: string, files: File[]) => {
 	const formData = new FormData();
 

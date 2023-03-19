@@ -7,10 +7,11 @@ interface WorkflowProps {
 	workflow: WorkflowType;
 }
 
-export default function Workflow({ workflow }: WorkflowProps) {
+export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
-	const workflowNotes = workflow?.workflowNotes;
+	const shipperNotes = workflow?.shipperNotes;
+	const carrierNotes = workflow?.carrierNotes;
 	const uploadedFiles = workflow?.fileUrls;
 	const selectedCarrier = workflow.selectedCarrier;
 
@@ -59,8 +60,6 @@ export default function Workflow({ workflow }: WorkflowProps) {
 		isReturn,
 		returnDepotName
 	} = workflowContainerData;
-
-	const { notes } = workflowNotes;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
@@ -276,21 +275,20 @@ export default function Workflow({ workflow }: WorkflowProps) {
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div>
-					<h2 className="text-xl">Delivery Notes</h2>
+					<h2 className="text-xl">Shipper Notes</h2>
 					<div className="ml-28">
-						<p>{notes || "n/a"}</p>
+						<p>{shipperNotes || "n/a"}</p>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{/* TODO add shipper notes here */}
-				{/* <div>
-					<h2 className="text-xl">Delivery Notes</h2>
+				<div>
+					<h2 className="text-xl">Carrier Notes</h2>
 					<div className="ml-28">
-						<p>{notes || "n/a"}</p>
+						<p>{carrierNotes || "n/a"}</p>
 					</div>
 				</div>
-				<div className="mt-6 mb-6 border-b-2 border-slate-300" /> */}
+				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				{uploadedFiles && uploadedFiles.length > 0 && (
 					<div>

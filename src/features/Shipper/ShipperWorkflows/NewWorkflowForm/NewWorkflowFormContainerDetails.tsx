@@ -46,8 +46,6 @@ export default function NewWorkflowFormContainerDetails({
 		register,
 		handleSubmit,
 		watch,
-		setValue,
-		getValues,
 		formState: { errors }
 	} = useForm<WorkflowFormContainerDetailsInputs>({
 		defaultValues: {
@@ -260,6 +258,7 @@ export default function NewWorkflowFormContainerDetails({
 						<label>Net Weight*</label>
 						<p className="text-sm pl-4 text-slate-500">*In kilograms (kg)</p>
 						<div className="mt-1 flex rounded-md shadow-sm">
+							{/* Change this from number to text type */}
 							<input
 								type="number"
 								placeholder="467.310"

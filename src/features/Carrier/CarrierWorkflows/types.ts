@@ -64,10 +64,6 @@ export type CarrierWorkflowContainerDataType = {
 	requiresControlledAtmosphere?: boolean;
 };
 
-export type CarrierWorkflowNotesType = {
-	notes?: string;
-};
-
 export type CarrierWorkflowType = {
 	id: string;
 	user_for: string;
@@ -75,7 +71,8 @@ export type CarrierWorkflowType = {
 	selectedCarrier: UserCarrier;
 	workflowAddressData: CarrierWorkflowAddressDataType;
 	workflowContainerData: CarrierWorkflowContainerDataType;
-	workflowNotes: CarrierWorkflowNotesType;
+	shipperNotes: string;
+	carrierNotes: string;
 	uploadedFiles: FileType[];
 	fileUrls: FileType[];
 	createdAt: string;

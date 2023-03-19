@@ -14,7 +14,9 @@ interface CarrierWorkflowProps {
 export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
-	const workflowNotes = workflow?.workflowNotes;
+	console.log("workflow", workflow);
+	const shipperNotes = workflow?.shipperNotes;
+	const carrierNotes = workflow?.carrierNotes;
 	const uploadedFiles = workflow?.fileUrls;
 
 	const {
@@ -62,8 +64,6 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 		isReturn,
 		returnDepotName
 	} = workflowContainerData;
-
-	const { notes } = workflowNotes;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
@@ -249,7 +249,15 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 				<div>
 					<h2 className="text-xl">Delivery Notes</h2>
 					<div className="ml-28">
-						<p>{notes || "n/a"}</p>
+						<p>{shipperNotes || "n/a"}</p>
+					</div>
+				</div>
+				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+
+				<div>
+					<h2 className="text-xl">Carrier Notes</h2>
+					<div className="ml-28">
+						<p>{carrierNotes || "n/a"}</p>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

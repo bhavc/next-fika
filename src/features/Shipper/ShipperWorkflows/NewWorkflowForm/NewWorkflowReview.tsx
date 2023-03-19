@@ -75,7 +75,7 @@ export default function NewWorkflowFormReview({
 		returnDepotName
 	} = workflowFormContainerDetailsState;
 
-	const { notes } = workflowFormNotesState;
+	const { shipperNotes } = workflowFormNotesState;
 
 	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 	const imageFiles = uploadedFiles.filter((file) => imageFileTypes.includes(file.type));
@@ -294,7 +294,7 @@ export default function NewWorkflowFormReview({
 				<div>
 					<h2 className="text-xl">Delivery Notes</h2>
 					<div className="ml-28">
-						<p>{notes || "n/a"}</p>
+						<p>{shipperNotes || "n/a"}</p>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

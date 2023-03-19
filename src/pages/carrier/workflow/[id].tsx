@@ -31,6 +31,8 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
+	const useCustomPricing = workflow.workflowContainerData.useCustomPricing;
+	const customPrice = workflow.workflowContainerData.customPrice;
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
@@ -51,6 +53,7 @@ export default function WorkflowId({
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 
+		// carrier rejects their own price
 		if (newStatus === "Counter Price") {
 			if (
 				carrierCounterRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null ||
@@ -62,8 +65,14 @@ export default function WorkflowId({
 			}
 		}
 
+		// flows
+		// carrier accepts and provides quote
+		// carrier accepts with shipper price
 		if (newStatus === "Allocated") {
-			if (carrierQuoteRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null) {
+			if (
+				!useCustomPricing &&
+				carrierQuoteRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null
+			) {
 				setQuotePriceError(true);
 				toast.error("You must ensure you provide a valid quote price.");
 				return;
@@ -87,17 +96,20 @@ export default function WorkflowId({
 
 	const handleConfirmModal = async () => {
 		try {
-			const updateData: { [key: string]: string } = {
-				status: newStatus,
-				carrierNotes: workflowStatusChangeNotes
+			const updateData: { [key: string]: any } = {
+				workflow: {
+					status: newStatus,
+					carrierNotes: workflowStatusChangeNotes
+				},
+				payment: {}
 			};
 
 			if (carrierQuoteRequest) {
-				updateData.carrierQuote = carrierQuoteRequest;
+				updateData.payment.carrierQuote = carrierQuoteRequest;
 			}
 
 			if (carrierCounterRequest) {
-				updateData.carrierCounter = carrierCounterRequest;
+				updateData.payment.carrierCounter = carrierCounterRequest;
 			}
 
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
@@ -160,8 +172,8 @@ export default function WorkflowId({
 
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
-							useCustomPricing={workflow.workflowContainerData.useCustomPricing}
-							customPrice={workflow.workflowContainerData.customPrice}
+							useCustomPricing={useCustomPricing}
+							customPrice={customPrice}
 							handleBidSelectChange={handleBidSelectChange}
 							bidSelectValue={bidSelectValue}
 							carrierQuoteRequest={carrierQuoteRequest}

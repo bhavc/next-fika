@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { getWorkflowByWorkflowId } from "@/api/workflow";
 
-import Workflow from "@/features/Shipper/ShipperWorkflows/Workflow";
+import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 
 import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { GetServerSideProps } from "next";
@@ -22,7 +22,7 @@ export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
 						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
 					</div>
 
-					<Workflow workflow={workflow} />
+					<ShipperWorkflow workflow={workflow} />
 				</main>
 			</ShipperLayout>
 		</>

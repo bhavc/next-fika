@@ -13,7 +13,7 @@ export default function WorkflowStatusDropdown({
 	workflow?: CarrierWorkflowType;
 }) {
 	const statusOptions = [
-		{ label: "Triage", value: "Triage", disabled: previousStatus !== "Triage" },
+		{ label: "Triage", value: "Triage" },
 		{ label: "Allocated", value: "Allocated", disabled: previousStatus === "Rejected" },
 		{
 			label: "Counter Price",

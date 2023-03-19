@@ -6,7 +6,7 @@ import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
 
 export type WorkflowFormNotesInputs = {
-	notes: string;
+	shipperNotes: string;
 };
 
 interface NewWorkflowFormNotesProps {
@@ -34,7 +34,7 @@ export default function NewWorkflowFormNotes({
 		formState: { errors }
 	} = useForm<WorkflowFormNotesInputs>({
 		defaultValues: {
-			notes: workflowFormNotesState.notes
+			shipperNotes: workflowFormNotesState.shipperNotes
 		}
 	});
 
@@ -71,9 +71,9 @@ export default function NewWorkflowFormNotes({
 								<textarea
 									placeholder="Add any other notes here that may help with your delivery"
 									className={`input w-full h-80 pt-2 whitespace-pre-wrap ${
-										errors.notes ? "border-error" : "border-neutral"
+										errors.shipperNotes ? "border-error" : "border-neutral"
 									}`}
-									{...register("notes", { required: false })}
+									{...register("shipperNotes", { required: false })}
 								/>
 							</div>
 						</div>
