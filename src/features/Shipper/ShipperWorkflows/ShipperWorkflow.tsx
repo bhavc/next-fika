@@ -10,6 +10,7 @@ interface WorkflowProps {
 export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
+	const workflowPriceData = workflow?.workflowPriceData;
 	const shipperNotes = workflow?.shipperNotes;
 	const carrierNotes = workflow?.carrierNotes;
 	const uploadedFiles = workflow?.fileUrls;
@@ -35,9 +36,12 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 		borderCrossing
 	} = workflowAddressData;
 
+	const workflowPrice = workflowPriceData?.price;
+
+	// if in triage and no price, means workflow was just created "Waiting for price from carrier"
+	// if in "Counter Price" that means either "its my turn to counter" or its this users time to counter
+
 	const {
-		useCustomPricing,
-		customPrice,
 		goodsDescription,
 		cargoType,
 		length,

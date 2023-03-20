@@ -31,8 +31,8 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
-	const useCustomPricing = workflow.workflowContainerData.useCustomPricing;
-	const customPrice = workflow.workflowContainerData.customPrice;
+	const useCustomPricing = workflow.workflowPriceData.useCustomPricing;
+	const customPrice = workflow.workflowPriceData.customPrice;
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);

@@ -51,7 +51,6 @@ export type CarrierWorkflowContainerDataType = {
 	netWeight: string;
 	sealNumber: string;
 	vesselName?: string;
-	customPrice?: string;
 	goodsVolume: string;
 	grossWeight: string;
 	shippingLine?: string;
@@ -59,9 +58,13 @@ export type CarrierWorkflowContainerDataType = {
 	returnDepotName?: string;
 	goodsDescription: string;
 	numberOfPackages: string;
-	useCustomPricing?: boolean;
 	dropoffTerminalName?: string;
 	requiresControlledAtmosphere?: boolean;
+};
+
+export type WorkflowPriceDataType = {
+	useCustomPricing: boolean;
+	customPrice: string;
 };
 
 export type CarrierWorkflowType = {
@@ -71,6 +74,7 @@ export type CarrierWorkflowType = {
 	selectedCarrier: UserCarrier;
 	workflowAddressData: CarrierWorkflowAddressDataType;
 	workflowContainerData: CarrierWorkflowContainerDataType;
+	workflowPriceData: WorkflowPriceDataType;
 	shipperNotes: string;
 	carrierNotes: string;
 	uploadedFiles: FileType[];

@@ -5,13 +5,14 @@ import { toast } from "react-hot-toast";
 
 import ShipperLayout from "@/layouts/ShipperLayout";
 
-import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
-import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
+import type { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
+import type { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerPriceDetails";
+import type { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
+import type { WorkflowFormPriceInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerPriceDetails";
 
 import NewWorkflowFormAddress from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
 import NewWorkflowFormSelectCarrier from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormSelectCarrier";
-import NewWorkflowFormContainerDetails from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
+import NewWorkflowFormContainerPriceDetails from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerPriceDetails";
 import NewWorkflowFormNotes from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
 import NewWorkflowFormReview from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowReview";
 
@@ -49,12 +50,13 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		});
 
 	// TODO split this up so it makes more sense on the backend
-	const [workflowFormPriceState, setWorkflowFormPriceState] = useState();
+	const [workflowFormPriceState, setWorkflowFormPriceState] = useState<WorkflowFormPriceInputs>({
+		useCustomPricing: false,
+		customPrice: ""
+	});
 
 	const [workflowFormContainerDetailsState, setWorkflowFormContainerDetailsState] =
 		useState<WorkflowFormContainerDetailsInputs>({
-			useCustomPricing: false,
-			customPrice: "",
 			goodsDescription: "",
 			cargoType: "",
 			length: "",
@@ -107,9 +109,12 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	};
 
 	const handleSubmitNewWorkflowFormContainerDetails = (
-		data: WorkflowFormContainerDetailsInputs
+		data: WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs
 	) => {
-		setWorkflowFormContainerDetailsState(data);
+		const { useCustomPricing, customPrice, ...rest } = data;
+
+		setWorkflowFormContainerDetailsState({ ...rest });
+		setWorkflowFormPriceState({ useCustomPricing, customPrice });
 		handleNextStep();
 	};
 
@@ -122,6 +127,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		const workflowData = {
 			workflowAddressData: workflowFormAddressState,
 			workflowContainerData: workflowFormContainerDetailsState,
+			workflowPriceData: workflowFormPriceState,
 			shipperNotes: workflowFormNotesState.shipperNotes,
 			selectedCarrier,
 			uploadedFiles
@@ -210,10 +216,11 @@ export default function Workflow({ userToken }: { userToken: string }) {
 							/>
 						)}
 						{step === 2 && (
-							<NewWorkflowFormContainerDetails
+							<NewWorkflowFormContainerPriceDetails
 								handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
 								handleGoBack={handleGoBack}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+								workflowFormPriceState={workflowFormPriceState}
 							/>
 						)}
 						{step === 3 && (
@@ -232,6 +239,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 								workflowFormAddressState={workflowFormAddressState}
 								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
 								workflowFormNotesState={workflowFormNotesState}
+								workflowFormPriceState={workflowFormPriceState}
 								selectedCarrier={selectedCarrier}
 								uploadedFiles={uploadedFiles}
 								handleGoBack={handleGoBack}

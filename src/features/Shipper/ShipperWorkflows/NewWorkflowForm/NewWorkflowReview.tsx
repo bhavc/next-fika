@@ -1,8 +1,9 @@
 import { WorkflowFormAddressInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormAddress";
-import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerDetails";
+import { WorkflowFormContainerDetailsInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerPriceDetails";
 import { WorkflowFormNotesInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormNotes";
 
 import type { UserCarrier } from "../../../Carrier/UserCarrier/types";
+import type { WorkflowFormPriceInputs } from "@/features/Shipper/ShipperWorkflows/NewWorkflowForm/NewWorkflowFormContainerPriceDetails";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +15,7 @@ interface NewWorkflowFormNotesProps {
 	workflowFormAddressState: WorkflowFormAddressInputs;
 	workflowFormContainerDetailsState: WorkflowFormContainerDetailsInputs;
 	workflowFormNotesState: WorkflowFormNotesInputs;
+	workflowFormPriceState: WorkflowFormPriceInputs;
 	selectedCarrier?: UserCarrier;
 	handleGoBack: () => void;
 	handleSubmit: () => void;
@@ -24,6 +26,7 @@ export default function NewWorkflowFormReview({
 	workflowFormAddressState,
 	workflowFormContainerDetailsState,
 	workflowFormNotesState,
+	workflowFormPriceState,
 	selectedCarrier,
 	handleGoBack,
 	handleSubmit,
@@ -49,9 +52,9 @@ export default function NewWorkflowFormReview({
 		borderCrossing
 	} = workflowFormAddressState;
 
+	const { useCustomPricing, customPrice } = workflowFormPriceState;
+
 	const {
-		useCustomPricing,
-		customPrice,
 		goodsDescription,
 		cargoType,
 		length,

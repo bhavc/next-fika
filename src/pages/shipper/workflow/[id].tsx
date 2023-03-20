@@ -71,6 +71,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 
+	console.log("workflowData", workflowData);
+
 	return {
 		props: {
 			workflow: workflowData

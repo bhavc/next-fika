@@ -5,9 +5,12 @@ import { valueToDimensionsMap, mapSelectedCargoValueToDimensions } from "../help
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
 
-export type WorkflowFormContainerDetailsInputs = {
+export type WorkflowFormPriceInputs = {
 	useCustomPricing: boolean;
 	customPrice: string;
+};
+
+export type WorkflowFormContainerDetailsInputs = {
 	goodsDescription: string;
 	cargoType: string;
 	length: string;
@@ -31,26 +34,30 @@ export type WorkflowFormContainerDetailsInputs = {
 	vesselName: string;
 };
 
-interface NewWorkflowFormContainerDetailsProps {
-	handleSubmitWorkflow: (data: WorkflowFormContainerDetailsInputs) => void;
+interface NewWorkflowFormContainerPriceDetailsProps {
+	handleSubmitWorkflow: (
+		data: WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs
+	) => void;
 	handleGoBack: () => void;
 	workflowFormContainerDetailsState: WorkflowFormContainerDetailsInputs;
+	workflowFormPriceState: WorkflowFormPriceInputs;
 }
 
-export default function NewWorkflowFormContainerDetails({
+export default function NewWorkflowFormContainerPriceDetails({
 	handleSubmitWorkflow,
 	handleGoBack,
-	workflowFormContainerDetailsState
-}: NewWorkflowFormContainerDetailsProps) {
+	workflowFormContainerDetailsState,
+	workflowFormPriceState
+}: NewWorkflowFormContainerPriceDetailsProps) {
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors }
-	} = useForm<WorkflowFormContainerDetailsInputs>({
+	} = useForm<WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs>({
 		defaultValues: {
-			useCustomPricing: workflowFormContainerDetailsState.useCustomPricing,
-			customPrice: workflowFormContainerDetailsState.customPrice,
+			useCustomPricing: workflowFormPriceState.useCustomPricing,
+			customPrice: workflowFormPriceState.customPrice,
 			goodsDescription: workflowFormContainerDetailsState.goodsDescription,
 			cargoType: workflowFormContainerDetailsState.cargoType,
 			length: workflowFormContainerDetailsState.length,
@@ -85,7 +92,9 @@ export default function NewWorkflowFormContainerDetails({
 	const watchedNetWeight = watch("netWeight");
 	const calculatedGrossWeight = +watchedNetWeight + +selectedCargoWeight;
 
-	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs> = (data) => {
+	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs> = (
+		data
+	) => {
 		data.height = selectedCargoTypeData.height as string;
 		data.width = selectedCargoTypeData.width as string;
 		data.length = selectedCargoTypeData.length as string;
