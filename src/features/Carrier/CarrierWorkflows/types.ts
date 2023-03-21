@@ -63,8 +63,11 @@ export type CarrierWorkflowContainerDataType = {
 };
 
 export type WorkflowPriceDataType = {
-	useCustomPricing: boolean;
-	customPrice: string;
+	acceptedByCarrier?: boolean;
+	acceptedByShipper?: boolean;
+	acceptedDate?: null;
+	id?: number;
+	price?: number;
 };
 
 export type CarrierWorkflowType = {

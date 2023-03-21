@@ -119,3 +119,8 @@ export const getCountryFromAddress = (address: string) => {
 	const country = splitAddress[splitAddress.length - 1];
 	return country.trim();
 };
+
+export const getCopyByWorkflowPrice = (
+	workflowStatus: ShipperWorkflowStatus,
+	workflowPrice?: number
+) => {};

@@ -5,20 +5,26 @@ export default function WorkflowStatusDropdown({
 	handleStatusChange,
 	newStatus,
 	previousStatus,
-	workflow
+	workflow,
+	bidSelectValue
 }: {
 	handleStatusChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 	newStatus: string;
 	previousStatus: string;
 	workflow?: CarrierWorkflowType;
+	bidSelectValue: string;
 }) {
 	const statusOptions = [
 		{ label: "Triage", value: "Triage" },
-		{ label: "Allocated", value: "Allocated", disabled: previousStatus === "Rejected" },
+		{
+			label: "Allocated",
+			value: "Allocated",
+			disabled: previousStatus === "Rejected" || bidSelectValue === "counter"
+		},
 		{
 			label: "Counter Price",
 			value: "Counter Price",
-			disabled: !Boolean(workflow?.workflowContainerData?.useCustomPricing)
+			disabled: !Boolean(workflow?.workflowPriceData?.price) || bidSelectValue === "accept"
 		},
 		{ label: "Rejected", value: "Rejected", disabled: previousStatus === "Allocated" }
 	];

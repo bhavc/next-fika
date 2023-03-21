@@ -158,7 +158,10 @@ export default function NewWorkflowFormReview({
 						{useCustomPricing ? (
 							<p>Price: {customPrice}</p>
 						) : (
-							<p>The price has already been determined by your team</p>
+							<p>
+								The price has already been agreed to by you and the carrier. The price will be
+								updated once the carrier adds the price
+							</p>
 						)}
 					</div>
 				</div>
@@ -290,7 +293,6 @@ export default function NewWorkflowFormReview({
 							</tbody>
 						</table>
 					</div>
-					<div></div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 

@@ -30,6 +30,7 @@ export default function Workflows({ userToken }: { userToken: string }) {
 	// };
 
 	useEffect(() => {
+		// TODO this needs to be fixed, pulling wrong company name
 		getWorkflowsByUserId(userToken)
 			.then((workflowData) => {
 				setWorkflows(workflowData.workflows);

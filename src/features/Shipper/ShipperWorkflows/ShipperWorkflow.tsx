@@ -37,9 +37,17 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 	} = workflowAddressData;
 
 	const workflowPrice = workflowPriceData?.price;
+	console.log("workflowPriceData", workflowPriceData);
 
-	// if in triage and no price, means workflow was just created "Waiting for price from carrier"
-	// if in "Counter Price" that means either "its my turn to counter" or its this users time to counter
+	// Shipper
+	// creates delivery in triage with no price (rfq) or price
+
+	// Carrier
+	// if delivery does not have a price, add a price and accept
+	// fillout price and stuff
+
+	// if delivery has a price, carier can then choose to either accept
+	// or counter
 
 	const {
 		goodsDescription,
@@ -137,36 +145,49 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
-					<div className="ml-28">
-						{useCustomPricing ? (
-							<p>Price: {customPrice}</p>
+					<div className="md:ml-28">
+						{workflowPrice ? (
+							<div className="stats shadow-2xl border-accent border-2">
+								<div className="stat">
+									<div className="stat-title">Total Price</div>
+									<div className="stat-value text-primary">${workflowPrice} USD</div>
+									<div className="stat-desc">to move your shipment</div>
+								</div>
+							</div>
 						) : (
-							<p>The price has already been determined by your team</p>
+							// the only time a shipper does not have the price is when
+							// they are requesting for quote (RFQ)
+							<p>
+								The price has already been agreed to by you and the carrier. The price will be
+								updated once the carrier adds the price
+							</p>
 						)}
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				{/* TODO: add details about the carrier */}
-				<h2 className="text-xl mb-2">Selected Carrier</h2>
-				<div className="flex flex-col items-center justify-center">
-					<div className="card w-96 bg-base-100 shadow-xl">
-						<div className="card-body">
-							<h2 className="card-title">
-								{selectedCarrier?.companyName}
-								<div className="badge badge-secondary">Used Before</div>
-							</h2>
-							<p>We serve this best in the North American and African regions!</p>
+				<div>
+					<h2 className="text-xl mb-2">Selected Carrier</h2>
+					<div className="md:ml-28">
+						<div className="card md:w-96 bg-base-100 shadow-2xl border-accent border-2">
+							<div className="card-body">
+								<h2 className="card-title">
+									{selectedCarrier?.companyName}
+									<div className="badge badge-secondary">Used Before</div>
+								</h2>
+								<p>We serve this best in the North American and African regions!</p>
 
-							{/* TODO change this to a better label value */}
-							<div className="card-actions justify-end">
-								{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
-									return (
-										<div key={index} className="badge badge-outline">
-											{areaServiced}
-										</div>
-									);
-								})}
+								{/* TODO change this to a better label value */}
+								<div className="card-actions justify-end">
+									{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
+										return (
+											<div key={index} className="badge badge-outline">
+												{areaServiced}
+											</div>
+										);
+									})}
+								</div>
 							</div>
 						</div>
 					</div>

@@ -31,12 +31,8 @@ export default function WorkflowTableList({
 		const formattedDate = formatDateStringToDate(createdAt);
 		return (
 			<tr key={index}>
-				<td className="w-8">
-					<div className="avatar">
-						<div className="mask mask-squircle w-12 h-12">
-							<TruckIcon />
-						</div>
-					</div>
+				<td>
+					<WorkflowStatusBadge workflowStatus={status}>{status}</WorkflowStatusBadge>
 				</td>
 				<td>
 					<div className="flex items-center space-x-3">
@@ -59,9 +55,6 @@ export default function WorkflowTableList({
 						</div>
 					</div>
 				</td>
-				<td>
-					<WorkflowStatusBadge workflowStatus={status}>{status}</WorkflowStatusBadge>
-				</td>
 				<td>{formattedDate}</td>
 				<th>
 					<Link href={`/carrier/workflow/${id}`} className="btn btn-circle bg-primary">
@@ -77,11 +70,10 @@ export default function WorkflowTableList({
 			<table className="table w-full">
 				<thead>
 					<tr>
-						<th className="text-accent bg-accent-content" />
-						<th className="text-accent bg-accent-content">Carrier</th>
+						<th className="text-accent bg-accent-content">Status</th>
+						<th className="text-accent bg-accent-content">Shipper</th>
 						<th className="text-accent bg-accent-content">Pickup Address</th>
 						<th className="text-accent bg-accent-content">Dropoff Address</th>
-						<th className="text-accent bg-accent-content">Status</th>
 						<th className="text-accent bg-accent-content">Date Created</th>
 						<th className="text-accent bg-accent-content" />
 					</tr>
@@ -89,11 +81,10 @@ export default function WorkflowTableList({
 				<tbody>{rows}</tbody>
 				<tfoot>
 					<tr>
-						<th className="text-accent bg-accent-content" />
-						<th className="text-accent bg-accent-content">Carrier</th>
+						<th className="text-accent bg-accent-content">Status</th>
+						<th className="text-accent bg-accent-content">Shipper</th>
 						<th className="text-accent bg-accent-content">Pickup Address</th>
 						<th className="text-accent bg-accent-content">Dropoff Address</th>
-						<th className="text-accent bg-accent-content">Status</th>
 						<th className="text-accent bg-accent-content">Date Created</th>
 						<th className="text-accent bg-accent-content" />
 					</tr>

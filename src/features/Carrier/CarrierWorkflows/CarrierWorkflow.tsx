@@ -14,7 +14,7 @@ interface CarrierWorkflowProps {
 export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowProps) {
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
-	console.log("workflow", workflow);
+
 	const shipperNotes = workflow?.shipperNotes;
 	const carrierNotes = workflow?.carrierNotes;
 	const uploadedFiles = workflow?.fileUrls;
@@ -40,8 +40,6 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 	} = workflowAddressData;
 
 	const {
-		useCustomPricing,
-		customPrice,
 		goodsDescription,
 		cargoType,
 		length,

@@ -6,8 +6,7 @@ export type CarrierWorkflowPricingFormInputs = {
 };
 
 interface CarrierWorkflowPricingProps {
-	useCustomPricing?: boolean;
-	customPrice?: string;
+	price?: number;
 	handleBidSelectChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	bidSelectValue: string;
 	carrierQuoteRequest: string;
@@ -18,8 +17,7 @@ interface CarrierWorkflowPricingProps {
 }
 
 export default function CarrierWorkflowPricing({
-	useCustomPricing,
-	customPrice,
+	price,
 	handleBidSelectChange,
 	bidSelectValue,
 	carrierQuoteRequest,
@@ -31,34 +29,7 @@ export default function CarrierWorkflowPricing({
 	let returnedComponent;
 
 	// TODO: Check workflow status as well
-	if (!useCustomPricing) {
-		returnedComponent = (
-			<form>
-				<div className="flex flex-row gap-6 justify-between">
-					<div className="pr-9">
-						<label>Request for Quote</label>
-						<p className="text-sm pl-4 text-slate-500">
-							*The deliverer has states that a pre-agreed tariff in place. Please add the price you
-							will be quoting the deliverer.
-						</p>
-						<label className="input-group mt-4 flex ml-4">
-							<span>$</span>
-							<input
-								type="text"
-								placeholder="250.00"
-								className={`input input-bordered ${
-									quotePriceError ? "border-error" : "border-neutral"
-								}`}
-								value={carrierQuoteRequest}
-								onChange={handleCarrierQuoteRequest}
-							/>
-							<span>USD</span>
-						</label>
-					</div>
-				</div>
-			</form>
-		);
-	} else {
+	if (price) {
 		returnedComponent = (
 			<form>
 				<div className="flex flex-col md:flex-row justify-between">
@@ -74,12 +45,7 @@ export default function CarrierWorkflowPricing({
 						<label className="input-group mt-4 flex ml-4">
 							<span>$</span>
 							{bidSelectValue === "accept" ? (
-								<input
-									type="text"
-									className={`input input-bordered`}
-									value={customPrice}
-									disabled
-								/>
+								<input type="text" className={`input input-bordered`} value={price} disabled />
 							) : (
 								<input
 									type="text"
@@ -119,6 +85,33 @@ export default function CarrierWorkflowPricing({
 								/>
 							</label>
 						</div>
+					</div>
+				</div>
+			</form>
+		);
+	} else {
+		returnedComponent = (
+			<form>
+				<div className="flex flex-row gap-6 justify-between">
+					<div className="pr-9">
+						<label>Request for Quote</label>
+						<p className="text-sm pl-4 text-slate-500">
+							*The deliverer has states that a pre-agreed tariff in place. Please add the price you
+							will be quoting the deliverer.
+						</p>
+						<label className="input-group mt-4 flex ml-4">
+							<span>$</span>
+							<input
+								type="text"
+								placeholder="250.00"
+								className={`input input-bordered ${
+									quotePriceError ? "border-error" : "border-neutral"
+								}`}
+								value={carrierQuoteRequest}
+								onChange={handleCarrierQuoteRequest}
+							/>
+							<span>USD</span>
+						</label>
 					</div>
 				</div>
 			</form>

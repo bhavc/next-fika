@@ -22,6 +22,8 @@ import type { GetServerSideProps } from "next";
 import IconLeft from "public/svg/arrow-left.svg";
 import { toast } from "react-hot-toast";
 
+type BidSelectValueType = "accept" | "counter";
+
 export default function WorkflowId({
 	workflow,
 	userToken
@@ -31,14 +33,15 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
-	const useCustomPricing = workflow.workflowPriceData.useCustomPricing;
-	const customPrice = workflow.workflowPriceData.customPrice;
+
+	// this wont work
+	const price = workflow.workflowPriceData.price;
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
-	const [bidSelectValue, setBidSelectValue] = useState("accept");
+	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState("");
 	const [quotePriceError, setQuotePriceError] = useState(false);
@@ -69,10 +72,7 @@ export default function WorkflowId({
 		// carrier accepts and provides quote
 		// carrier accepts with shipper price
 		if (newStatus === "Allocated") {
-			if (
-				!useCustomPricing &&
-				carrierQuoteRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null
-			) {
+			if (!price && carrierQuoteRequest.match(/^\s*(?=.*[1-9])\d*(?:\.\d{1,2})?\s*$/i) === null) {
 				setQuotePriceError(true);
 				toast.error("You must ensure you provide a valid quote price.");
 				return;
@@ -83,7 +83,8 @@ export default function WorkflowId({
 	};
 
 	const handleBidSelectChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setBidSelectValue(event.target.value);
+		const bidValueSelected = event.target.value as BidSelectValueType;
+		setBidSelectValue(bidValueSelected);
 	};
 
 	const handleCarrierQuoteRequest = (event: ChangeEvent<HTMLInputElement>) => {
@@ -104,12 +105,15 @@ export default function WorkflowId({
 				payment: {}
 			};
 
+			// RFQ in the body
 			if (carrierQuoteRequest) {
 				updateData.payment.carrierQuote = carrierQuoteRequest;
-			}
-
-			if (carrierCounterRequest) {
+				// Counter in body
+			} else if (carrierCounterRequest) {
 				updateData.payment.carrierCounter = carrierCounterRequest;
+				// accepted price in body
+			} else {
+				updateData.payment.acceptedPrice = price;
 			}
 
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
@@ -161,19 +165,20 @@ export default function WorkflowId({
 						</div>
 					</div>
 
+					{/* TODO: does this make sense or just a button that accepts/declines */}
 					<div className="flex justify-end align-middle bg-slate-100 px-4">
 						<WorkflowStatusDropdown
 							handleStatusChange={handleStatusChange}
 							newStatus={newStatus}
 							previousStatus={previousStatus}
 							workflow={workflow}
+							bidSelectValue={bidSelectValue}
 						/>
 					</div>
 
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
-							useCustomPricing={useCustomPricing}
-							customPrice={customPrice}
+							price={price}
 							handleBidSelectChange={handleBidSelectChange}
 							bidSelectValue={bidSelectValue}
 							carrierQuoteRequest={carrierQuoteRequest}
