@@ -1,10 +1,13 @@
 import { ChangeEvent } from "react";
 
+import type { CarrierWorkflowStatus } from "@/features/Carrier/CarrierWorkflows/types";
+
 export type CarrierWorkflowPricingFormInputs = {
 	quotePrice: string;
 };
 
 interface CarrierWorkflowPricingProps {
+	workflowStatus: CarrierWorkflowStatus;
 	price?: number;
 	handleBidSelectChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	bidSelectValue: string;
@@ -16,6 +19,7 @@ interface CarrierWorkflowPricingProps {
 }
 
 export default function CarrierWorkflowPricing({
+	workflowStatus,
 	price,
 	handleBidSelectChange,
 	bidSelectValue,
@@ -28,6 +32,19 @@ export default function CarrierWorkflowPricing({
 	let returnedComponent;
 
 	// TODO: Check workflow status as well
+
+	if (!["Triage", "Counter Price"].includes(workflowStatus)) {
+		return (
+			<div className="stats shadow-2xl border-accent border-2">
+				<div className="stat">
+					<div className="stat-title">Total Price</div>
+					<div className="stat-value text-primary">${price} USD</div>
+					<div className="stat-desc">to move your shipment</div>
+				</div>
+			</div>
+		);
+	}
+
 	if (price) {
 		returnedComponent = (
 			<form>

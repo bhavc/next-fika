@@ -34,8 +34,6 @@ export default function WorkflowId({
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
 
-	console.log("workflow", workflow);
-
 	// this wont work
 	const price = workflow.workflowPriceData.price;
 
@@ -123,7 +121,7 @@ export default function WorkflowId({
 			setPreviousStatus(newStatus);
 			toast.success(response.message);
 		} catch (err) {
-			toast.error("Error updateing workflow");
+			toast.error("Error updating workflow");
 		} finally {
 			setModalOpen(false);
 			setQuotePriceError(false);
@@ -181,6 +179,7 @@ export default function WorkflowId({
 
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
+							workflowStatus={workflowStatus}
 							price={price}
 							handleBidSelectChange={handleBidSelectChange}
 							bidSelectValue={bidSelectValue}

@@ -156,7 +156,13 @@ export default function NewWorkflowFormReview({
 					<h2 className="text-xl mb-2">Pricing</h2>
 					<div className="ml-28">
 						{useCustomPricing ? (
-							<p>Price: {customPrice}</p>
+							<div className="stats shadow-2xl border-accent border-2">
+								<div className="stat">
+									<div className="stat-title">Total Price</div>
+									<div className="stat-value text-primary">${customPrice} USD</div>
+									<div className="stat-desc">to move your shipment</div>
+								</div>
+							</div>
 						) : (
 							<p>
 								The price has already been agreed to by you and the carrier. The price will be

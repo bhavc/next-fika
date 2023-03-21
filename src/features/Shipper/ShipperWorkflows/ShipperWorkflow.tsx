@@ -7,9 +7,15 @@ import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 
 interface WorkflowProps {
 	workflow: WorkflowType;
+	handleAcceptPrice: () => void;
+	handleDeclinePrice: () => void;
 }
 
-export default function ShipperWorkflow({ workflow }: WorkflowProps) {
+export default function ShipperWorkflow({
+	workflow,
+	handleAcceptPrice,
+	handleDeclinePrice
+}: WorkflowProps) {
 	const workflowStatus = workflow?.status;
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
@@ -138,7 +144,12 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
 					<div className="md:ml-28">
-						<ShipperWorkflowPricing workflowPrice={workflowPrice} workflowStatus={workflowStatus} />
+						<ShipperWorkflowPricing
+							workflowPrice={workflowPrice}
+							workflowStatus={workflowStatus}
+							handleAcceptPrice={handleAcceptPrice}
+							handleDeclinePrice={handleDeclinePrice}
+						/>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

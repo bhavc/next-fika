@@ -1,5 +1,6 @@
 import ShipperLayout from "@/layouts/ShipperLayout";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 
@@ -12,22 +13,53 @@ import { toast } from "react-hot-toast";
 
 import IconLeft from "public/svg/arrow-left.svg";
 
-export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
+export default function WorkflowId({
+	workflow,
+	userToken
+}: {
+	userToken: string;
+	workflow: WorkflowType;
+}) {
+	const router = useRouter();
+
+	const workflowId = workflow.id;
+	const workflowPriceData = workflow?.workflowPriceData;
+
 	const handleAcceptPrice = async () => {
 		try {
+			const updateData: { [key: string]: any } = {
+				workflow: {
+					status: "Allocated"
+				},
+				payment: {
+					acceptedPrice: workflowPriceData.price
+				}
+			};
+
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 			toast.success(response.message);
+			router.push("/shipper/workflows");
 		} catch (err) {
-			toast.error("Error updateing workflow");
+			toast.error("Error updating workflow");
 		}
 	};
 
 	const handleDeclinePrice = async () => {
 		try {
+			const updateData: { [key: string]: any } = {
+				workflow: {
+					status: "Cancelled"
+				},
+				payment: {
+					declineShipment: true
+				}
+			};
+
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 			toast.success(response.message);
+			router.push("/shipper/workflows");
 		} catch (err) {
-			toast.error("Error updateing workflow");
+			toast.error("Error updating workflow");
 		}
 	};
 
@@ -42,7 +74,11 @@ export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
 						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
 					</div>
 
-					<ShipperWorkflow workflow={workflow} />
+					<ShipperWorkflow
+						workflow={workflow}
+						handleAcceptPrice={handleAcceptPrice}
+						handleDeclinePrice={handleDeclinePrice}
+					/>
 				</main>
 			</ShipperLayout>
 		</>
@@ -93,7 +129,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			workflow: workflowData
+			workflow: workflowData,
+			userToken
 		}
 	};
 };

@@ -2,10 +2,14 @@ import type { ShipperWorkflowStatus } from "./types";
 
 export default function ShipperWorkflowPricing({
 	workflowPrice,
-	workflowStatus
+	workflowStatus,
+	handleAcceptPrice,
+	handleDeclinePrice
 }: {
 	workflowPrice?: number;
 	workflowStatus: ShipperWorkflowStatus;
+	handleAcceptPrice: () => void;
+	handleDeclinePrice: () => void;
 }) {
 	return workflowPrice ? (
 		<div className="flex flex-col md:flex-row justify-between gap-4">
@@ -18,8 +22,12 @@ export default function ShipperWorkflowPricing({
 			</div>
 			{workflowStatus === "Counter Price" && (
 				<div className="flex flex-col gap-4 pr-4">
-					<button className="btn btn-success hover:opacity-80">Accept Counter</button>
-					<button className="btn btn-error hover:opacity-80">Cancel Shipment</button>
+					<button className="btn btn-success hover:opacity-80" onClick={handleAcceptPrice}>
+						Accept Counter
+					</button>
+					<button className="btn btn-error hover:opacity-80" onClick={handleDeclinePrice}>
+						Cancel Shipment
+					</button>
 				</div>
 			)}
 		</div>
