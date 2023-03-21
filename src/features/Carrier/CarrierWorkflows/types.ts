@@ -72,7 +72,7 @@ export type WorkflowPriceDataType = {
 
 export type CarrierWorkflowType = {
 	id: string;
-	user_for: string;
+	userId: string;
 	status: CarrierWorkflowStatus;
 	selectedCarrier: UserCarrier;
 	workflowAddressData: CarrierWorkflowAddressDataType;

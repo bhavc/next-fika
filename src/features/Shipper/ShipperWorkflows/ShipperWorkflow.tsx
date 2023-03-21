@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import ShipperWorkflowPricing from "./ShipperWorkflowPricing";
+
 import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 
 interface WorkflowProps {
@@ -8,6 +10,7 @@ interface WorkflowProps {
 }
 
 export default function ShipperWorkflow({ workflow }: WorkflowProps) {
+	const workflowStatus = workflow?.status;
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowPriceData = workflow?.workflowPriceData;
@@ -37,17 +40,6 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 	} = workflowAddressData;
 
 	const workflowPrice = workflowPriceData?.price;
-	console.log("workflowPriceData", workflowPriceData);
-
-	// Shipper
-	// creates delivery in triage with no price (rfq) or price
-
-	// Carrier
-	// if delivery does not have a price, add a price and accept
-	// fillout price and stuff
-
-	// if delivery has a price, carier can then choose to either accept
-	// or counter
 
 	const {
 		goodsDescription,
@@ -146,22 +138,7 @@ export default function ShipperWorkflow({ workflow }: WorkflowProps) {
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
 					<div className="md:ml-28">
-						{workflowPrice ? (
-							<div className="stats shadow-2xl border-accent border-2">
-								<div className="stat">
-									<div className="stat-title">Total Price</div>
-									<div className="stat-value text-primary">${workflowPrice} USD</div>
-									<div className="stat-desc">to move your shipment</div>
-								</div>
-							</div>
-						) : (
-							// the only time a shipper does not have the price is when
-							// they are requesting for quote (RFQ)
-							<p>
-								The price has already been agreed to by you and the carrier. The price will be
-								updated once the carrier adds the price
-							</p>
-						)}
+						<ShipperWorkflowPricing workflowPrice={workflowPrice} workflowStatus={workflowStatus} />
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />

@@ -1,16 +1,36 @@
 import ShipperLayout from "@/layouts/ShipperLayout";
 import Link from "next/link";
 
-import { getWorkflowByWorkflowId } from "@/api/workflow";
+import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 
 import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 
 import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { GetServerSideProps } from "next";
 
+import { toast } from "react-hot-toast";
+
 import IconLeft from "public/svg/arrow-left.svg";
 
 export default function WorkflowId({ workflow }: { workflow: WorkflowType }) {
+	const handleAcceptPrice = async () => {
+		try {
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error updateing workflow");
+		}
+	};
+
+	const handleDeclinePrice = async () => {
+		try {
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error updateing workflow");
+		}
+	};
+
 	return (
 		<>
 			<ShipperLayout>
@@ -70,8 +90,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			}
 		};
 	}
-
-	console.log("workflowData", workflowData);
 
 	return {
 		props: {

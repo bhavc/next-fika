@@ -1,4 +1,4 @@
-import { useState, MouseEvent, use } from "react";
+import { useState, MouseEvent } from "react";
 import Link from "next/link";
 import { ChangeEvent } from "react";
 
@@ -33,6 +33,8 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
+
+	console.log("workflow", workflow);
 
 	// this wont work
 	const price = workflow.workflowPriceData.price;
@@ -111,6 +113,7 @@ export default function WorkflowId({
 				// Counter in body
 			} else if (carrierCounterRequest) {
 				updateData.payment.carrierCounter = carrierCounterRequest;
+				updateData.payment.bidTurn = workflow.userId;
 				// accepted price in body
 			} else {
 				updateData.payment.acceptedPrice = price;

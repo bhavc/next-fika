@@ -1,8 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MouseEvent, ChangeEvent } from "react";
-
-import CarrierWorkflowPricing from "./CarrierWorkflowPricing";
 
 import type { CarrierWorkflowType } from "@/features/Carrier/CarrierWorkflows/types";
 

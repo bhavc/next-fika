@@ -88,7 +88,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	try {
 		// TODO here you want to get the assigned to user workflows
 		workflowData = await getWorkflowsForCarrier(userToken);
-		console.log("workflowData", workflowData);
 		const response = await getCurrentUser(userToken);
 		userData = response.data;
 	} catch (err) {
