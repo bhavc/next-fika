@@ -34,15 +34,27 @@ export default function CarrierWorkflowPricing({
 	// TODO: Check workflow status as well
 
 	if (!["Triage", "Counter Price"].includes(workflowStatus)) {
-		return (
-			<div className="stats shadow-2xl border-accent border-2">
-				<div className="stat">
-					<div className="stat-title">Total Price</div>
-					<div className="stat-value text-primary">${price} USD</div>
-					<div className="stat-desc">to move your shipment</div>
+		if (price) {
+			return (
+				<div className="stats shadow-2xl border-accent border-2">
+					<div className="stat">
+						<div className="stat-title">Total Price</div>
+						<div className="stat-value text-primary">${price} USD</div>
+						<div className="stat-desc">to move your shipment</div>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		} else {
+			return (
+				<div className="stats shadow-2xl border-accent border-2">
+					<div className="stat">
+						<div className="stat-title">Total Price</div>
+						<div className="stat-value text-primary">${price} USD</div>
+						<div className="stat-desc">to move your shipment</div>
+					</div>
+				</div>
+			);
+		}
 	}
 
 	if (price) {
@@ -65,7 +77,6 @@ export default function CarrierWorkflowPricing({
 							) : (
 								<input
 									type="text"
-									placeholder="250.00"
 									className={`input input-bordered ${
 										quotePriceError ? "border-error" : "border-neutral"
 									}`}

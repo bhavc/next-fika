@@ -34,7 +34,6 @@ export default function WorkflowId({
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
 
-	// this wont work
 	const price = workflow.workflowPriceData.price;
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
@@ -43,7 +42,7 @@ export default function WorkflowId({
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
-	const [carrierCounterRequest, setCarrierCounterRequest] = useState("");
+	const [carrierCounterRequest, setCarrierCounterRequest] = useState(price?.toString() || "");
 	const [quotePriceError, setQuotePriceError] = useState(false);
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
@@ -156,13 +155,15 @@ export default function WorkflowId({
 							<IconLeft />
 						</Link>
 						<div>
-							<button
-								className="btn btn-primary"
-								disabled={newStatus === previousStatus}
-								onClick={handleSaveChanges}
-							>
-								Save All
-							</button>
+							{!["Cancelled", "Rejected"].includes(previousStatus) && (
+								<button
+									className="btn btn-primary"
+									disabled={newStatus === previousStatus}
+									onClick={handleSaveChanges}
+								>
+									Save All
+								</button>
+							)}
 						</div>
 					</div>
 

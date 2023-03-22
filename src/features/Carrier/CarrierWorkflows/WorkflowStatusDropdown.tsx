@@ -19,14 +19,23 @@ export default function WorkflowStatusDropdown({
 		{
 			label: "Allocated",
 			value: "Allocated",
-			disabled: previousStatus === "Rejected" || bidSelectValue === "counter"
+			disabled: ["Rejected", "Cancelled"].includes(previousStatus) || bidSelectValue === "counter"
 		},
 		{
 			label: "Counter Price",
 			value: "Counter Price",
 			disabled: !Boolean(workflow?.workflowPriceData?.price) || bidSelectValue === "accept"
 		},
-		{ label: "Rejected", value: "Rejected", disabled: previousStatus === "Allocated" }
+		{
+			label: "Cancelled",
+			value: "Cancelled",
+			disabled: ["Allocated", "Rejected"].includes(previousStatus)
+		},
+		{
+			label: "Rejected",
+			value: "Rejected",
+			disabled: ["Allocated", "Cancelled"].includes(previousStatus)
+		}
 	];
 
 	return (

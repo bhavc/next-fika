@@ -28,7 +28,7 @@ export default function Login() {
 			const user = response.user;
 
 			setCookie("user", token);
-			toast.success("Successfully registered");
+			toast.success("Successfully logged in");
 
 			switch (user.role) {
 				case "Shipper":
