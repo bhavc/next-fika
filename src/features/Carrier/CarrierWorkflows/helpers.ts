@@ -2,9 +2,18 @@ import type { CarrierWorkflowStatus } from "./types";
 import type { UserCarrier } from "../UserCarrier/types";
 
 export const doesUserRequireSettings = (user: UserCarrier) => {
-	if (user.areasServiced && user.regionServiced && user.languagesSupported) {
-		return false;
-	}
+	// if user hasnt set areas serviced, regions serviced or languages supported
+	// or if the users status is "Pending"
+
+	if (
+		!user.areasServiced ||
+		!user.regionServiced ||
+		!user.languagesSupported ||
+		user.status === "Pending"
+	)
+		if (user.areasServiced && user.regionServiced && user.languagesSupported && user.status) {
+			return false;
+		}
 
 	return true;
 };

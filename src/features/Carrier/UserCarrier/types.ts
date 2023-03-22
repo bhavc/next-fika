@@ -15,4 +15,5 @@ export type UserCarrier = {
 	insuranceFileData: { name: string; blobName: string; type: string }[] | null;
 	bucketStorageUrls: any[] | null;
 	role: string;
+	status: string;
 };

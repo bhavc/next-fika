@@ -266,7 +266,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		bucketStorageUrls: null,
 		insuranceFileData: null,
 		avatarImageData: null,
-		role: ""
+		role: "",
+		status: ""
 	};
 
 	if (!userToken) {
