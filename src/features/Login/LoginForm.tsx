@@ -53,7 +53,7 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 						{errors.password && <p className="text-error mt-1">{errors.password.message}</p>}
 					</div>
 					<div className="flex justify-center items-center mt-6">
-						<button className="btn btn-primary white text-white">Submit</button>
+						<button className="btn btn-secondary text-white">Submit</button>
 					</div>
 				</form>
 			</div>

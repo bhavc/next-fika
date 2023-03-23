@@ -21,18 +21,22 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 			<MainNavBar isLoggedIn={isLoggedIn} appRoute={appRoute} />
 			<main className="bg-slate-100 100vh">
 				<section className="bg-primary flex flex-col md:flex-row">
-					<div className="flex flex-col justify-center px-4">
-						<h1 className="text-3xl mt-2 mb-4 text-base-100">Seamless freight handling</h1>
-						<h2 className="text-xl mt-2 mb-4 text-base-100">
-							Freight can be daunting. Fika is here to make it easier.
-						</h2>
-						<h2 className="text-xl mt-2 mb-4 text-base-100">
-							Fika is a modern TMS that makes freight transactions between customers, forwarders,
-							and drivers seamless and transparent.
-						</h2>
-						<h2 className="text-xl mt-2 mb-4 text-base-100">
-							We connect you to verified logistics providers in Africa and emerging markets.
-						</h2>
+					<div className="flex flex-col justify-center p-8 gap-20 md:gap-40">
+						<div>
+							<h1 className="text-3xl text-base-100">Seamless freight handling</h1>
+						</div>
+						<div className="flex flex-col gap-4">
+							<h2 className="text-xl text-base-100">
+								Freight can be daunting. Fika is here to make it easier.
+							</h2>
+							<h2 className="text-xl text-base-100">
+								Fika is a modern TMS that makes freight transactions between customers, forwarders,
+								and drivers seamless and transparent.
+							</h2>
+							<h2 className="text-xl text-base-100">
+								We connect you to verified logistics providers in Africa and emerging markets.
+							</h2>
+						</div>
 					</div>
 					<div className="hero h-[calc(100vh_-_20vh)] bg-[url('/jpeg/client_main.jpeg')]">
 						<div className="hero-overlay bg-opacity-60"></div>
@@ -41,20 +45,20 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 				<section className="px-4 py-10 flex flex-col justify-center items-center">
 					<div className="p-4">
 						<h2 className="text-xl mt-2">Getting started with Fika is easy.</h2>
-						<h2 className="text-xl mt-2">
+						<p className="text-md">
 							Just create an account and specify whether you&apos;re a Shipper or a Carrier.
-						</h2>
+						</p>
 					</div>
 					<div className="p-4">
 						<Link
 							href={"/register"}
-							className="btn btn-lg btn-ghost normal-case bg-base-100 hover:bg-primary active:bg-primary visited:bg-primary text-slate-100"
+							className="btn btn-lg btn-ghost normal-case bg-base-100 hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
 						>
 							Get Started
 						</Link>
 					</div>
 				</section>
-				<section className="px-4 py-10 bg-secondary text-slate-100">
+				<section className="px-4 py-10 bg-primary text-slate-100">
 					<h2 className="text-2xl text-center mt-2 mb-8 ">A quick glance at our benefits</h2>
 
 					<div className="grid md:grid-cols-2 gap-4">
