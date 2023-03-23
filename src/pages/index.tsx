@@ -9,7 +9,7 @@ import MainFooter from "@/components/MainFooter";
 
 import type { GetServerSideProps } from "next";
 
-import LandingMain from "public/jpeg/landing_main.jpg";
+// import LandingMain from "public/jpeg/landing_main.jpg";
 import AnalyzeFilled from "public/svg/analyze-filled.svg";
 import ChartAreaLineFilled from "public/svg/chart-area-line-filled.svg";
 import CloudLock from "public/svg/cloud-lock.svg";
@@ -20,28 +20,28 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 		<>
 			<MainNavBar isLoggedIn={isLoggedIn} appRoute={appRoute} />
 			<main className="bg-slate-100 100vh">
-				<section className="bg-primary flex flex-row pt-10">
-					<div className="w-1/2 p-4">
+				<section className="bg-primary flex flex-col md:flex-row">
+					<div className="flex flex-col justify-center px-4">
 						<h1 className="text-3xl mt-2 mb-4 text-base-100">Seamless freight handling</h1>
 						<h2 className="text-xl mt-2 mb-4 text-base-100">
 							Freight can be daunting. Fika is here to make it easier.
 						</h2>
 						<h2 className="text-xl mt-2 mb-4 text-base-100">
 							Fika is a modern TMS that makes freight transactions between customers, forwarders,
-							and drivers seamless and transparent
+							and drivers seamless and transparent.
 						</h2>
 						<h2 className="text-xl mt-2 mb-4 text-base-100">
 							We connect you to verified logistics providers in Africa and emerging markets.
 						</h2>
 					</div>
-					<div className="w-1/2 p-4">
-						<Image src={LandingMain} alt="main image" />
+					<div className="hero h-[calc(100vh_-_20vh)] bg-[url('/jpeg/client_main.jpeg')]">
+						<div className="hero-overlay bg-opacity-60"></div>
 					</div>
 				</section>
-				<section className="flex flex-col justify-center items-center">
+				<section className="px-4 py-10 flex flex-col justify-center items-center">
 					<div className="p-4">
-						<h2 className="text-xl mt-2 mb-4">Getting Started with Fika is easy.</h2>
-						<h2 className="text-xl mt-2 mb-4">
+						<h2 className="text-xl mt-2">Getting started with Fika is easy.</h2>
+						<h2 className="text-xl mt-2">
 							Just create an account and specify whether you&apos;re a Shipper or a Carrier.
 						</h2>
 					</div>
@@ -54,63 +54,57 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 						</Link>
 					</div>
 				</section>
-				<section className="bg-secondary pt-10 p-4">
-					<h2 className="text-2xl text-center mt-2 mb-8">A quick glance at our benefits</h2>
+				<section className="px-4 py-10 bg-secondary text-slate-100">
+					<h2 className="text-2xl text-center mt-2 mb-8 ">A quick glance at our benefits</h2>
 
-					<div className="grid grid-cols-1 md:grid-cols-2">
-						<div className="flex flex-row md:flex-col gap-4">
-							<div>
-								<div className="flex flex-row">
-									<MoneyBag width={48} height={48} />
-									<h2 className="text-xl mt-2 mb-4">No upfront costs</h2>
-								</div>
-								<div>
-									<p className="text-md px-4">
-										No high startup and onboarding costs. Fika is a free platform to on-board. We
-										only get paid for work transacted on the platform
-									</p>
-								</div>
+					<div className="grid md:grid-cols-2 gap-4">
+						<div>
+							<div className="flex flex-row gap-2">
+								<MoneyBag width={48} height={48} />
+								<h2 className="text-xl mt-2 mb-4">No upfront costs</h2>
 							</div>
-
 							<div>
-								<div className="flex flex-row">
-									<CloudLock width={48} height={48} />
-									<h2 className="text-xl mt-2 mb-4">Web based</h2>
-								</div>
-								<div>
-									<p className="text-md px-4">
-										Our platform is fully web-based with all data secured on our servers.
-									</p>
-								</div>
+								<p className="text-md px-4">
+									No high startup and onboarding costs. Fika is a free platform to on-board. We only
+									get paid for work transacted on the platform
+								</p>
+							</div>
+						</div>
+						<div>
+							<div className="flex flex-row gap-2">
+								<CloudLock width={48} height={48} />
+								<h2 className="text-xl mt-2 mb-4">Web based</h2>
+							</div>
+							<div>
+								<p className="text-md px-4">
+									Our platform is fully web-based with all data secured on our servers.
+								</p>
+							</div>
+						</div>
+						<div>
+							<div className="flex flex-row gap-2">
+								<AnalyzeFilled width={48} height={48} />
+								<h2 className="text-xl mt-2 mb-4">All in one Quoting, allocating & tracking</h2>
+							</div>
+							<div>
+								<p className="text-md px-4">
+									we developed our software to for customers, carriers, and drivers to all interact
+									seamlessly with each-other.
+								</p>
+								<p className="font-bold px-4">No more communication breakdowns</p>
 							</div>
 						</div>
 
-						<div className="flex flex-row md:flex-col gap-4">
-							<div>
-								<div className="flex flex-row">
-									<AnalyzeFilled width={48} height={48} />
-									<h2 className="text-xl mt-2 mb-4">All in one Quoting, allocating & tracking</h2>
-								</div>
-								<div>
-									<p className="text-md px-4">
-										we developed our software to for customers, carriers, and drivers to all
-										interact seamlessly with each-other.
-									</p>
-									<p className="font-bold px-4">No more communication breakdowns</p>
-								</div>
+						<div>
+							<div className="flex flex-row gap-2">
+								<ChartAreaLineFilled width={48} height={48} />
+								<h2 className="text-xl mt-2 mb-4">Compare the market</h2>
 							</div>
-
 							<div>
-								<div className="flex flex-row">
-									<ChartAreaLineFilled width={48} height={48} />
-									<h2 className="text-xl mt-2 mb-4">Compare the market</h2>
-								</div>
-								<div>
-									<p className="text-md px-4">
-										You will be part of the exclusive club of people who know the secrets to day
-										trading ** THIS NEEDS TO BE CHANGED
-									</p>
-								</div>
+								<p className="text-md px-4">
+									You will be part of the exclusive club of people who know the secrets to day
+									trading ** THIS NEEDS TO BE CHANGED
+								</p>
 							</div>
 						</div>
 					</div>
