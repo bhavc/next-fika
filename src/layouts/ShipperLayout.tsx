@@ -1,9 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import ShipperNavbar from "@/components/Nav/ShipperNavbar";
 
+import CloseIcon from "public/svg/icon-x.svg";
 import MenuIcon from "public/svg/menu.svg";
 import HomeIcon from "public/svg/home.svg";
 import NewIcon from "public/svg/circle-plus.svg";
@@ -17,23 +18,31 @@ interface LayoutProps {
 
 export default function ShipperLayout({ children }: LayoutProps) {
 	const router = useRouter();
+	const [showSidebar, setShowSidebar] = useState(false);
 
 	const currentPath = router.pathname;
 
+	const handleButtonClick = () => {
+		setShowSidebar(!showSidebar);
+	};
+
 	const leftSideButtons = [
-		<label key={"menu"} htmlFor="main-drawer" className="btn btn-primary drawer-button lg:hidden">
-			<MenuIcon />
-		</label>
+		<button
+			key={"menu"}
+			className="btn btn-primary drawer-button lg:hidden"
+			onClick={handleButtonClick}
+		>
+			{showSidebar ? <CloseIcon width={24} height={24} stroke="white" /> : <MenuIcon />}
+		</button>
 	];
 
 	return (
 		<>
 			<ShipperNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
-				<input id="main-drawer" type="checkbox" className="drawer-toggle" />
+				<input id="main-drawer" type="checkbox" className="drawer-toggle" checked={showSidebar} />
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">
-					<label htmlFor="my-drawer-2" className="drawer-overlay" />
 					<div className="flex flex-col justify-between w-72 bg-primary">
 						<ul className="menu text-base-content w-60 pl-4 pt-4 gap-4">
 							<Link

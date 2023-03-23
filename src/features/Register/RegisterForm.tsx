@@ -41,7 +41,7 @@ export default function RegisterForm({
 		const { email, password, company, phone } = data;
 
 		handleSubmitRegistration({
-			email,
+			email: email.toLocaleLowerCase(),
 			password,
 			company,
 			phone

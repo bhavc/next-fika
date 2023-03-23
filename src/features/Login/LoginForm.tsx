@@ -19,7 +19,7 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 		const { email, password } = data;
 
 		handleSubmitLogin({
-			email,
+			email: email.toLocaleLowerCase(),
 			password
 		});
 	};

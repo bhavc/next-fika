@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 interface RefObject {
-	// immutable
 	readonly current: any | null;
 }
 
