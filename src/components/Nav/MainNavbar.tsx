@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar({
+	hideLogo,
 	isLoggedIn,
 	appRoute,
 	hideRightSideItems
 }: {
+	hideLogo?: boolean;
 	isLoggedIn?: boolean;
 	appRoute?: string;
 	hideRightSideItems?: boolean;
@@ -34,13 +36,13 @@ export default function Navbar({
 			<>
 				<Link
 					href={"/login"}
-					className="btn btn-md btn-ghost normal-case bg-base-100 visited:bg-base-100 hover:bg-base-100 active:bg-base-100"
+					className="btn btn-md btn-ghost normal-case bg-base-100 hover:bg-primary active:bg-primary visited:bg-primary text-slate-100"
 				>
 					Login
 				</Link>
 				<Link
 					href={"/register"}
-					className="btn btn-md btn-ghost normal-case bg-base-100 hover:bg-base-100 active:bg-base-100 visited:bg-base-100"
+					className="btn btn-md btn-ghost normal-case bg-base-100 hover:bg-primary active:bg-primary visited:bg-primary text-slate-100"
 				>
 					Register
 				</Link>
