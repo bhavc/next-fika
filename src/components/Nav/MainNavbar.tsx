@@ -36,13 +36,13 @@ export default function Navbar({
 			<>
 				<Link
 					href={"/login"}
-					className="btn btn-md btn-ghost normal-case bg-base-100 hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
+					className="btn btn-md btn-ghost normal-case bg-secondary hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
 				>
 					Login
 				</Link>
 				<Link
 					href={"/register"}
-					className="btn btn-md btn-ghost normal-case bg-base-100 hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
+					className="btn btn-md btn-ghost normal-case bg-secondary hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
 				>
 					Register
 				</Link>

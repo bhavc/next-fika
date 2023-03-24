@@ -52,7 +52,7 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 					<div className="p-4">
 						<Link
 							href={"/register"}
-							className="btn btn-lg btn-ghost normal-case bg-base-100 hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
+							className="btn btn-lg btn-ghost normal-case bg-secondary hover:bg-secondary active:bg-secondary visited:bg-secondary text-slate-100"
 						>
 							Get Started
 						</Link>
