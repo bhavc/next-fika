@@ -44,9 +44,14 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 				</section>
 				<section className="px-4 py-10 flex flex-col justify-center items-center">
 					<div className="p-4">
-						<h2 className="text-xl mt-2">Getting started with Fika is easy.</h2>
+						{/* TODO add a screenshot here */}
+						<h2 className="text-2xl text-center mt-2 mb-8">Your cargo is in safe hands</h2>
 						<p className="text-md">
 							Just create an account and specify whether you&apos;re a Shipper or a Carrier.
+						</p>
+						<p className="text-md">
+							Our easy to use cloud-based app makes it easy to create and manage your deliveries and
+							drivers.
 						</p>
 					</div>
 					<div className="p-4">
@@ -77,11 +82,11 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 						<div>
 							<div className="flex flex-row gap-2">
 								<CloudLock width={48} height={48} />
-								<h2 className="text-xl mt-2 mb-4">Web based</h2>
+								<h2 className="text-xl mt-2 mb-4">The best of Web and Cloud</h2>
 							</div>
 							<div>
 								<p className="text-md px-4">
-									Our platform is fully web-based with all data secured on our servers.
+									Our platform is fully web-based with all data secured on our cloud servers.
 								</p>
 							</div>
 						</div>
@@ -92,8 +97,8 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 							</div>
 							<div>
 								<p className="text-md px-4">
-									we developed our software to for customers, carriers, and drivers to all interact
-									seamlessly with each-other.
+									We&apos;ve developed our software for customers, carriers, and drivers to all
+									interact seamlessly with each-other.
 								</p>
 								<p className="font-bold px-4">No more communication breakdowns</p>
 							</div>
@@ -115,7 +120,7 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 				</section>
 				<section className="pt-10 p-4 flex flex-col justify-center items-center">
 					<h2 className="text-2xl text-center mt-2 mb-8">Your cargo is in safe hands</h2>
-					<div className="flex flex-col justify-center items-center md:px-40 mb-10">
+					<div className="flex flex-col justify-center items-center px-10 md:px-40 mb-10">
 						<p className="text-md mb-4">
 							To ensure all our clients have peace of mind - all carriers & forwarders are vetted to
 							ensure they meet our stringent standards to have access to our TMS & Freight

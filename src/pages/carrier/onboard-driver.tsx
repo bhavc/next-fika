@@ -47,14 +47,16 @@ export default function OnboardDriver({
 
 	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
 		try {
-			const profileSubmitData = {
-				...data
-			};
+			console.log("data", data);
 
-			const response = await editUserData(userToken, profileSubmitData);
+			// const profileSubmitData = {
+			// 	...data
+			// };
+
+			// const response = await editUserData(userToken, profileSubmitData);
 			// todo: add react query here
 
-			toast.success(response.message);
+			// toast.success(response.message);
 		} catch (err) {
 			console.info("err", err);
 			toast.error("Error updating user");
