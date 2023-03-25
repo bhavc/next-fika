@@ -2,11 +2,12 @@ import Link from "next/link";
 
 import { getCurrentUser } from "@/api/user";
 
-import { getWorkflowsForCarrier } from "@/api/workflow";
+import { getDrivers } from "@/api/drivers";
+
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
-import WorkflowTableList from "@/features/Carrier/CarrierWorkflows/AssignedWorkflows";
+import DriverList from "@/features/Carrier/DriverList/DriverList";
 
 import type { GetServerSideProps } from "next";
 import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
@@ -14,10 +15,10 @@ import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 import AlertIcon from "public/svg/alert-circle.svg";
 
 export default function Drivers({
-	workflows,
+	drivers,
 	requiresVerify
 }: {
-	workflows: any[];
+	drivers: any[];
 	requiresVerify: boolean;
 }) {
 	return (
@@ -43,6 +44,7 @@ export default function Drivers({
 					<div className="items-center justify-center">
 						<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
 							<h1 className="text-3xl text-left mb-4">Manage your Drivers here</h1>
+							<DriverList drivers={drivers} isLoading={false} />
 						</div>
 					</div>
 				</main>
@@ -55,12 +57,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { req } = context;
 	const { cookies } = req;
 	const userToken = cookies.user;
-	let workflowData;
+	let drivers;
 
 	let userData: UserCarrier = {
 		id: null,
 		companyName: "",
-		companyAddress: "",
+		address: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,
@@ -87,21 +89,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		// TODO here you want to get the assigned to user workflows
-		workflowData = await getWorkflowsForCarrier(userToken);
-		const response = await getCurrentUser(userToken);
-		userData = response.data;
+		const getDriversResponse = await getDrivers({ userToken });
+		drivers = getDriversResponse.data;
+		const getUserResponse = await getCurrentUser(userToken);
+		userData = getUserResponse.data;
 	} catch (err) {
-		workflowData = null;
+		drivers = null;
 		console.info("err", err);
 	}
 
 	const requiresVerify = doesUserRequireSettings(userData);
-	const workflows = workflowData?.workflows || [];
 
 	return {
 		props: {
-			workflows,
+			drivers,
 			requiresVerify
 		}
 	};

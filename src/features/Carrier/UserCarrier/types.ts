@@ -1,7 +1,7 @@
 export type UserCarrier = {
 	id: number | null;
 	companyName: string;
-	companyAddress: string | null;
+	address: string | null;
 	phoneNumber: string | null;
 	emergencyNumbers: string | null;
 	gender: string | null;

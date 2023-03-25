@@ -1,8 +1,10 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { getCurrentUser, editUserData } from "@/api/user";
+import { getCurrentUser } from "@/api/user";
+import { onboardDriver } from "@/api/registration";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -37,6 +39,7 @@ export default function OnboardDriver({
 	requiresVerify: boolean;
 	userData: UserCarrier;
 }) {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -49,17 +52,20 @@ export default function OnboardDriver({
 		try {
 			console.log("data", data);
 
-			// const profileSubmitData = {
-			// 	...data
-			// };
+			const companyName = userData.companyName;
 
-			// const response = await editUserData(userToken, profileSubmitData);
-			// todo: add react query here
+			const onboardDriverSubmitData = {
+				...data,
+				companyName
+			};
 
-			// toast.success(response.message);
+			const response = await onboardDriver({ userToken, body: onboardDriverSubmitData });
+
+			toast.success(response.message);
+			router.push("/carrier/drivers");
 		} catch (err) {
 			console.info("err", err);
-			toast.error("Error updating user");
+			toast.error("Error creating drive user");
 		}
 	};
 
@@ -83,6 +89,7 @@ export default function OnboardDriver({
 							</div>
 						</div>
 					)}
+					{/* TODO: add profile page here */}
 					<div className="items-center justify-center">
 						<h1 className="text-3xl text-left my-4 ml-4">Onboard Driver</h1>
 						<div className="px-4">
@@ -254,7 +261,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let userData: UserCarrier = {
 		id: null,
 		companyName: "",
-		companyAddress: "",
+		address: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,

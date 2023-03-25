@@ -55,7 +55,7 @@ export default function Settings({
 	userToken: string;
 }) {
 	const clientCompanyName = userData.companyName;
-	const clientCompanyAddress = userData.companyAddress || "";
+	const clientCompanyAddress = userData.address || "";
 	const clientCompanyPhone = userData.phoneNumber || "";
 	const clientCompanyEmergencyPhone = userData.emergencyNumbers || "";
 	const clientRegionsServiced = userData.regionServiced || [];
@@ -448,7 +448,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	let userData: UserCarrier = {
 		id: null,
 		companyName: "",
-		companyAddress: "",
+		address: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,
