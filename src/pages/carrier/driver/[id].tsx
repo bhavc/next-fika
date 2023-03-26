@@ -1,18 +1,15 @@
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { getCurrentUser } from "@/api/user";
-import { onboardDriver } from "@/api/registration";
+import { getDriverById } from "@/api/drivers";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
-import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
 
 import type { GetServerSideProps } from "next";
 import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
+import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 
@@ -20,12 +17,28 @@ export type AreasServiced = "Local" | "Provincial" | "Cross Country" | "Cross Bo
 
 export default function Driver({
 	requiresVerify,
-	userData
+	userData,
+	driverData
 }: {
 	requiresVerify: boolean;
 	userData: UserCarrier;
+	driverData: UserDriver;
 }) {
-	console.log("userData", userData);
+	const {
+		id,
+		username,
+		firstName,
+		lastName,
+		email,
+		companyName,
+		address,
+		phoneNumber,
+		emergencyNumbers,
+		gender,
+
+		status
+	} = driverData;
+
 	return (
 		<>
 			<CarrierLayout>
@@ -47,11 +60,13 @@ export default function Driver({
 						</div>
 					)}
 					<div className="items-center justify-center">
-						<h1 className="text-3xl text-left my-4 ml-4">Onboard Driver</h1>
+						<h1 className="text-3xl text-left my-4 ml-4">Driver Profile</h1>
 						<div className="px-4">
 							<div className="card bg-base-100 shadow-2xl mb-2">
 								<div className="card-body">
-									<h2 className="text-xl mb-4">Driver Page</h2>
+									<h2 className="text-xl">
+										{firstName} {lastName}
+									</h2>
 
 									<div className="divider" />
 
@@ -59,58 +74,63 @@ export default function Driver({
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Username</label>
-												<p className="text-sm pl-4 text-error">*Required</p>
-											</div>
-										</div>
-										<div className="flex flex-col gap-2 w-full sm:w-1/2">
-											<label className="text-xl">Email</label>
-										</div>
-										<div className="flex flex-col gap-2 w-full sm:w-1/2">
-											<div>
-												<label className="text-xl">Password</label>
-												<p className="text-sm pl-4 text-error">*Required</p>
+												<p className="text-md pl-4">{username}</p>
 											</div>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
-												<label className="text-xl">Confirm Password</label>
-												<p className="text-sm pl-4 text-error">*Required</p>
+												<label className="text-xl">Email</label>
+												<p className="text-md pl-4">{email}</p>
 											</div>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
-												<label className="text-xl">First Name</label>
-											</div>
-										</div>
-										<div className="flex flex-col gap-2 w-full sm:w-1/2">
-											<div>
-												<label className="text-xl">Last Name</label>
+												<label className="text-xl">Company</label>
+												<p className="text-md pl-4">{companyName}</p>
 											</div>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Address</label>
+												<p className="text-md pl-4">{address}</p>
 											</div>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Phone #</label>
-												<p className="text-sm pl-4 text-error">*Required</p>
+												<p className="text-md pl-4">{phoneNumber}</p>
 											</div>
 										</div>
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
-											<label className="text-xl">Emergency #</label>
+											<div>
+												<label className="text-xl">Emergency #&apos;s</label>
+												{emergencyNumbers?.map((number, index) => {
+													return (
+														<p key={index} className="text-md pl-4">
+															{number}
+														</p>
+													);
+												})}
+											</div>
+										</div>
+										<div className="flex flex-col gap-2 w-full sm:w-1/2">
+											<div>
+												<label className="text-xl">Gender</label>
+												<p className="text-md pl-4">{gender ? gender : "n/a"}</p>
+											</div>
+										</div>
+										<div className="flex flex-col gap-2 w-full sm:w-1/2">
+											<div>
+												<label className="text-xl">Status</label>
+												<p className="text-md pl-4">{status}</p>
+											</div>
 										</div>
 									</div>
 									<div className="divider" />
 
 									<div className="flex justify-end mt-4">
-										<button
-											className="btn btn-primary"
-											form="carrierOnboardDriversForm"
-											type="submit"
-										>
-											Save All
+										<button className="btn btn-error" type="submit">
+											Remove User From Organization
 										</button>
 									</div>
 								</div>
@@ -124,7 +144,9 @@ export default function Driver({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { req } = context;
+	const { req, params } = context;
+	const driverId = params?.id;
+
 	const { cookies } = req;
 	const userToken = cookies.user;
 
@@ -147,6 +169,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		role: "",
 		status: ""
 	};
+	let driverData: UserDriver = {
+		id: null,
+		email: "",
+		username: "",
+		firstName: "",
+		lastName: "",
+		companyName: "",
+		address: "",
+		phoneNumber: null,
+		emergencyNumbers: null,
+		gender: null,
+		bucketStorageUrls: null,
+		avatarImageData: null,
+		role: "",
+		status: ""
+	};
+
+	if (!driverId || Array.isArray(driverId)) {
+		return {
+			redirect: {
+				destination: "/carrier/drivers",
+				statusCode: 302
+			}
+		};
+	}
 
 	if (!userToken) {
 		return {
@@ -158,8 +205,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const response = await getCurrentUser(userToken);
-		userData = response.data;
+		const getCurrentUserResponse = await getCurrentUser(userToken);
+		userData = getCurrentUserResponse.data;
+
+		const getDriverDataResponse = await getDriverById({ userToken, driverId });
+		driverData = getDriverDataResponse.data;
 	} catch (err) {
 		console.info("err", err);
 	}
@@ -169,6 +219,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			userData,
+			driverData,
 			requiresVerify
 		}
 	};
