@@ -37,15 +37,16 @@ export const getDriverById = async ({
 export const removeDriverFormOrganization = async ({
 	userToken,
 	driverId,
-	organizationName
+	data
 }: {
 	userToken: string;
 	driverId: string;
-	organizationName: string;
+	data: any;
 }) => {
 	const response = await Fetch({
 		method: "PUT",
 		userToken,
+		body: data,
 		url: `user/${driverId}`
 	});
 

@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { getCurrentUser } from "@/api/user";
-import { getDriverById } from "@/api/drivers";
+import { getDriverById, removeDriverFormOrganization } from "@/api/drivers";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -12,18 +13,23 @@ import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
+import { toast } from "react-hot-toast";
 
 export type AreasServiced = "Local" | "Provincial" | "Cross Country" | "Cross Border";
 
 export default function Driver({
 	requiresVerify,
 	userData,
-	driverData
+	driverData,
+	userToken
 }: {
 	requiresVerify: boolean;
 	userData: UserCarrier;
 	driverData: UserDriver;
+	userToken: string;
 }) {
+	const router = useRouter();
+
 	const {
 		id,
 		username,
@@ -35,9 +41,32 @@ export default function Driver({
 		phoneNumber,
 		emergencyNumbers,
 		gender,
-
+		// role, this is going to be driver regardless
 		status
 	} = driverData;
+
+	const handleRemoveDriverFromOrg = async () => {
+		try {
+			if (!id) {
+				return;
+			}
+
+			const removeDriverBody = {
+				driverCompanyName: ""
+			};
+
+			await removeDriverFormOrganization({
+				userToken,
+				driverId: id?.toString(),
+				data: removeDriverBody
+			});
+
+			router.push("/carrier/drivers");
+			toast.success("Successfully removed user from organization.");
+		} catch (err) {
+			toast.error("Could not remove user from organization. Please try again later.");
+		}
+	};
 
 	return (
 		<>
@@ -129,7 +158,11 @@ export default function Driver({
 									<div className="divider" />
 
 									<div className="flex justify-end mt-4">
-										<button className="btn btn-error" type="submit">
+										<button
+											className="btn btn-error"
+											type="submit"
+											onClick={handleRemoveDriverFromOrg}
+										>
 											Remove User From Organization
 										</button>
 									</div>
@@ -220,7 +253,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			userData,
 			driverData,
-			requiresVerify
+			requiresVerify,
+			userToken
 		}
 	};
 };
