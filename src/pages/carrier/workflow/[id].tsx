@@ -40,8 +40,6 @@ export default function WorkflowId({
 	const workflowId = workflow.id;
 	const price = workflow.workflowPriceData.price;
 
-	console.log("drivers", drivers);
-
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [selectedDriver, setSelectedDriver] = useState<UserDriver>();
@@ -158,6 +156,10 @@ export default function WorkflowId({
 		/>
 	);
 
+	const isSaveAllButtonDisabled = () => {
+		return newStatus === previousStatus;
+	};
+
 	return (
 		<>
 			<CarrierLayout>
@@ -172,7 +174,7 @@ export default function WorkflowId({
 							{!["Cancelled", "Rejected"].includes(previousStatus) && (
 								<button
 									className="btn btn-primary"
-									disabled={newStatus === previousStatus}
+									disabled={isSaveAllButtonDisabled()}
 									onClick={handleSaveChanges}
 								>
 									Save All
