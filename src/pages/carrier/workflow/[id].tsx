@@ -1,8 +1,9 @@
-import { useState, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import Link from "next/link";
 import { ChangeEvent } from "react";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
+import { getDrivers } from "@/api/drivers";
 
 import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -11,13 +12,15 @@ import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow
 import CarrierWorkflowPricing from "@/features/Carrier/CarrierWorkflows/CarrierWorkflowPricing";
 
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
+import WorkflowAssignDriverDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowAssignDriverDropdown";
 import Modal from "@/components/Modal";
 
+import type { GetServerSideProps } from "next";
 import type {
 	CarrierWorkflowStatus,
 	CarrierWorkflowType
 } from "@/features/Carrier/CarrierWorkflows/types";
-import type { GetServerSideProps } from "next";
+import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
 import IconLeft from "public/svg/arrow-left.svg";
 import { toast } from "react-hot-toast";
@@ -26,18 +29,22 @@ type BidSelectValueType = "accept" | "counter";
 
 export default function WorkflowId({
 	workflow,
-	userToken
+	userToken,
+	drivers
 }: {
 	workflow: CarrierWorkflowType;
 	userToken: string;
+	drivers: UserDriver[];
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
-
 	const price = workflow.workflowPriceData.price;
+
+	console.log("drivers", drivers);
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
+	const [selectedDriver, setSelectedDriver] = useState<UserDriver>();
 	const [modalOpen, setModalOpen] = useState(false);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
@@ -52,6 +59,13 @@ export default function WorkflowId({
 		setWorkflowStatusChangeNotes("");
 	};
 
+	// if in a certain status (allocated) and no driver is selected, allow user
+	// to save workflow delivery
+	const handleDriverChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		const driverId = parseFloat(event.target.value);
+		const mappedDriver = drivers.find((driver) => driver.id === driverId);
+		setSelectedDriver(mappedDriver);
+	};
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 
@@ -177,6 +191,15 @@ export default function WorkflowId({
 							bidSelectValue={bidSelectValue}
 						/>
 					</div>
+					{drivers && previousStatus === "Allocated" && (
+						<div className="flex justify-end align-middle bg-slate-100 px-4 py-4">
+							<WorkflowAssignDriverDropdown
+								drivers={drivers}
+								handleDriverChange={handleDriverChange}
+								selectedDriver={selectedDriver}
+							/>
+						</div>
+					)}
 
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
@@ -218,6 +241,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 
+	let drivers: UserDriver[] = [];
 	let workflowData: CarrierWorkflowType | null;
 
 	if (!userToken) {
@@ -239,8 +263,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const response = await getWorkflowByWorkflowId(userToken, workflowId);
-		workflowData = response.workflow;
+		const getDriversResponse = await getDrivers({ userToken });
+		drivers = getDriversResponse.data;
+		const getWorkflowByWorkflowIdResponse = await getWorkflowByWorkflowId(userToken, workflowId);
+		workflowData = getWorkflowByWorkflowIdResponse.workflow;
 	} catch (err) {
 		workflowData = null;
 	}
@@ -256,6 +282,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
+			drivers,
 			workflow: workflowData,
 			userToken
 		}

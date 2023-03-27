@@ -203,7 +203,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		status: ""
 	};
 	let driverData: UserDriver = {
-		id: null,
+		id: -1,
 		email: "",
 		username: "",
 		firstName: "",

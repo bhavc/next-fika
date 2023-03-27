@@ -1,5 +1,5 @@
 export type UserDriver = {
-	id: number | null;
+	id: number;
 	username: string;
 	email: string;
 	firstName: string;
