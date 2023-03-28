@@ -70,11 +70,19 @@ export type WorkflowPriceDataType = {
 	price?: number;
 };
 
+export type AssignedDriverType = {
+	id: number;
+	firstName?: string;
+	lastName?: string;
+	username?: string;
+};
+
 export type CarrierWorkflowType = {
 	id: string;
 	userId: string;
 	status: CarrierWorkflowStatus;
 	selectedCarrier: UserCarrier;
+	assignedDriver?: AssignedDriverType;
 	workflowAddressData: CarrierWorkflowAddressDataType;
 	workflowContainerData: CarrierWorkflowContainerDataType;
 	workflowPriceData: WorkflowPriceDataType;

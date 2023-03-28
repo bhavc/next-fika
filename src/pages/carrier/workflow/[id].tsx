@@ -38,11 +38,14 @@ export default function WorkflowId({
 }) {
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
+	const workflowAssignedDriver = workflow.assignedDriver;
 	const price = workflow.workflowPriceData.price;
+
+	const showAssignDriverDropdown = workflowStatus === "Triage";
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
-	const [selectedDriver, setSelectedDriver] = useState<UserDriver>();
+	const [assignedDriver, setAssignedDriver] = useState<UserDriver>();
 	const [modalOpen, setModalOpen] = useState(false);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
@@ -62,7 +65,7 @@ export default function WorkflowId({
 	const handleDriverChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		const driverId = parseFloat(event.target.value);
 		const mappedDriver = drivers.find((driver) => driver.id === driverId);
-		setSelectedDriver(mappedDriver);
+		setAssignedDriver(mappedDriver);
 	};
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
@@ -88,6 +91,11 @@ export default function WorkflowId({
 				toast.error("You must ensure you provide a valid quote price.");
 				return;
 			}
+
+			if (!assignedDriver) {
+				toast.error("You must ensure you assign your delivery to a driver.");
+				return;
+			}
 		}
 
 		setModalOpen(true);
@@ -111,7 +119,8 @@ export default function WorkflowId({
 			const updateData: { [key: string]: any } = {
 				workflow: {
 					status: newStatus,
-					carrierNotes: workflowStatusChangeNotes
+					carrierNotes: workflowStatusChangeNotes,
+					assignedDriver: assignedDriver?.id
 				},
 				payment: {}
 			};
@@ -160,6 +169,12 @@ export default function WorkflowId({
 		return newStatus === previousStatus;
 	};
 
+	console.log("selectedDriver", assignedDriver);
+
+	// button is disabled if newStatus === previousStatus
+
+	// if moving from allocated to assigning driver, what should happen?
+
 	return (
 		<>
 			<CarrierLayout>
@@ -193,13 +208,27 @@ export default function WorkflowId({
 							bidSelectValue={bidSelectValue}
 						/>
 					</div>
-					{drivers && previousStatus === "Allocated" && (
+					{showAssignDriverDropdown && (
 						<div className="flex justify-end align-middle bg-slate-100 px-4 py-4">
 							<WorkflowAssignDriverDropdown
 								drivers={drivers}
 								handleDriverChange={handleDriverChange}
-								selectedDriver={selectedDriver}
+								assignedDriver={assignedDriver}
 							/>
+						</div>
+					)}
+					{workflowAssignedDriver && (
+						<div className="bg-slate-100 pt-4 pr-4 flex justify-end">
+							<div className="stats shadow-2xl border-accent border-2 ">
+								<div className="stat">
+									<div className="stat-title">Assigned Driver</div>
+									<div className="stat-value text-primary">
+										{workflowAssignedDriver.firstName} {workflowAssignedDriver.lastName} (
+										{workflowAssignedDriver.username})
+									</div>
+									<div className="stat-desc">to move your shipment</div>
+								</div>
+							</div>
 						</div>
 					)}
 

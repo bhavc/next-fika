@@ -4,18 +4,18 @@ import type { UserDriver } from "@/features/Driver/UserDriver/types";
 export default function WorkflowAssignDriverDropdown({
 	handleDriverChange,
 	drivers,
-	selectedDriver
+	assignedDriver
 }: {
 	handleDriverChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 	drivers: UserDriver[];
-	selectedDriver?: UserDriver;
+	assignedDriver?: UserDriver;
 }) {
 	return (
 		<select
 			className="select select-bordered w-full max-w-xs"
 			onChange={handleDriverChange}
 			defaultValue={-1}
-			value={selectedDriver?.id}
+			value={assignedDriver?.id}
 		>
 			<option disabled={true} value={-1}>
 				Select a driver
