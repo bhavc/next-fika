@@ -53,7 +53,7 @@ export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType 
 						<p className="font-bold">Shipment #: {shipmentNumber}</p>
 						<p className="font-bold">BOL # {bolNumber}</p>
 
-						<div className="divider" />
+						<div className="border-2 my-2" />
 
 						<div className="flex flex-col">
 							<p className="font-bold">Pickup Company Name</p>
@@ -68,7 +68,7 @@ export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType 
 								</p>
 							)}
 						</div>
-						<div className="divider" />
+						<div className="border-2 my-2" />
 
 						<div className="flex flex-col">
 							<p className="font-bold">Dropoff Company Name</p>
@@ -85,7 +85,13 @@ export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType 
 						</div>
 					</div>
 				</div>
-				<div className="flex flex-row gap-4">
+				{/* if allocated, reject will reject */}
+				{/* if allocated, start will move to "in progress" */}
+
+				{/* if in progress, reject will reject */}
+				{/* if in progress, finish will move to "Shipped" */}
+
+				<div className="flex flex-row gap-4 mt-4">
 					<button className="btn btn-error">Reject</button>
 					<button className="btn btn-success">Start</button>
 				</div>
