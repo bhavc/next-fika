@@ -169,12 +169,6 @@ export default function WorkflowId({
 		return newStatus === previousStatus;
 	};
 
-	console.log("selectedDriver", assignedDriver);
-
-	// button is disabled if newStatus === previousStatus
-
-	// if moving from allocated to assigning driver, what should happen?
-
 	return (
 		<>
 			<CarrierLayout>

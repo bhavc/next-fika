@@ -8,23 +8,46 @@ import { useRouter } from "next/router";
 
 interface DriverLayout {
 	children: any;
+	leftSideItems?: JSX.Element[];
 }
 
-export default function DriverLayout({ children }: DriverLayout) {
+export default function DriverLayout({ children, leftSideItems }: DriverLayout) {
 	const router = useRouter();
 	const currentPath = router.pathname;
 
 	const rightSideItems = [
-		<div key="profile" className="avatar placeholder">
-			<div className="bg-primary text-neutral-content rounded-full w-12">
-				<span className="text-xl bg-primary">P</span>
+		<div key="profile">
+			{/* <button onClick={handleProfileClick}>
+				<div className="avatar placeholder">
+					<div className="bg-primary text-neutral-content rounded-full w-12">
+						<span className="text-xl bg-primary">P</span>
+					</div>
+				</div>
+			</button> */}
+			<div className="dropdown dropdown-end">
+				<label tabIndex={0} className="avatar placeholder">
+					<div className="bg-primary text-neutral-content rounded-full w-12">
+						<span className="text-xl bg-primary">P</span>
+					</div>
+				</label>
+				<ul
+					tabIndex={0}
+					className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 border-2 border-slate-300"
+				>
+					<Link href={"/driver/settings"} className="p-2 hover:opacity-80 hover:bg-accent">
+						Settings
+					</Link>
+					<Link href={"/logout"} className="p-2 hover:opacity-80 hover:bg-accent">
+						Logout
+					</Link>
+				</ul>
 			</div>
 		</div>
 	];
 
 	return (
 		<>
-			<DriverNavbar rightSideItems={rightSideItems} />
+			<DriverNavbar leftSideItems={leftSideItems} rightSideItems={rightSideItems} />
 			<main className="bg-slate-200 h-[calc(100vh_-_130px)] p-4">{children}</main>
 
 			<div className="btm-nav">

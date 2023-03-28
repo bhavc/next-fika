@@ -55,6 +55,24 @@ export const getWorkflowsForCarrier = async (userToken: string | undefined) => {
 	return response.json();
 };
 
+export const getWorkflowsForDriver = async ({ userToken }: { userToken?: string }) => {
+	const response = await fetch(`${BASE_URL}/workflow/driverFor`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${userToken}`
+		},
+		method: "GET"
+	});
+
+	console.log("poopity");
+
+	if (!response.ok) {
+		throw new Error("getWorkflowsForDriver - could not get workflows for user");
+	}
+
+	return response.json();
+};
+
 export const getWorkflowByWorkflowId = async (
 	userToken: string | undefined,
 	workflowId: string

@@ -3,8 +3,6 @@ import IconRight from "public/svg/arrow-right.svg";
 
 import DriverStatusBadge from "./DriverStatusBadge";
 
-import { formatDateStringToDate } from "@/utils/time";
-
 import type { UserStatus } from "@/features/types";
 
 type DriverListType = {
