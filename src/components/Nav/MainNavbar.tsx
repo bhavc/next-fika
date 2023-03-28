@@ -24,7 +24,7 @@ export default function Navbar({
 				<>
 					<Link
 						href={appRoute}
-						className="btn btn-md normal-case bg-primary visited:bg-primary hover:bg-primary-focus active:bg-primary-content"
+						className="btn btn-secondary btn-md normal-case bg-secondary visited:bg-secondary hover:bg-secondary-focus active:bg-secondary-content text-slate-200"
 					>
 						Go to App
 					</Link>

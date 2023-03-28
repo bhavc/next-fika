@@ -1,25 +1,31 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type FormInputs = {
-	email: string;
+	emailUsername: string;
 	password: string;
 };
 
 interface RegisterFormProps {
-	handleSubmitLogin: ({ email, password }: { email: string; password: string }) => void;
+	handleSubmitLogin: ({
+		emailUsername,
+		password
+	}: {
+		emailUsername: string;
+		password: string;
+	}) => void;
 }
 
-export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
+export default function LoginForm({ handleSubmitLogin }: RegisterFormProps) {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<FormInputs>();
 	const onSubmit: SubmitHandler<FormInputs> = (data) => {
-		const { email, password } = data;
+		const { emailUsername, password } = data;
 
 		handleSubmitLogin({
-			email: email.toLocaleLowerCase(),
+			emailUsername: emailUsername.toLocaleLowerCase(),
 			password
 		});
 	};
@@ -29,16 +35,18 @@ export default function RegisterForm({ handleSubmitLogin }: RegisterFormProps) {
 			<div className="card-body">
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="mb-2">
-						<label>Email</label>
+						<label>Email/Username</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="Email"
 								className="input w-full max-w-xs"
-								{...register("email", { required: "Email required" })}
+								{...register("emailUsername", { required: "true" })}
 							/>
 						</div>
-						{errors.email && <p className="text-error mt-1">Email is required</p>}
+						{errors.emailUsername && (
+							<p className="text-error mt-1">Email or Username is required</p>
+						)}
 					</div>
 					<div className="mb-2">
 						<label>Password</label>

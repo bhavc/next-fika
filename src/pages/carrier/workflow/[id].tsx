@@ -217,7 +217,8 @@ export default function WorkflowId({
 							/>
 						</div>
 					)}
-					{workflowAssignedDriver && (
+
+					{workflowAssignedDriver && workflowAssignedDriver.id && (
 						<div className="bg-slate-100 pt-4 pr-4 flex justify-end">
 							<div className="stats shadow-2xl border-accent border-2 ">
 								<div className="stat">

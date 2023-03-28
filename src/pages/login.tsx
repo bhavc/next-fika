@@ -15,9 +15,15 @@ import type { GetServerSideProps } from "next";
 export default function Login() {
 	const router = useRouter();
 
-	const handleSubmitLogin = async ({ email, password }: { email: string; password: string }) => {
+	const handleSubmitLogin = async ({
+		emailUsername,
+		password
+	}: {
+		emailUsername: string;
+		password: string;
+	}) => {
 		const data = {
-			email,
+			emailUsername,
 			password
 		};
 
