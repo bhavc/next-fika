@@ -1,16 +1,29 @@
 import { useRouter } from "next/router";
 import { getCurrentUser } from "@/api/user";
-import { getWorkflowByWorkflowId } from "@/api/workflow";
+import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflow";
 
 import DriverLayout from "@/layouts/DriverLayout";
+import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
-import type { DriverWorkflowType } from "@/features/Driver/DriverWorkflows/types";
+import type {
+	DriverWorkflowType,
+	DriverWorkflowStatus
+} from "@/features/Driver/DriverWorkflows/types";
+import { toast } from "react-hot-toast";
 
-export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType }) {
+export default function WorkflowId({
+	workflow,
+	userToken,
+	workflowId
+}: {
+	workflow: DriverWorkflowType;
+	userToken: string;
+	workflowId: string;
+}) {
 	const router = useRouter();
-
+	const workflowStatus = workflow.status;
 	const workflowAddressData = workflow.workflowAddressData;
 	const {
 		t1Number,
@@ -32,10 +45,26 @@ export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType 
 		dropOffAppointmentNeeded
 	} = workflowAddressData;
 
-	const workflowContainerData = workflow.workflowContainerData;
-
 	const handleBack = () => {
 		return router.back();
+	};
+
+	const handleStatusChange = async (newStatus: DriverWorkflowStatus) => {
+		const updateData = {
+			workflow: {
+				status: newStatus
+			}
+		};
+
+		try {
+			// TODO use reactquery here
+			await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success("Error editing delivery");
+			router.replace(router.asPath);
+		} catch (err) {
+			console.log("err", err);
+			toast.error("Error editing delivery");
+		}
 	};
 
 	const leftSideItems = [
@@ -85,16 +114,10 @@ export default function WorkflowId({ workflow }: { workflow: DriverWorkflowType 
 						</div>
 					</div>
 				</div>
-				{/* if allocated, reject will reject */}
-				{/* if allocated, start will move to "in progress" */}
-
-				{/* if in progress, reject will reject */}
-				{/* if in progress, finish will move to "Shipped" */}
-
-				<div className="flex flex-row gap-4 mt-4">
-					<button className="btn btn-error">Reject</button>
-					<button className="btn btn-success">Start</button>
-				</div>
+				<DriverWorflowButton
+					workflowStatus={workflowStatus}
+					handleStatusChange={handleStatusChange}
+				/>
 			</div>
 		</DriverLayout>
 	);
@@ -167,7 +190,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			userData,
 			workflow: workflowData,
-			userToken
+			userToken,
+			workflowId
 		}
 	};
 };

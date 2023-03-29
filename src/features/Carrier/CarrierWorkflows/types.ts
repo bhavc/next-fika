@@ -6,7 +6,7 @@ export type CarrierWorkflowStatus =
 	| "Counter Price"
 	| "Allocated"
 	| "In Progress"
-	| "Shipped"
+	| "Delivered"
 	| "Rejected"
 	| "Cancelled"
 	| "Deleted";

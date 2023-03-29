@@ -17,13 +17,6 @@ export default function DriverLayout({ children, leftSideItems }: DriverLayout) 
 
 	const rightSideItems = [
 		<div key="profile">
-			{/* <button onClick={handleProfileClick}>
-				<div className="avatar placeholder">
-					<div className="bg-primary text-neutral-content rounded-full w-12">
-						<span className="text-xl bg-primary">P</span>
-					</div>
-				</div>
-			</button> */}
 			<div className="dropdown dropdown-end">
 				<label tabIndex={0} className="avatar placeholder">
 					<div className="bg-primary text-neutral-content rounded-full w-12">

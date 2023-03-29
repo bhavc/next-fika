@@ -32,9 +32,9 @@ export default function Driver({ userData }: { userData: UserDriver }) {
 						</div>
 					</div>
 				)}
-				<div className="flex flex-col items-center pt-20">
+				<div className="flex flex-col pt-20">
 					<div className="max-w-xl">
-						<h1 className="text-3xl text-black">Welcome, {firstName}</h1>
+						<h1 className="text-3xl text-black mt-4 text-left">Welcome, {firstName}</h1>
 					</div>
 					<div className="flex flex-col items-center mt-4 gap-4">
 						<Link href={`/driver/something`}>

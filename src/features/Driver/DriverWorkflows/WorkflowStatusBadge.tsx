@@ -18,7 +18,7 @@ export default function WorkflowStatusBadge({
 			return <div className="p-2 bg-secondary-content rounded-lg text-center">{children}</div>;
 		case "In Progress":
 			return <div className="p-2 bg-indigo-400 rounded-lg text-center">{children}</div>;
-		case "Shipped":
+		case "Delivered":
 			return <div className="p-2 bg-success rounded-lg text-center">{children}</div>;
 		case "Cancelled":
 			return <div className="p-2 bg-error rounded-lg text-center">{children}</div>;

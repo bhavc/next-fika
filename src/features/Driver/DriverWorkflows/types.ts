@@ -4,7 +4,7 @@ export type DriverWorkflowStatus =
 	| "Counter Price"
 	| "Allocated"
 	| "In Progress"
-	| "Shipped"
+	| "Delivered"
 	| "Rejected"
 	| "Cancelled"
 	| "Deleted";

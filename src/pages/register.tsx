@@ -39,7 +39,7 @@ export default function Register() {
 			type: "Shipper",
 			imageUrl: "whatever",
 			title: "Shipper",
-			body: "I want to get something shipped"
+			body: "I want to get something delivered"
 		},
 		{
 			type: "Carrier",

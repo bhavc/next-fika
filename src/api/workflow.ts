@@ -109,7 +109,7 @@ export const editWorkflowByWorkflowId = async ({
 	});
 
 	if (!response.ok) {
-		throw new Error("editWorkflowByWorkflowId - could not create workflow");
+		throw new Error("editWorkflowByWorkflowId - could not edit workflow");
 	}
 
 	return response.json();
