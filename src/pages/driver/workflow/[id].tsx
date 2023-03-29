@@ -1,9 +1,12 @@
+import { useState, MouseEvent, ChangeEvent } from "react";
 import { useRouter } from "next/router";
 import { getCurrentUser } from "@/api/user";
 import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflow";
 
 import DriverLayout from "@/layouts/DriverLayout";
 import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
+import DriverWorkflowStatusChangeModal from "@/features/Driver/DriverWorkflows/DriverWorkflowStatusChangeModal";
+import FileUploader from "@/components/FileUploader";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -11,6 +14,7 @@ import type {
 	DriverWorkflowType,
 	DriverWorkflowStatus
 } from "@/features/Driver/DriverWorkflows/types";
+import type { FileType } from "@/features/Driver/DriverWorkflows/types";
 import { toast } from "react-hot-toast";
 
 export default function WorkflowId({
@@ -45,25 +49,62 @@ export default function WorkflowId({
 		dropOffAppointmentNeeded
 	} = workflowAddressData;
 
+	const [modalOpen, setModalOpen] = useState(false);
+	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
+	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
+	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
+
 	const handleBack = () => {
 		return router.back();
 	};
 
-	const handleStatusChange = async (newStatus: DriverWorkflowStatus) => {
+	const handleStatusChange = (newStatus: DriverWorkflowStatus) => {
+		setModalOpen(true);
+		setUpdatedWorkflowStatus(newStatus);
+	};
+
+	const handleCancelModal = () => {
+		setModalOpen(false);
+	};
+
+	const handleUploadedFiles = (data: any[]) => {
+		setUploadedFiles(data);
+	};
+
+	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
+	};
+
+	const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
+		setWorkflowStatusChangeNotes(event.target.value);
+	};
+
+	const handleConfirmModal = async () => {
+		// todo add uploaded files here
 		const updateData = {
 			workflow: {
-				status: newStatus
+				status: updatedWorkflowStatus,
+				uploadedFiles,
+				driverNotes: workflowStatusChangeNotes
 			}
 		};
 
 		try {
 			// TODO use reactquery here
 			await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+
 			toast.success("Error editing delivery");
 			router.replace(router.asPath);
 		} catch (err) {
 			console.log("err", err);
 			toast.error("Error editing delivery");
+		} finally {
+			setModalOpen(false);
+			setUploadedFiles([]);
+			setWorkflowStatusChangeNotes("");
 		}
 	};
 
@@ -72,6 +113,33 @@ export default function WorkflowId({
 			Back
 		</button>
 	];
+
+	const ModalUploadArea = (
+		<div>
+			<h2 className="prose prose-2xl">Upload Files</h2>
+			<p>Add any documents relating to shipping manifest, Bol #, T1 document etc.</p>
+			<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
+			<div className="my-2">
+				<div className="mt-1 flex">
+					<FileUploader
+						uploadedFiles={uploadedFiles}
+						handleUploadedFiles={handleUploadedFiles}
+						userToken={userToken}
+						handleUploadedFileRemove={handleUploadedFileRemove}
+					/>
+				</div>
+			</div>
+		</div>
+	);
+
+	const ModalTextArea = (
+		<textarea
+			placeholder="Add any other notes here that you may want the shipper to know"
+			className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
+			onChange={handleWorkflowStatusChangeNotes}
+			value={workflowStatusChangeNotes}
+		/>
+	);
 
 	return (
 		<DriverLayout leftSideItems={leftSideItems}>
@@ -119,6 +187,14 @@ export default function WorkflowId({
 					handleStatusChange={handleStatusChange}
 				/>
 			</div>
+			<DriverWorkflowStatusChangeModal
+				modalOpen={modalOpen}
+				workflowStatus={updatedWorkflowStatus}
+				handleCancelModal={handleCancelModal}
+				handleConfirmModal={handleConfirmModal}
+				ModalUploadArea={ModalUploadArea}
+				ModalTextArea={ModalTextArea}
+			/>
 		</DriverLayout>
 	);
 }
