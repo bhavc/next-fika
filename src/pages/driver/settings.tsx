@@ -1,10 +1,141 @@
+import Image from "next/image";
+import { useState, useRef, MouseEvent, ChangeEvent } from "react";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { toast } from "react-hot-toast";
+
 import DriverLayout from "@/layouts/DriverLayout";
+import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
+
+import { updateProfileImage } from "@/api/fileUpload";
+import { getCurrentUser } from "@/api/user";
 
 import type { GetServerSideProps } from "next";
+import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
 
-export default function DriverSettings({ requiresVerify }: { requiresVerify: boolean }) {
+export type DriverProfileFormInputs = {
+	driverUserName: string;
+	driverAddress: string;
+	driverCompanyName: string;
+	driverEmergencyNumbers: string[];
+	driverFirstName: string;
+	driverLastName: string;
+	driverEmail: string;
+	driverPhoneNumber: string | null;
+};
+
+// TODO fix this
+export default function DriverSettings({
+	requiresVerify,
+	userData,
+	userToken
+}: {
+	requiresVerify: boolean;
+	userData: UserDriver;
+	userToken: string;
+}) {
+	console.log("userData", userData);
+
+	const driverAvatar = userData.avatarImageData;
+	const driverUserName = userData.username;
+	const driverEmail = userData.email;
+	const driverFirstName = userData.firstName;
+	const driverLastName = userData.lastName;
+	const driverAddress = userData.address || "";
+	const driverCompanyName = userData.companyName || "";
+	const driverEmergencyNumbers = userData.emergencyNumbers || [];
+	const driverPhoneNumber = userData.phoneNumber;
+
+	const {
+		register,
+		handleSubmit,
+		control,
+		formState: { errors }
+	} = useForm<DriverProfileFormInputs>({
+		defaultValues: {
+			driverUserName,
+			driverEmail,
+			driverAddress,
+			driverFirstName,
+			driverLastName,
+			driverCompanyName,
+			driverEmergencyNumbers,
+			driverPhoneNumber
+		}
+	});
+
+	const [avatarData, setAvatarData] = useState<{
+		url: string;
+		name: string;
+		type: string;
+		blobName: string;
+	}>(driverAvatar);
+	const [isLoading, setIsLoading] = useState(true);
+
+	const hiddenFileInput = useRef<HTMLInputElement>(null);
+
+	const handleClick = (event: MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		hiddenFileInput?.current?.click();
+	};
+
+	const handleProfileImageChange = async (event: ChangeEvent<HTMLInputElement>) => {
+		setIsLoading(true);
+		const file = event.currentTarget.files?.[0];
+
+		if (!file) {
+			return;
+		}
+
+		const fileType = file.type;
+		const splitFileType = fileType.split("/");
+
+		if (!splitFileType || splitFileType.length < 1 || splitFileType[0] !== "image") {
+			toast.error("Please choose a different file type");
+		}
+
+		const fileList = [file];
+		// make a request to the backend
+		try {
+			const res = await updateProfileImage(userToken, fileList);
+			const avatarDataResponse = res.data;
+
+			setAvatarData(avatarDataResponse);
+			toast.success(res.message);
+		} catch (err) {
+			toast.error("Error uploading image. Please try again later");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	const onSubmit: SubmitHandler<DriverProfileFormInputs> = async (data) => {
+		try {
+			const profileSubmitData = {
+				...data
+			};
+
+			// const response = await editUserData(userToken, profileSubmitData);
+			// todo: add react query here
+
+			// toast.success(response.message);
+		} catch (err) {
+			console.info("err", err);
+			toast.error("Error updating user");
+		}
+	};
+
+	const mapImageUploadStatusToComponent = () => {
+		if (avatarData) {
+			return <Image src={avatarData.url} alt="profile" width={24} height={24} />;
+		} else if (isLoading) {
+			return <progress className="progress progress-white w-24"></progress>;
+		}
+
+		return <div className="text-3xl">P</div>;
+	};
+
 	return (
 		<DriverLayout>
 			<main className="items-center justify-center">
@@ -22,11 +153,11 @@ export default function DriverSettings({ requiresVerify }: { requiresVerify: boo
 				)}
 				<h1 className="text-3xl text-left my-4 ml-4">Settings</h1>
 
-				{/* <div className="px-4">
+				<div className="px-4">
 					<div className="card bg-base-100 shadow-2xl mb-2">
 						<div className="card-body">
 							<form id="carrierSettingsForm" onSubmit={handleSubmit(onSubmit)}>
-								<h2 className="text-xl mb-4">Company Logo</h2>
+								<h2 className="text-xl mb-4">Avatar</h2>
 								<div className="flex flex-row gap-10 justify-between">
 									<div className="ml-8">
 										<input
@@ -55,24 +186,52 @@ export default function DriverSettings({ requiresVerify }: { requiresVerify: boo
 								<div className="flex flex-row flex-wrap gap-4 w-full">
 									<div className="flex flex-col gap-2 w-full sm:w-1/2">
 										<div>
-											<label className="text-xl">Company Name</label>
+											<label className="text-xl">User Name</label>
 										</div>
 										<input
 											type="text"
-											placeholder="Fika Ltd."
+											placeholder="fikaUser24"
 											className={`input w-full ${
-												errors.clientCompanyName ? "border-error" : "border-neutral"
+												errors.driverUserName ? "border-error" : "border-neutral"
 											}`}
-											{...register("clientCompanyName")}
+											{...register("driverUserName")}
+											disabled
+										/>
+									</div>
+									<div className="flex flex-col gap-2 w-full sm:w-1/2">
+										<label className="text-xl">Email</label>
+										<p className="text-sm pl-4 text-slate-500">
+											*Can not change email at this time. If you would like to change your email,
+											please reach out to us
+										</p>
+										<input
+											type="text"
+											placeholder="fikafreight@gmail.com"
+											className="input w-full border-neutral"
+											disabled
+											{...register("driverEmail")}
+										/>
+									</div>
+									<div className="flex flex-col gap-2 w-full sm:w-1/2">
+										<label className="text-xl">Password</label>
+										<p className="text-sm pl-4 text-slate-500">
+											*Can not change password at this time. If you would like to change your
+											password, please reach out to us
+										</p>
+										<input
+											type="text"
+											placeholder="********"
+											className="input w-full border-neutral"
+											disabled
+											// {...register("clientCompanyPassword")}
 										/>
 									</div>
 									<div className="flex flex-col gap-2 w-full sm:w-1/2">
 										<div>
 											<label className="text-xl">Address</label>
-											<p className="text-sm pl-4 text-error">*Required</p>
 										</div>
 										<Controller
-											name="clientCompanyAddress"
+											name="driverCompanyName"
 											// rules={{
 											// 	required: true
 											// }}
@@ -89,175 +248,44 @@ export default function DriverSettings({ requiresVerify }: { requiresVerify: boo
 									</div>
 									<div className="flex flex-col gap-2 w-full sm:w-1/2">
 										<div>
-											<label className="text-xl">Phone #</label>
+											<label className="text-xl">First Name</label>
 										</div>
+										<input
+											type="text"
+											placeholder="John"
+											className={`input w-full ${
+												errors.driverFirstName ? "border-error" : "border-neutral"
+											}`}
+											{...register("driverFirstName")}
+										/>
+									</div>
+									<div className="flex flex-col gap-2 w-full sm:w-1/2">
+										<div>
+											<label className="text-xl">Last Name</label>
+										</div>
+										<input
+											type="text"
+											placeholder="Doe"
+											className={`input w-full ${
+												errors.driverLastName ? "border-error" : "border-neutral"
+											}`}
+											{...register("driverLastName")}
+										/>
+									</div>
+									<div className="flex flex-col gap-2 w-full sm:w-1/2">
+										<label className="text-xl">Phone #</label>
 										<input
 											type="text"
 											placeholder="+19671111567"
 											className={`input w-full ${
-												errors.clientCompanyPhone ? "border-error" : "border-neutral"
+												errors.driverPhoneNumber ? "border-error" : "border-neutral"
 											}`}
-											{...register("clientCompanyPhone")}
-										/>
-									</div>
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<label className="text-xl">Emergency #</label>
-										<input
-											type="text"
-											placeholder="+19671111567"
-											className="input w-full border-neutral"
-											{...register("clientCompanyEmergencyPhone")}
-										/>
-									</div>
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<label className="text-xl">Email</label>
-										<p className="text-sm pl-4 text-slate-500">
-											*Can not change email at this time. If you would like to change your email,
-											please reach out to us
-										</p>
-										<input
-											type="text"
-											placeholder="fikafreight@gmail.com"
-											className="input w-full border-neutral"
-											disabled
-											{...register("clientCompanyEmail")}
-										/>
-									</div>
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<label className="text-xl">Password</label>
-										<p className="text-sm pl-4 text-slate-500">
-											*Can not change password at this time. If you would like to change your
-											password, please reach out to us
-										</p>
-										<input
-											type="text"
-											placeholder="********"
-											className="input w-full border-neutral"
-											disabled
-											{...register("clientCompanyPassword")}
+											{...register("driverPhoneNumber")}
 										/>
 									</div>
 								</div>
 								<div className="divider" />
 
-								<div>
-									<h2 className="text-xl">Upload Files</h2>
-									<p className="text-sm pl-4 text-slate-500">
-										Add any and all documents relating to your insurance. Once validated, we will
-										clear your account so you can manage your deliveries
-									</p>
-									<p className="text-sm pl-4 text-slate-500">
-										*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)
-									</p>
-									<div className="my-2 w-full sm:w-1/2">
-										<div className="mt-1 flex">
-											<FileUploader
-												uploadedFiles={uploadedFiles}
-												handleUploadedFiles={handleUploadedFiles}
-												userToken={userToken}
-												handleUploadedFileRemove={handleUploadedFileRemove}
-											/>
-										</div>
-									</div>
-								</div>
-								<div className="divider" />
-
-								<div className="flex flex-row gap-4 w-full mb-4">
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<div>
-											<label className="text-xl">
-												Specify Regions where you are able to ship to
-											</label>
-											<p className="text-sm pl-4 text-error">*Required. Select all that apply</p>
-										</div>
-										<select
-											className={`select w-full max-w-s ${
-												errors.clientAreasServiced ? "border-error" : "border-neutral"
-											}`}
-											defaultValue={[]}
-											multiple
-											{...register("clientAreasServiced")}
-										>
-											<option value="" disabled>
-												Choose a region
-											</option>
-											{regionsServiced.map((region) => {
-												return (
-													<option key={region.id} value={region.value}>
-														{region.label}
-													</option>
-												);
-											})}
-										</select>
-									</div>
-								</div>
-								<div className="flex flex-row gap-4 w-full mb-4">
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<div>
-											<label className="text-xl">Specify Areas serviced</label>
-											<p className="text-sm pl-4 text-error">*Required. Select all that apply</p>
-										</div>
-										<select
-											className={`select w-full max-w-s ${
-												errors.clientAreasServiced ? "border-error" : "border-neutral"
-											}`}
-											defaultValue={[]}
-											multiple
-											size={5}
-											{...register("clientRegionsServiced")}
-										>
-											<option value="" disabled>
-												Choose an area
-											</option>
-											{areasServicedOptions.map((area) => {
-												return (
-													<option key={area.id} value={area.value}>
-														{area.label}
-													</option>
-												);
-											})}
-										</select>
-									</div>
-								</div>
-								<div className="flex flex-row flex-wrap gap-4 w-full">
-									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<label className="text-xl">Languages Supported</label>
-										<p className="text-sm pl-4 text-error">*Required</p>
-										<textarea
-											placeholder="English, French, Swahili"
-											className={`input w-full h-20 ${
-												errors.clientLanguagesSupported ? "border-error" : "border-neutral"
-											} px-4 py-2`}
-											{...register("clientLanguagesSupported")}
-										/>
-									</div>
-								</div>
-								<div className="flex flex-col flex-wrap gap-4 w-full mt-4">
-									<div className="flex flex-row gap-2 w-full sm:w-1/2">
-										<label className="9o">Smartphone access available to drivers?</label>
-										<input
-											type="checkbox"
-											className="checkbox border-neutral"
-											{...register("clientHasSmartphoneAccess")}
-										/>
-									</div>
-									<div className="flex flex-row gap-2 w-full sm:w-1/2">
-										<label className="">Live tracking available to drivers?</label>
-										<input
-											type="checkbox"
-											className="checkbox border-neutral"
-											{...register("clientHasLiveTracking")}
-										/>
-									</div>
-									<div className="flex flex-row gap-2 w-full sm:w-1/2">
-										<label className="">Dashcam setup available to drivers?</label>
-										<input
-											type="checkbox"
-											className="checkbox border-neutral"
-											{...register("clientHasDashcam")}
-										/>
-									</div>
-								</div>
 								<div className="flex justify-end mt-4">
 									<button className="btn btn-primary" form="carrierSettingsForm">
 										Save All
@@ -266,58 +294,55 @@ export default function DriverSettings({ requiresVerify }: { requiresVerify: boo
 							</form>
 						</div>
 					</div>
-				</div> */}
+				</div>
 			</main>
 		</DriverLayout>
 	);
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	// const { req } = context;
-	// const { cookies } = req;
-	// const userToken = cookies.user;
+	const { req } = context;
+	const { cookies } = req;
+	const userToken = cookies.user;
 
-	// let userData: UserDriver = {
-	// 	id: -99,
-	// 	username: "",
-	// 	email: "",
-	// 	firstName: "",
-	// 	lastName: "",
-	// 	companyName: "",
-	// 	address: "",
-	// 	phoneNumber: null,
-	// 	emergencyNumbers: null,
-	// 	gender: null,
-	// 	avatarImageData: null,
-	// 	bucketStorageUrls: [],
-	// 	role: "",
-	// 	status: ""
-	// };
+	let userData: UserDriver = {
+		id: -99,
+		username: "",
+		email: "",
+		firstName: "",
+		lastName: "",
+		companyName: "",
+		address: "",
+		phoneNumber: null,
+		emergencyNumbers: null,
+		gender: null,
+		avatarImageData: null,
+		bucketStorageUrls: [],
+		role: "",
+		status: ""
+	};
 
-	// let workflowsData = [];
+	if (!userToken) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
 
-	// if (!userToken) {
-	// 	return {
-	// 		redirect: {
-	// 			destination: "/",
-	// 			statusCode: 302
-	// 		}
-	// 	};
-	// }
-
-	// try {
-	// 	const getCurrentUserResponse = await getCurrentUser(userToken);
-	// 	userData = getCurrentUserResponse.data;
-
-	// 	const getDriverAssignedWorkflows = await getWorkflowsForDriver({ userToken });
-	// 	workflowsData = getDriverAssignedWorkflows.data;
-	// } catch (err) {
-	// 	console.info("err", err);
-	// }
+	try {
+		const getCurrentUserResponse = await getCurrentUser(userToken);
+		userData = getCurrentUserResponse.data;
+	} catch (err) {
+		console.info("err", err);
+	}
 
 	return {
 		props: {
-			requiresVerify: true
+			requiresVerify: true,
+			userData,
+			userToken
 		}
 	};
 };

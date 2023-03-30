@@ -17,7 +17,7 @@ import type {
 import type { FileType } from "@/features/Driver/DriverWorkflows/types";
 import { toast } from "react-hot-toast";
 
-export default function WorkflowId({
+export default function DriverWorkflowId({
 	workflow,
 	userToken,
 	workflowId
@@ -83,7 +83,6 @@ export default function WorkflowId({
 	};
 
 	const handleConfirmModal = async () => {
-		// todo add uploaded files here
 		const updateData = {
 			workflow: {
 				status: updatedWorkflowStatus,

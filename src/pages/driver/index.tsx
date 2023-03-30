@@ -22,6 +22,7 @@ export default function Driver({ userData }: { userData: UserDriver }) {
 							<div>
 								<AlertIcon />
 								<span className="text-white">
+									{/* TODO fix this */}
 									You have a delivery in progress. Click{" "}
 									<Link href={"/driver/workflow"} className="underline">
 										here
@@ -47,7 +48,7 @@ export default function Driver({ userData }: { userData: UserDriver }) {
 						<Link href={`/driver/workflows`}>
 							<div className="card w-80 bg-base-100 shadow-xl">
 								<div className="card-body">
-									<h2 className="card-title">View all deliveries</h2>
+									<h2 className="card-title">Assigned deliveries</h2>
 								</div>
 							</div>
 						</Link>
@@ -61,7 +62,7 @@ export default function Driver({ userData }: { userData: UserDriver }) {
 						<Link href={`/driver/settings`}>
 							<div className="card w-80 bg-base-100 shadow-xl">
 								<div className="card-body">
-									<h2 className="card-title">Settings</h2>
+									<h2 className="card-title">User Settings</h2>
 								</div>
 							</div>
 						</Link>

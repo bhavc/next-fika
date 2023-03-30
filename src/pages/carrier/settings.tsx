@@ -30,7 +30,7 @@ const areasServicedOptions = [
 	{ id: 3, label: "Cross Border", value: "crossBorder" }
 ];
 
-export type WorkflowFormAddressInputs = {
+export type CarrierProfileFormInputs = {
 	clientCompanyName: string;
 	clientCompanyAddress: string;
 	clientCompanyPhone: string;
@@ -72,7 +72,7 @@ export default function Settings({
 		handleSubmit,
 		control,
 		formState: { errors }
-	} = useForm<WorkflowFormAddressInputs>({
+	} = useForm<CarrierProfileFormInputs>({
 		defaultValues: {
 			clientCompanyName,
 			clientCompanyAddress,
@@ -144,7 +144,7 @@ export default function Settings({
 		}
 	};
 
-	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
+	const onSubmit: SubmitHandler<CarrierProfileFormInputs> = async (data) => {
 		try {
 			const profileSubmitData = {
 				...data,
