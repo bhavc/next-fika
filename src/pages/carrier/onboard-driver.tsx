@@ -89,7 +89,6 @@ export default function OnboardDriver({
 							</div>
 						</div>
 					)}
-					{/* TODO: add profile page here */}
 					<div className="items-center justify-center">
 						<h1 className="text-3xl text-left my-4 ml-4">Onboard Driver</h1>
 						<div className="px-4">

@@ -49,7 +49,6 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			borderCrossing: ""
 		});
 
-	// TODO split this up so it makes more sense on the backend
 	const [workflowFormPriceState, setWorkflowFormPriceState] = useState<WorkflowFormPriceInputs>({
 		useCustomPricing: false,
 		customPrice: ""

@@ -40,7 +40,13 @@ export default function ShipperLayout({ children }: LayoutProps) {
 		<>
 			<ShipperNavbar leftSideItems={leftSideButtons} />
 			<div className="drawer drawer-mobile h-[calc(100vh_-_65px)] overflow-auto">
-				<input id="main-drawer" type="checkbox" className="drawer-toggle" checked={showSidebar} />
+				<input
+					id="main-drawer"
+					type="checkbox"
+					className="drawer-toggle"
+					checked={showSidebar}
+					onChange={() => null}
+				/>
 				<div className="drawer-content flex flex-col bg-slate-200">{children}</div>
 				<div className="drawer-side">
 					<div className="flex flex-col justify-between w-72 bg-primary">

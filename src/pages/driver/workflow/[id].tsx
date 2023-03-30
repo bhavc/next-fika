@@ -92,7 +92,6 @@ export default function DriverWorkflowId({
 		};
 
 		try {
-			// TODO use reactquery here
 			await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 
 			toast.success("Error editing delivery");

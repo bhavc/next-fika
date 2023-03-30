@@ -190,7 +190,6 @@ export default function ShipperWorkflow({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				{/* TODO make this responsive */}
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
 					<div>

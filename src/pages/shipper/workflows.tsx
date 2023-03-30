@@ -11,26 +11,11 @@ import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 import { toast } from "react-hot-toast";
 
 export default function Workflows({ userToken }: { userToken: string }) {
-	// TODO: potentially have to get the workflows here
 	const [workflows, setWorkflows] = useState<WorkflowType[] | undefined>(undefined);
 	const [isError, setIsError] = useState(false);
-	const [searchValue, setSearchValue] = useState("");
 	const [isLoading, setIsLoading] = useState(true);
 
-	// const handleClick = (event: MouseEvent<HTMLElement>) => {
-	// 	event.preventDefault();
-	// };
-
-	// const handleOnSearch = (event: ChangeEvent<HTMLInputElement>) => {
-	// 	setIsLoading(true);
-	// 	const timer = setTimeout(() => {
-	// 		setSearchValue(event.target.value);
-	// 	}, 2000);
-	// 	return () => clearTimeout(timer);
-	// };
-
 	useEffect(() => {
-		// TODO this needs to be fixed, pulling wrong company name
 		getWorkflowsByUserId(userToken)
 			.then((workflowData) => {
 				setWorkflows(workflowData.workflows);
@@ -41,7 +26,7 @@ export default function Workflows({ userToken }: { userToken: string }) {
 			.finally(() => {
 				setIsLoading(false);
 			});
-	}, [userToken, searchValue]);
+	}, [userToken]);
 
 	useEffect(() => {
 		if (isError) {

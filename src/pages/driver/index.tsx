@@ -3,26 +3,32 @@ import Link from "next/link";
 import DriverLayout from "@/layouts/DriverLayout";
 
 import { getCurrentUser } from "@/api/user";
-import { getWorkflowsForDriver } from "@/api/workflow";
+import { getWorkflowsForDriver, getLatestWorkflowsForDriver } from "@/api/workflow";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
+import { DriverWorkflowType } from "@/features/Driver/DriverWorkflows/types";
 
-export default function Driver({ userData }: { userData: UserDriver }) {
+export default function Driver({
+	userData,
+	workflowsData
+}: {
+	userData: UserDriver;
+	workflowsData: DriverWorkflowType;
+}) {
 	const { firstName } = userData;
 
 	return (
 		<DriverLayout>
 			<main>
-				{true && (
+				{workflowsData.id && (
 					<div className="flex align-middle justify-center">
 						<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
 							<div>
 								<AlertIcon />
 								<span className="text-white">
-									{/* TODO fix this */}
 									You have a delivery in progress. Click{" "}
 									<Link href={"/driver/workflow"} className="underline">
 										here
@@ -33,7 +39,7 @@ export default function Driver({ userData }: { userData: UserDriver }) {
 						</div>
 					</div>
 				)}
-				<div className="flex flex-col pt-20">
+				<div className="flex flex-col pt-16">
 					<div className="max-w-xl">
 						<h1 className="text-3xl text-black mt-4 text-left">Welcome, {firstName}</h1>
 					</div>
@@ -95,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		status: ""
 	};
 
-	let workflowsData = [];
+	let workflowsData: unknown;
 
 	if (!userToken) {
 		return {
@@ -110,15 +116,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		const getCurrentUserResponse = await getCurrentUser(userToken);
 		userData = getCurrentUserResponse.data;
 
-		const getDriverAssignedWorkflows = await getWorkflowsForDriver({ userToken });
-		workflowsData = getDriverAssignedWorkflows.data;
+		const latestDriverAssignedWorkflow = await getLatestWorkflowsForDriver({ userToken });
+		workflowsData = latestDriverAssignedWorkflow.data as DriverWorkflowType;
 	} catch (err) {
 		console.info("err", err);
 	}
 
 	return {
 		props: {
-			userData
+			userData,
+			workflowsData
 		}
 	};
 };

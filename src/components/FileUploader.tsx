@@ -24,7 +24,6 @@ type ResponseType = {
 	type: string;
 };
 
-// TODO add tanstack react query here so usertoken can be passed in
 export default function FileUploader({
 	uploadedFiles,
 	handleUploadedFiles,

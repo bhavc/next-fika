@@ -16,5 +16,3 @@ export default function Logout() {
 		</div>
 	);
 }
-
-// TODO delete cookie properly

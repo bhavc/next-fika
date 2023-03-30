@@ -31,8 +31,6 @@ export default function CarrierWorkflowPricing({
 }: CarrierWorkflowPricingProps) {
 	let returnedComponent;
 
-	// TODO: Check workflow status as well
-
 	if (!["Triage", "Counter Price"].includes(workflowStatus)) {
 		if (price) {
 			return (

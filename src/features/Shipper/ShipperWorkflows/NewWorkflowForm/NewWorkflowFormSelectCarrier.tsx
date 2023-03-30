@@ -9,8 +9,6 @@ import IconLeft from "public/svg/arrow-left.svg";
 // TODO get a list of the users carriers
 // if a user uses a carrier, keep these as their favorites/last used
 
-// TODO add pagination
-
 interface NewWorkflowFormSelectCarrierProps {
 	selectedCarrier?: UserCarrier;
 	carriers: UserCarrier[];
@@ -73,7 +71,6 @@ export default function NewWorkflowFormSelectCarrier({
 			</div>
 			<div className="divider" />
 
-			{/* TODO: add pagination */}
 			{/* <div className="flex items-center justify-center">
 				<div className="btn-group">
 					<button className="btn btn-lg">1</button>

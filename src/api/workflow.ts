@@ -73,6 +73,20 @@ export const getWorkflowsForDriver = async ({ userToken }: { userToken?: string 
 	return response.json();
 };
 
+export const getLatestWorkflowsForDriver = async ({ userToken }: { userToken?: string }) => {
+	const response = await Fetch({
+		method: "GET",
+		userToken,
+		url: `workflow/driverForLatest`
+	});
+
+	if (!response.ok) {
+		throw new Error("editWorkflowByWorkflowId - could not edit workflow");
+	}
+
+	return response.json();
+};
+
 export const getWorkflowByWorkflowId = async (
 	userToken: string | undefined,
 	workflowId: string

@@ -152,7 +152,6 @@ export default function Settings({
 			};
 
 			const response = await editUserData(userToken, profileSubmitData);
-			// todo: add react query here
 
 			toast.success(response.message);
 		} catch (err) {

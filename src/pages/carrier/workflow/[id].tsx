@@ -192,7 +192,6 @@ export default function WorkflowId({
 						</div>
 					</div>
 
-					{/* TODO: does this make sense or just a button that accepts/declines */}
 					<div className="flex justify-end align-middle bg-slate-100 px-4">
 						<WorkflowStatusDropdown
 							handleStatusChange={handleStatusChange}
