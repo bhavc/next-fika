@@ -7,7 +7,7 @@ import DriverLayout from "@/layouts/DriverLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
 
 import { updateProfileImage } from "@/api/fileUpload";
-import { getCurrentUser } from "@/api/user";
+import { getCurrentUser, editUserData } from "@/api/user";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -25,7 +25,6 @@ export type DriverProfileFormInputs = {
 	driverPhoneNumber: string | null;
 };
 
-// TODO fix this
 export default function DriverSettings({
 	requiresVerify,
 	userData,
@@ -116,10 +115,8 @@ export default function DriverSettings({
 				...data
 			};
 
-			// const response = await editUserData(userToken, profileSubmitData);
-			// todo: add react query here
-
-			// toast.success(response.message);
+			const response = await editUserData(userToken, profileSubmitData);
+			toast.success(response.message);
 		} catch (err) {
 			console.info("err", err);
 			toast.error("Error updating user");
@@ -185,9 +182,11 @@ export default function DriverSettings({
 
 								<div className="flex flex-row flex-wrap gap-4 w-full">
 									<div className="flex flex-col gap-2 w-full sm:w-1/2">
-										<div>
-											<label className="text-xl">User Name</label>
-										</div>
+										<label className="text-xl">User Name</label>
+										<p className="text-sm pl-4 text-slate-500">
+											*Can not change password at this time. If you would like to change your
+											password, please reach out to us
+										</p>
 										<input
 											type="text"
 											placeholder="fikaUser24"
@@ -223,7 +222,6 @@ export default function DriverSettings({
 											placeholder="********"
 											className="input w-full border-neutral"
 											disabled
-											// {...register("clientCompanyPassword")}
 										/>
 									</div>
 									<div className="flex flex-col gap-2 w-full sm:w-1/2">
@@ -231,10 +229,7 @@ export default function DriverSettings({
 											<label className="text-xl">Address</label>
 										</div>
 										<Controller
-											name="driverCompanyName"
-											// rules={{
-											// 	required: true
-											// }}
+											name="driverAddress"
 											control={control}
 											render={({ field: { onChange, value, name }, fieldState: { error } }) => (
 												<GoogleAddressAutocomplete
@@ -340,7 +335,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	return {
 		props: {
-			requiresVerify: true,
+			requiresVerify: false,
 			userData,
 			userToken
 		}
