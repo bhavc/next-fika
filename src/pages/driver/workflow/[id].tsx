@@ -97,7 +97,6 @@ export default function DriverWorkflowId({
 			toast.success("Error editing delivery");
 			router.replace(router.asPath);
 		} catch (err) {
-			console.log("err", err);
 			toast.error("Error editing delivery");
 		} finally {
 			setModalOpen(false);

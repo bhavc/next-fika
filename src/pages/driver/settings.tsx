@@ -34,8 +34,6 @@ export default function DriverSettings({
 	userData: UserDriver;
 	userToken: string;
 }) {
-	console.log("userData", userData);
-
 	const driverAvatar = userData.avatarImageData;
 	const driverUserName = userData.username;
 	const driverEmail = userData.email;

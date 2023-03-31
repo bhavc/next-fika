@@ -50,8 +50,6 @@ export default function OnboardDriver({
 
 	const onSubmit: SubmitHandler<WorkflowFormAddressInputs> = async (data) => {
 		try {
-			console.log("data", data);
-
 			const companyName = userData.companyName;
 
 			const onboardDriverSubmitData = {

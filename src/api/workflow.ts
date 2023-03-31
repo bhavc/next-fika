@@ -64,8 +64,6 @@ export const getWorkflowsForDriver = async ({ userToken }: { userToken?: string 
 		method: "GET"
 	});
 
-	console.log("poopity");
-
 	if (!response.ok) {
 		throw new Error("getWorkflowsForDriver - could not get workflows for user");
 	}
