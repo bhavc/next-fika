@@ -25,13 +25,16 @@ export default function Carrier({
 					<div className="flex align-middle justify-center">
 						<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
 							<div>
-								<AlertIcon />
+								<div className="mr-2">
+									<AlertIcon />
+								</div>
 								<span className="text-white">
 									Before you get started, we need some information from you. Head over to the{" "}
 									<Link href="/carrier/settings" className="underline">
 										settings
 									</Link>{" "}
-									page.
+									page and fill out the information. Once validated by our team you&apos;ll be ready
+									to go!
 								</span>
 							</div>
 						</div>

@@ -17,6 +17,8 @@ import type { GetServerSideProps } from "next";
 
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
+import TruckDelivery from "public/svg/truck-delivery.svg";
+import TruckIcon from "public/svg/truck-loading.svg";
 
 export default function Register() {
 	const router = useRouter();
@@ -29,7 +31,7 @@ export default function Register() {
 
 	type AccountTypeCard = {
 		type: UserType;
-		imageUrl: string;
+		icon: JSX.Element;
 		title: string;
 		body: string;
 	};
@@ -37,23 +39,16 @@ export default function Register() {
 	const accountTypeCards: AccountTypeCard[] = [
 		{
 			type: "Shipper",
-			imageUrl: "whatever",
+			icon: <TruckIcon height={96} width={96} />,
 			title: "Shipper",
-			body: "I want to get something delivered"
+			body: "I want to get something shipped"
 		},
 		{
 			type: "Carrier",
-			imageUrl: "whatever",
+			icon: <TruckDelivery height={96} width={96} />,
 			title: "Carrier",
-			body: "I want to oversee shipments"
+			body: "I want to manage delveries & drivers"
 		}
-		// Driver will be registered by the company
-		// {
-		// 	type: "Driver",
-		// 	imageUrl: "whatever",
-		// 	title: "Driver",
-		// 	body: "I get things where they need to get"
-		// }
 	];
 
 	const setSelectedItem = (index: number) => {
@@ -113,9 +108,9 @@ export default function Register() {
 	return (
 		<main>
 			<MainNavBar />
-			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)]">
-				<div className="bg-primary p-4 min-w-3/5 h-5/6 rounded-xl">
-					<h1 className="text-3xl mt-2 mb-2 text-slate-100 text-center">Register</h1>
+			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)] p-4">
+				<div className="bg-primary min-w-full mt-8 pt-4 h-full rounded-xl">
+					<h1 className="text-3xl mt-2 mb-4 text-slate-100 text-center">Register</h1>
 					{currentStep === 0 && (
 						<RegisterType
 							selectedAccountType={selectedAccountType}
@@ -133,17 +128,17 @@ export default function Register() {
 					)}
 				</div>
 
-				<footer className="bg-inherit text-neutral-content absolute bottom-0 w-full p-2">
+				<footer className="bg-inherit text-neutral-content absolute bottom-0 w-full p-8">
 					{shouldShowForwardButton && (
 						<div className="flex justify-end">
-							<button className="btn btn-circle bg-primary" onClick={setNextStep}>
+							<button className="btn btn-secondary btn-circle" onClick={setNextStep}>
 								<IconRight />
 							</button>
 						</div>
 					)}
 					{shouldShowBackButton && (
 						<div className="flex justify-start">
-							<button className="btn btn-circle bg-primary mt-10" onClick={setPreviousStep}>
+							<button className="btn btn-secondary btn-circle" onClick={setPreviousStep}>
 								<IconLeft />
 							</button>
 						</div>

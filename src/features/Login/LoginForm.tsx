@@ -31,39 +31,44 @@ export default function LoginForm({ handleSubmitLogin }: RegisterFormProps) {
 	};
 
 	return (
-		<div className="card w-80 bg-slate-50 shadow-xl mt-8">
-			<div className="card-body">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<div className="mb-2">
-						<label>Email/Username</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="text"
-								placeholder="Email"
-								className="input w-full max-w-xs"
-								{...register("emailUsername", { required: "true" })}
-							/>
+		<div className="flex justify-center items-center">
+			<div className="card w-80 bg-slate-50 shadow-xl mt-8">
+				<div className="card-body">
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="mb-2">
+							<label>Email/Username</label>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<input
+									type="text"
+									placeholder="Email"
+									className={`input w-full max-w-xs ${
+										errors.emailUsername ? "border-error" : "border-neutral"
+									}`}
+									{...register("emailUsername", { required: "true" })}
+								/>
+							</div>
 						</div>
-						{errors.emailUsername && (
-							<p className="text-error mt-1">Email or Username is required</p>
+						<div className="mb-2">
+							<label>Password</label>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<input
+									type="password"
+									placeholder="*************"
+									className={`input w-full max-w-xs ${
+										errors.password ? "border-error" : "border-neutral"
+									}`}
+									{...register("password", { required: "Password required" })}
+								/>
+							</div>
+						</div>
+						{errors && Object.keys(errors).length > 0 && (
+							<p className="text-error mt-1">Please ensure the required fields are filled in</p>
 						)}
-					</div>
-					<div className="mb-2">
-						<label>Password</label>
-						<div className="mt-1 flex rounded-md shadow-sm">
-							<input
-								type="password"
-								placeholder="*************"
-								className="input w-full max-w-xs"
-								{...register("password", { required: "Password required" })}
-							/>
+						<div className="flex justify-center items-center mt-6">
+							<button className="btn btn-secondary text-white">Log In</button>
 						</div>
-						{errors.password && <p className="text-error mt-1">{errors.password.message}</p>}
-					</div>
-					<div className="flex justify-center items-center mt-6">
-						<button className="btn btn-secondary text-white">Submit</button>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	);

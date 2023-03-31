@@ -4,6 +4,7 @@ import { UserType } from "../types";
 type FormInputs = {
 	email: string;
 	password: string;
+	confirmPassword: string;
 	company: string;
 	phone: string;
 };
@@ -49,7 +50,7 @@ export default function RegisterForm({
 	};
 
 	return (
-		<div>
+		<div className="flex justify-center">
 			<div className="card w-80 bg-slate-50 shadow-xl">
 				<div className="card-body">
 					<form onSubmit={handleSubmit(onSubmit)}>
@@ -59,11 +60,12 @@ export default function RegisterForm({
 								<input
 									type="text"
 									placeholder="Email"
-									className="input w-full max-w-xs"
+									className={`input w-full max-w-xs ${
+										errors.email ? "border-error" : "border-neutral"
+									}`}
 									{...register("email", { required: "Email required" })}
 								/>
 							</div>
-							{errors.email && <p className="text-error mt-1">Email is required</p>}
 						</div>
 						<div className="mb-2">
 							<label>Password</label>
@@ -71,11 +73,32 @@ export default function RegisterForm({
 								<input
 									type="password"
 									placeholder="*************"
-									className="input w-full max-w-xs"
+									className={`input w-full max-w-xs ${
+										errors.password ? "border-error" : "border-neutral"
+									}`}
 									{...register("password", { required: "Password required" })}
 								/>
 							</div>
-							{errors.password && <p className="text-error mt-1">{errors.password.message}</p>}
+						</div>
+						<div className="mb-2">
+							<label>Confirm Password</label>
+							<div className="mt-1 flex rounded-md shadow-sm">
+								<input
+									type="password"
+									placeholder="*************"
+									className={`input w-full max-w-xs ${
+										errors.confirmPassword ? "border-error" : "border-neutral"
+									}`}
+									{...register("confirmPassword", {
+										required: true,
+										validate: (val: string) => {
+											if (watch("password") != val) {
+												return "Your passwords must match";
+											}
+										}
+									})}
+								/>
+							</div>
 						</div>
 						<div className="mb-2">
 							<label>Company</label>
@@ -83,13 +106,14 @@ export default function RegisterForm({
 								<input
 									type="text"
 									placeholder="Fika Ltd."
-									className="input w-full max-w-xs"
+									className={`input w-full max-w-xs ${
+										errors.company ? "border-error" : "border-neutral"
+									}`}
 									{...register("company", {
-										required: "Provide your companies name if you are a carrier"
+										required: "Please provide a phone number"
 									})}
 								/>
 							</div>
-							{errors.company && <p className="text-error mt-1">{errors.company.message}</p>}
 						</div>
 						<div className="mb-2">
 							<label>Phone Number</label>
@@ -97,7 +121,9 @@ export default function RegisterForm({
 								<input
 									type="text"
 									placeholder="(911) 911 9111"
-									className="input w-full max-w-xs"
+									className={`input w-full max-w-xs ${
+										errors.phone ? "border-error" : "border-neutral"
+									}`}
 									{...register("phone", {
 										required: "Please provide a phone number",
 										setValueAs(value) {
@@ -109,10 +135,12 @@ export default function RegisterForm({
 									})}
 								/>
 							</div>
-							{errors.phone && <p className="text-error mt-1">{errors.phone.message}</p>}
 						</div>
+						{errors && Object.keys(errors).length > 0 && (
+							<p className="text-error mt-1">Please ensure the required fields are filled in</p>
+						)}
 						<div className="flex justify-center items-center mt-6">
-							<button className="btn btn-primary white text-white">Submit</button>
+							<button className="btn btn-secondary white text-white">Register</button>
 						</div>
 					</form>
 				</div>

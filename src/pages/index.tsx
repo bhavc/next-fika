@@ -30,8 +30,8 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 								Freight can be daunting. Fika is here to make it easier.
 							</h2>
 							<h2 className="text-xl text-base-100">
-								Fika is a modern TMS that makes freight transactions between customers, forwarders,
-								and drivers seamless and transparent.
+								Fika is a modern Transportation Management System (TMS) that makes freight
+								transactions between customers, forwarders, and drivers seamless and transparent.
 							</h2>
 							<h2 className="text-xl text-base-100">
 								We connect you to verified logistics providers in Africa and emerging markets.
@@ -46,12 +46,14 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 					<div className="p-4">
 						{/* TODO add a screenshot here */}
 						<h2 className="text-2xl text-center mt-2 mb-8">Your cargo is in safe hands</h2>
+						<p className="text-md">Our easy to use web app makes it easy no matter who you are.</p>
 						<p className="text-md">
-							Just create an account and specify whether you&apos;re a Shipper or a Carrier.
+							Create shipments, manage your deliveries and get updates from your drivers in real
+							time.
 						</p>
 						<p className="text-md">
-							Our easy to use cloud-based app makes it easy to create and manage your deliveries and
-							drivers.
+							Just create an account and specify whether you&apos;re role as a Shipper or a Carrier.
+							Our intuitive software makes the rest of your freight management workflow a breeze.
 						</p>
 					</div>
 					<div className="p-4">
@@ -68,7 +70,7 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 
 					<div className="grid md:grid-cols-2 gap-4">
 						<div>
-							<div className="flex flex-row gap-2">
+							<div className="flex flex-row gap-2 pl-2">
 								<MoneyBag width={48} height={48} />
 								<h2 className="text-xl mt-2 mb-4">No upfront costs</h2>
 							</div>

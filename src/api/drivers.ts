@@ -1,10 +1,26 @@
 import { Fetch } from "./fetchWrapper";
 
-export const getDriversByCompany = async ({ userToken }: { userToken: string }) => {
+export const getDriversByCompany = async ({
+	userToken,
+	statusList
+}: {
+	userToken: string;
+	statusList?: string[];
+}) => {
+	let url = `user/getDriversByCompany`;
+
+	if (statusList && statusList.length > 0) {
+		const queryParams = new URLSearchParams(
+			statusList.map((status) => ["status", status])
+		).toString();
+
+		url = `user/getDriversByCompany?${queryParams}`;
+	}
+
 	const response = await Fetch({
 		method: "GET",
 		userToken,
-		url: `user/getDriversByCompany`
+		url
 	});
 
 	if (!response.ok) {

@@ -29,13 +29,16 @@ export default function Drivers({
 						<div className="flex align-middle justify-center mt-4">
 							<div className="alert alert-info align-middle justify-center shadow-lg w-5/6">
 								<div>
-									<AlertIcon />
+									<div className="mr-2">
+										<AlertIcon />
+									</div>
 									<span className="text-white">
 										Before you get started, we need some information from you. Head over to the{" "}
 										<Link href="/carrier/settings" className="underline">
 											settings
 										</Link>{" "}
-										page.
+										page and fill out the information. Once validated by our team you&apos;ll be
+										ready to go!
 									</span>
 								</div>
 							</div>

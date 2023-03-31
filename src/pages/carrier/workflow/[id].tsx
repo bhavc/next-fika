@@ -288,7 +288,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const getDriversResponse = await getDriversByCompany({ userToken });
+		const getDriversResponse = await getDriversByCompany({
+			userToken,
+			statusList: ["Activated"]
+		});
 		drivers = getDriversResponse.data;
 		const getWorkflowByWorkflowIdResponse = await getWorkflowByWorkflowId(userToken, workflowId);
 		workflowData = getWorkflowByWorkflowIdResponse.workflow;

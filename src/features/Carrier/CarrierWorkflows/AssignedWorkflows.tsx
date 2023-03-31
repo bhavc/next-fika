@@ -1,5 +1,4 @@
 import Link from "next/link";
-import TruckIcon from "public/svg/truck-loading.svg";
 import IconRight from "public/svg/arrow-right.svg";
 
 import WorkflowStatusBadge from "./WorkflowStatusBadge";
