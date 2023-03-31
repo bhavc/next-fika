@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { getCurrentUser } from "@/api/user";
 
-import { getDrivers } from "@/api/drivers";
+import { getDriversByCompany } from "@/api/drivers";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -89,7 +89,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const getDriversResponse = await getDrivers({ userToken });
+		const getDriversResponse = await getDriversByCompany({ userToken });
 		drivers = getDriversResponse.data;
 		const getUserResponse = await getCurrentUser(userToken);
 		userData = getUserResponse.data;

@@ -23,7 +23,6 @@ export default function DriverWorkflows({
 			<h1 className="text-3xl text-black">Deliveries</h1>
 			<div className="flex flex-col items-center mt-4">
 				{workflowsData?.map((workflow, index) => {
-					console.log("WORKFLOW", workflow);
 					const workflowAddressData = workflow.workflowAddressData;
 					const pickupAddress = workflowAddressData.pickupAddress;
 					const dropoffAddress = workflowAddressData.dropoffAddress;

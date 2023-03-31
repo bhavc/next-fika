@@ -1,6 +1,6 @@
 import { Fetch } from "./fetchWrapper";
 
-export const getDrivers = async ({ userToken }: { userToken: string }) => {
+export const getDriversByCompany = async ({ userToken }: { userToken: string }) => {
 	const response = await Fetch({
 		method: "GET",
 		userToken,

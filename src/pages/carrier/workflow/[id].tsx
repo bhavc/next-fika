@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChangeEvent } from "react";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
-import { getDrivers } from "@/api/drivers";
+import { getDriversByCompany } from "@/api/drivers";
 
 import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -288,7 +288,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const getDriversResponse = await getDrivers({ userToken });
+		const getDriversResponse = await getDriversByCompany({ userToken });
 		drivers = getDriversResponse.data;
 		const getWorkflowByWorkflowIdResponse = await getWorkflowByWorkflowId(userToken, workflowId);
 		workflowData = getWorkflowByWorkflowIdResponse.workflow;
