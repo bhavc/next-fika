@@ -25,50 +25,56 @@ export default function NewWorkflowFormSelectCarrier({
 	handleGoBack
 }: NewWorkflowFormSelectCarrierProps) {
 	return (
-		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
+		<div className="w-full bg-slate-100 rounded-b-md py-4 mb-4">
 			<h2 className="prose prose-2xl">Select Your carrier</h2>
 			<div className="divider" />
-			<div className="px-4">
-				<div className="flex flex-row flex-wrap gap-4">
-					{carriers?.map((carrier, index) => {
-						return (
-							<button key={index} onClick={() => handleSelectedCarrier(carrier.id)}>
-								<div
-									className={`card w-96 ${
-										selectedCarrier?.id === carrier.id ? "bg-accent-content" : "bg-base-100"
-									} shadow-xl`}
-								>
-									{/* <figure>
+			<div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
+				{carriers?.map((carrier, index) => {
+					const avatarImageData = carrier.avatarImageData;
+					return (
+						<button
+							className="w-full"
+							key={index}
+							onClick={() => handleSelectedCarrier(carrier.id)}
+						>
+							<div
+								className={`card md:w-96 ${
+									selectedCarrier?.id === carrier.id ? "bg-accent-content" : "bg-base-100"
+								} shadow-xl`}
+							>
+								{avatarImageData && avatarImageData.url && (
+									<figure className="mt-4">
 										<Image
-											src="/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+											src={avatarImageData.url}
 											alt="Company Logo"
-											height={"40"}
-											width={"40"}
+											height={"160"}
+											width={"200"}
 										/>
-									</figure> */}
-									<div className="card-body">
-										<h2 className="card-title">
-											{carrier.companyName}
-											<div className="badge badge-secondary">Used Before</div>
-										</h2>
-										{/* <p>If a dog chews shoes whose shoes does he choose?</p> */}
+									</figure>
+								)}
+								<div className="card-body">
+									<h2 className="card-title">
+										{carrier.companyName}
+										{/* <div className="badge badge-secondary">Used Before</div> */}
+									</h2>
+									{/* <p>If a dog chews shoes whose shoes does he choose?</p> */}
 
-										<div className="card-actions justify-end">
-											{carrier?.areasServiced?.map((areaServiced: string, index: number) => {
-												return (
-													<div key={index} className="badge badge-outline">
-														{areaServiced}
-													</div>
-												);
-											})}
-										</div>
+									<div className="card-actions justify-end">
+										{carrier?.areasServiced?.map((areaServiced: string, index: number) => {
+											return (
+												<div key={index} className="badge badge-outline">
+													{areaServiced}
+												</div>
+											);
+										})}
 									</div>
 								</div>
-							</button>
-						);
-					})}
-				</div>
+							</div>
+						</button>
+					);
+				})}
 			</div>
+
 			<div className="divider" />
 
 			{/* <div className="flex items-center justify-center">

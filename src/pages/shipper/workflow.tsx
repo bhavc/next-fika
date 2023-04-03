@@ -197,8 +197,6 @@ export default function Workflow({ userToken }: { userToken: string }) {
 							</div>
 						)}
 
-						{/* allow users to eventually be able to upload a csv */}
-
 						{step === 0 && (
 							<NewWorkflowFormAddress
 								handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
