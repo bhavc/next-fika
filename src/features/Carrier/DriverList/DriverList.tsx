@@ -3,6 +3,8 @@ import IconRight from "public/svg/arrow-right.svg";
 
 import DriverStatusBadge from "./DriverStatusBadge";
 
+import { formatDateStringToDate } from "@/utils/time";
+
 import type { UserStatus } from "@/features/types";
 
 type DriverListType = {
@@ -11,6 +13,7 @@ type DriverListType = {
 	status: UserStatus;
 	firstName: string;
 	lastName: string;
+	createdAt: string;
 };
 
 export default function DriverList({
@@ -29,9 +32,9 @@ export default function DriverList({
 	}
 
 	const rows = drivers?.map((driver, index) => {
-		const { id, username, status, firstName, lastName } = driver;
+		const { id, username, status, firstName, lastName, createdAt } = driver;
 
-		// const formattedDate = formatDateStringToDate(createdAt);
+		const formattedDate = formatDateStringToDate(createdAt);
 		return (
 			<tr key={index}>
 				<td>
@@ -53,7 +56,7 @@ export default function DriverList({
 						</div>
 					</div>
 				</td>
-				<td>Date Created</td>
+				<td>{formattedDate}</td>
 				<td>
 					<Link href={`/carrier/driver/${id}`} className="btn btn-circle bg-primary">
 						<IconRight />
