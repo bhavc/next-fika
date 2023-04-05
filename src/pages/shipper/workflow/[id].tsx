@@ -25,6 +25,8 @@ export default function WorkflowId({
 	const workflowId = workflow.id;
 	const workflowPriceData = workflow?.workflowPriceData;
 
+	// TODO we should allow for files to be updated at any and all times with timestamp
+
 	const handleAcceptPrice = async () => {
 		try {
 			const updateData: { [key: string]: any } = {

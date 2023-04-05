@@ -41,7 +41,19 @@ export default function WorkflowId({
 	const workflowAssignedDriver = workflow.assignedDriver;
 	const price = workflow.workflowPriceData.price;
 
-	const showAssignDriverDropdown = workflowStatus === "Triage";
+	// TODO figure out what should happen on
+	// counter price. should a user have to assign a driver on counter
+	// or is there a new status?
+
+	// TODO driver notes need to be added.
+	// carrier <-> driver notes
+	// Shipper <-> carrier notes
+
+	// TODO figure out when a user should be able to be selected
+	// maybe we want to unassign and reassign to another user
+	const showAssignDriverDropdown =
+		workflowStatus === "Triage" ||
+		(workflowStatus === "Allocated" && Boolean(workflowAssignedDriver?.id) === false);
 
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);

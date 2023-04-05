@@ -71,7 +71,7 @@ export default function ShipperWorkflow({
 		returnDepotName
 	} = workflowContainerData;
 
-	const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
+	// const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
 	// const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
 

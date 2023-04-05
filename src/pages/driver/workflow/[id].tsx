@@ -234,7 +234,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowId || Array.isArray(workflowId)) {
 		return {
 			redirect: {
-				destination: "/carrier/workflows",
+				destination: "/driver",
 				statusCode: 302
 			}
 		};
@@ -253,7 +253,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	if (!workflowData) {
 		return {
 			redirect: {
-				destination: "/carrier/workflows",
+				destination: "/driver",
 				statusCode: 302
 			}
 		};

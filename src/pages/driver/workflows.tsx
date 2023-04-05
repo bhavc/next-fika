@@ -16,36 +16,50 @@ import type { DriverWorkflowType } from "@/features/Driver/DriverWorkflows/types
 export default function DriverWorkflows({
 	workflowsData
 }: {
-	workflowsData: DriverWorkflowType[];
+	workflowsData?: DriverWorkflowType[];
 }) {
 	return (
 		<DriverLayout>
 			<h1 className="text-3xl text-black">Deliveries</h1>
 			<div className="flex flex-col items-center mt-4">
-				{workflowsData?.map((workflow, index) => {
-					const workflowAddressData = workflow.workflowAddressData;
-					const pickupAddress = workflowAddressData.pickupAddress;
-					const dropoffAddress = workflowAddressData.dropoffAddress;
-					const workflowStatus = workflow.status;
-					const createdDate = formatDateStringToDate(workflow.createdAt);
+				{workflowsData && workflowsData.length > 0 ? (
+					workflowsData?.map((workflow, index) => {
+						const workflowAddressData = workflow.workflowAddressData;
+						const pickupAddress = workflowAddressData.pickupAddress;
+						const dropoffAddress = workflowAddressData.dropoffAddress;
+						const workflowStatus = workflow.status;
+						const createdDate = formatDateStringToDate(workflow.createdAt);
 
-					return (
-						<Link key={index} href={`/driver/workflow/${workflow.id}`}>
-							<div className="card w-80 bg-base-100 shadow-xl">
-								<div className="card-body">
-									<div className="flex justify-between items-center">
-										<p className="text-sm">{createdDate}</p>
-										<WorkflowStatusBadge workflowStatus={workflowStatus}>
-											{workflowStatus}
-										</WorkflowStatusBadge>
+						return (
+							<Link key={index} href={`/driver/workflow/${workflow.id}`} className="my-2">
+								<div className="card w-80 bg-base-100 shadow-xl">
+									<div className="card-body">
+										<div className="flex justify-between items-center">
+											<p className="text-sm">{createdDate}</p>
+											<WorkflowStatusBadge workflowStatus={workflowStatus}>
+												{workflowStatus}
+											</WorkflowStatusBadge>
+										</div>
+										<p>Pickup: {pickupAddress}</p>
+										<p>Dropoff: {dropoffAddress}</p>
 									</div>
-									<p>Pickup: {pickupAddress}</p>
-									<p>Dropoff: {dropoffAddress}</p>
 								</div>
+							</Link>
+						);
+					})
+				) : (
+					<div className="card w-80 bg-base-100 shadow-xl">
+						<div className="card-body">
+							<div className="flex flex-col justify-between items-center">
+								<h2 className="card-title">No deliveries have been assigned to you yet.</h2>
+
+								<p className="text-sm">
+									Check back later for work that&apos;s been assigned to you
+								</p>
 							</div>
-						</Link>
-					);
-				})}
+						</div>
+					</div>
+				)}
 			</div>
 		</DriverLayout>
 	);
@@ -73,12 +87,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		status: ""
 	};
 
-	let workflowsData = [
-		{
-			id: 1,
-			status: "In Progress"
-		}
-	];
+	let workflowsData = [];
 
 	if (!userToken) {
 		return {

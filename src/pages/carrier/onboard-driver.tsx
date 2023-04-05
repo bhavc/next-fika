@@ -96,7 +96,7 @@ export default function OnboardDriver({
 							<div className="card bg-base-100 shadow-2xl mb-2">
 								<div className="card-body">
 									<form id="carrierOnboardDriversForm" onSubmit={handleSubmit(onSubmit)} noValidate>
-										<h2 className="text-xl mb-4">Invite your drivers here.</h2>
+										<h2 className="text-xl mb-4">Invite drivers to your organization here.</h2>
 
 										<div className="divider" />
 

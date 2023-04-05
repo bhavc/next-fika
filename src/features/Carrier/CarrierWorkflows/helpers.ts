@@ -30,7 +30,7 @@ export const getCarrierWorkflowModalStatusChangeCopy = (workflowStatus: CarrierW
 			return {
 				titleText: "Counter Price",
 				bodyText:
-					"By countering the price on this shipment, you do not agree to taking on the delivery at the current price. The deliverer has the option to renegotiate the price."
+					"By countering the price on this shipment, you do not agree to taking on the delivery at the current price. The shipper has the option to renegotiate the price."
 			};
 		case "Rejected":
 			return {

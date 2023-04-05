@@ -3,7 +3,7 @@ import Link from "next/link";
 import DriverLayout from "@/layouts/DriverLayout";
 
 import { getCurrentUser } from "@/api/user";
-import { getWorkflowsForDriver, getLatestWorkflowsForDriver } from "@/api/workflow";
+import { getLatestWorkflowsForDriver } from "@/api/workflow";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -13,17 +13,18 @@ import { DriverWorkflowType } from "@/features/Driver/DriverWorkflows/types";
 
 export default function Driver({
 	userData,
-	workflowsData
+	workflowData
 }: {
 	userData: UserDriver;
-	workflowsData: DriverWorkflowType;
+	workflowData: DriverWorkflowType;
 }) {
 	const { firstName } = userData;
+	const workflowId = workflowData?.id;
 
 	return (
 		<DriverLayout>
 			<main>
-				{workflowsData.id && (
+				{workflowId && (
 					<div className="flex align-middle justify-center">
 						<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
 							<div>
@@ -44,10 +45,15 @@ export default function Driver({
 						<h1 className="text-3xl text-black mt-4 text-left">Welcome, {firstName}</h1>
 					</div>
 					<div className="flex flex-col items-center mt-4 gap-4">
-						<Link href={`/driver/something`}>
+						<Link href={`/driver/workflow/${workflowId}`}>
 							<div className="card w-80 bg-base-100 shadow-xl">
 								<div className="card-body">
 									<h2 className="card-title">Most Recent delivery</h2>
+									{!workflowId && (
+										<p className="text-sm text-error">
+											*User as not been assigned to any deliveries yet
+										</p>
+									)}
 								</div>
 							</div>
 						</Link>
@@ -101,7 +107,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		status: ""
 	};
 
-	let workflowsData: unknown;
+	let workflowData: unknown;
 
 	if (!userToken) {
 		return {
@@ -117,7 +123,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = getCurrentUserResponse.data;
 
 		const latestDriverAssignedWorkflow = await getLatestWorkflowsForDriver({ userToken });
-		workflowsData = latestDriverAssignedWorkflow.data as DriverWorkflowType;
+		workflowData = latestDriverAssignedWorkflow.data as DriverWorkflowType;
 	} catch (err) {
 		console.info("err", err);
 	}
@@ -125,7 +131,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			userData,
-			workflowsData
+			workflowData
 		}
 	};
 };
