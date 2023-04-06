@@ -41,7 +41,7 @@ export default function DriverLayout({ children, leftSideItems }: DriverLayout) 
 	return (
 		<>
 			<DriverNavbar leftSideItems={leftSideItems} rightSideItems={rightSideItems} />
-			<main className="bg-slate-200 h-[calc(100vh_-_130px)] p-4 overflow-auto">{children}</main>
+			<main className="bg-slate-200 h-[calc(100vh_-_0px)] p-4 overflow-auto">{children}</main>
 
 			<div className="btm-nav overflow-hidden">
 				<Link

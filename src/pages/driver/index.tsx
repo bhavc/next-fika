@@ -29,9 +29,10 @@ export default function Driver({
 						<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
 							<div>
 								<AlertIcon />
+								{/* TODO this needs to be fixed */}
 								<span className="text-white">
 									You have a delivery in progress. Click{" "}
-									<Link href={"/driver/workflow"} className="underline">
+									<Link href={`/driver/workflow/${workflowId}`} className="underline">
 										here
 									</Link>{" "}
 									to see the delivery
