@@ -4,6 +4,7 @@ import { ChangeEvent } from "react";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getDriversByCompany } from "@/api/drivers";
+import { getWorkflowStatusByStatuses } from "@/api/workflowStatus";
 
 import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -18,7 +19,8 @@ import Modal from "@/components/Modal";
 import type { GetServerSideProps } from "next";
 import type {
 	CarrierWorkflowStatus,
-	CarrierWorkflowType
+	CarrierWorkflowType,
+	CarrierWorkflowStatusType
 } from "@/features/Carrier/CarrierWorkflows/types";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
@@ -30,10 +32,12 @@ type BidSelectValueType = "accept" | "counter";
 export default function WorkflowId({
 	workflow,
 	userToken,
+	workflowStatusData,
 	drivers
 }: {
 	workflow: CarrierWorkflowType;
 	userToken: string;
+	workflowStatusData: CarrierWorkflowStatusType[];
 	drivers: UserDriver[];
 }) {
 	const workflowStatus = workflow.status;
@@ -238,6 +242,7 @@ export default function WorkflowId({
 						</div>
 					)}
 
+					<>{console.log("workflowStatusData", workflowStatusData)}</>
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
 							workflowStatus={workflowStatus}
@@ -280,6 +285,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let drivers: UserDriver[] = [];
 	let workflowData: CarrierWorkflowType | null;
+	let workflowStatusData: CarrierWorkflowStatusType[] = [];
+
+	// get workflow status data for statuses
+	// display on stepper
 
 	if (!userToken) {
 		return {
@@ -305,8 +314,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			statusList: ["Activated"]
 		});
 		drivers = getDriversResponse.data;
+
 		const getWorkflowByWorkflowIdResponse = await getWorkflowByWorkflowId(userToken, workflowId);
 		workflowData = getWorkflowByWorkflowIdResponse.workflow;
+
+		const getWorkflowStatusData = await getWorkflowStatusByStatuses({ userToken, workflowId });
+		workflowStatusData = getWorkflowStatusData.workflowStatus;
 	} catch (err) {
 		workflowData = null;
 	}
@@ -324,6 +337,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			drivers,
 			workflow: workflowData,
+			workflowStatusData,
 			userToken
 		}
 	};

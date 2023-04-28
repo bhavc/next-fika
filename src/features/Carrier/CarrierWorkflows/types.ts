@@ -93,3 +93,8 @@ export type CarrierWorkflowType = {
 	createdAt: string;
 	modifiedAt: string;
 };
+
+export type CarrierWorkflowStatusType = {
+	status: string;
+	max_created_at: string;
+};

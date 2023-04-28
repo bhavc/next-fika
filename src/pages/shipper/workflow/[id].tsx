@@ -31,7 +31,7 @@ export default function WorkflowId({
 		try {
 			const updateData: { [key: string]: any } = {
 				workflow: {
-					status: "Allocated"
+					status: "Triage"
 				},
 				payment: {
 					acceptedPrice: workflowPriceData.price
