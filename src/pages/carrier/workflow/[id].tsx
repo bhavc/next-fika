@@ -15,6 +15,7 @@ import CarrierWorkflowPricing from "@/features/Carrier/CarrierWorkflows/CarrierW
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
 import WorkflowAssignDriverDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowAssignDriverDropdown";
 import Modal from "@/components/Modal";
+import Stepper from "@/components/Stepper";
 
 import type { GetServerSideProps } from "next";
 import type {
@@ -29,6 +30,9 @@ import { toast } from "react-hot-toast";
 
 type BidSelectValueType = "accept" | "counter";
 
+// TODO: you may have to pull workflow on front end
+// when assigning allocated to triage and back you need to assign driver
+
 export default function WorkflowId({
 	workflow,
 	userToken,
@@ -37,7 +41,7 @@ export default function WorkflowId({
 }: {
 	workflow: CarrierWorkflowType;
 	userToken: string;
-	workflowStatusData: CarrierWorkflowStatusType[];
+	workflowStatusData: { [key: string]: string }[];
 	drivers: UserDriver[];
 }) {
 	const workflowStatus = workflow.status;
@@ -229,7 +233,7 @@ export default function WorkflowId({
 
 					{workflowAssignedDriver && workflowAssignedDriver.id && (
 						<div className="bg-slate-100 pt-4 pr-4 flex justify-end">
-							<div className="stats shadow-2xl border-accent border-2 ">
+							<div className="stats border-accent border-2 ">
 								<div className="stat">
 									<div className="stat-title">Assigned Driver</div>
 									<div className="stat-value text-primary">
@@ -242,7 +246,13 @@ export default function WorkflowId({
 						</div>
 					)}
 
-					<>{console.log("workflowStatusData", workflowStatusData)}</>
+					{workflowStatusData && (
+						<div className="bg-slate-100 px-4">
+							<h1 className="text-2xl text-left rounded-t-md mb-4">Delivery Status</h1>
+							<Stepper>{workflowStatusData}</Stepper>
+						</div>
+					)}
+
 					<CarrierWorkflow workflow={workflow}>
 						<CarrierWorkflowPricing
 							workflowStatus={workflowStatus}
@@ -285,7 +295,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	let drivers: UserDriver[] = [];
 	let workflowData: CarrierWorkflowType | null;
-	let workflowStatusData: CarrierWorkflowStatusType[] = [];
+	let workflowStatusData = [];
 
 	// get workflow status data for statuses
 	// display on stepper

@@ -15,7 +15,7 @@ export default function WorkflowStatusDropdown({
 	bidSelectValue: string;
 }) {
 	const statusOptions = [
-		{ label: "Triage", value: "Triage", disabled: previousStatus !== "Triage" },
+		{ label: "Triage", value: "Triage", disabled: false },
 		{
 			label: "Allocated",
 			value: "Allocated",
