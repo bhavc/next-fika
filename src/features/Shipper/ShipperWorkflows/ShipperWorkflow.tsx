@@ -21,9 +21,10 @@ export default function ShipperWorkflow({
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowPriceData = workflow?.workflowPriceData;
 	const shipperNotes = workflow?.shipperNotes;
-	const carrierNotes = workflow?.carrierNotes;
 	const uploadedFiles = workflow?.fileUrls;
 	const selectedCarrier = workflow.selectedCarrier;
+
+	// maybe i should get workflow notes here because i want up to date messages
 
 	const {
 		containerNumber,
@@ -287,19 +288,13 @@ export default function ShipperWorkflow({
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div>
-					<h2 className="text-xl">Shipper Notes</h2>
+					<h2 className="text-xl">Notes</h2>
 					<div className="ml-28">
 						<p>{shipperNotes || "n/a"}</p>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				<div>
-					<h2 className="text-xl">Carrier Notes</h2>
-					<div className="ml-28">
-						<p>{carrierNotes || "n/a"}</p>
-					</div>
-				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				{uploadedFiles && uploadedFiles.length > 0 && (

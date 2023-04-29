@@ -1,8 +1,10 @@
 import ShipperLayout from "@/layouts/ShipperLayout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
+import { getWorkflowNotesByWorkflowId } from "@/api/workflowNotes";
 
 import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 
@@ -23,6 +25,7 @@ export default function WorkflowId({
 	const router = useRouter();
 
 	const workflowId = workflow.id;
+	const workflowUserCarrierId = workflow.selectedCarrier.id;
 	const workflowPriceData = workflow?.workflowPriceData;
 
 	// TODO we should allow for files to be updated at any and all times with timestamp
@@ -64,6 +67,22 @@ export default function WorkflowId({
 			toast.error("Error updating workflow");
 		}
 	};
+
+	useEffect(() => {
+		const workflowUserCarrierIdAsString = workflowUserCarrierId?.toString();
+
+		getWorkflowNotesByWorkflowId({
+			userToken,
+			workflowId,
+			userTo: workflowUserCarrierIdAsString
+		})
+			.then((data: any) => {
+				console.log("data", data);
+			})
+			.catch((err: any) => {
+				console.log("err", err);
+			});
+	}, []);
 
 	return (
 		<>
