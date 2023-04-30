@@ -3,12 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { getCurrentUser } from "@/api/user";
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getWorkflowNotesByWorkflowId } from "@/api/workflowNotes";
 
 import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 
-import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { WorkflowType, WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { GetServerSideProps } from "next";
 
 import { toast } from "react-hot-toast";
@@ -27,6 +28,8 @@ export default function WorkflowId({
 	const workflowId = workflow.id;
 	const workflowUserCarrierId = workflow.selectedCarrier.id;
 	const workflowPriceData = workflow?.workflowPriceData;
+
+	const [workflowNotes, setWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
 
 	// TODO we should allow for files to be updated at any and all times with timestamp
 
@@ -68,6 +71,8 @@ export default function WorkflowId({
 		}
 	};
 
+	// TODO: work on sendMessage functionality
+
 	useEffect(() => {
 		const workflowUserCarrierIdAsString = workflowUserCarrierId?.toString();
 
@@ -76,13 +81,13 @@ export default function WorkflowId({
 			workflowId,
 			userTo: workflowUserCarrierIdAsString
 		})
-			.then((data: any) => {
-				console.log("data", data);
+			.then((data: { message: string; workflowNotes: WorkflowNotesType[] }) => {
+				setWorkflowNotes(data.workflowNotes);
 			})
 			.catch((err: any) => {
-				console.log("err", err);
+				setWorkflowNotes(null);
 			});
-	}, []);
+	}, [userToken, workflowId, workflowUserCarrierId]);
 
 	return (
 		<>
@@ -99,6 +104,7 @@ export default function WorkflowId({
 						workflow={workflow}
 						handleAcceptPrice={handleAcceptPrice}
 						handleDeclinePrice={handleDeclinePrice}
+						workflowNotes={workflowNotes}
 					/>
 				</main>
 			</ShipperLayout>
@@ -133,8 +139,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		const response = await getWorkflowByWorkflowId(userToken, workflowId);
-		workflowData = response.workflow;
+		const getWorkflowResponse = await getWorkflowByWorkflowId(userToken, workflowId);
+		workflowData = getWorkflowResponse.workflow;
 	} catch (err) {
 		workflowData = null;
 	}

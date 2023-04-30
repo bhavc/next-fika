@@ -72,6 +72,16 @@ export type WorkflowPriceDataType = {
 	price?: number;
 };
 
+export type WorkflowNotesType = {
+	id: number;
+	message: string;
+	user_from: number;
+	user_to: number;
+	workflow_id: number;
+	modified_at: string;
+	created_at: string;
+};
+
 export type WorkflowType = {
 	id: string;
 	user_for: string;

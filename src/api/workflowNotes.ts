@@ -9,10 +9,6 @@ export const getWorkflowNotesByWorkflowId = async ({
 	workflowId: string;
 	userTo?: string;
 }) => {
-	console.log("userToken", userToken);
-	console.log("workflowId", workflowId);
-	console.log("userTo", userTo);
-
 	// might need query params in here sometime
 	const url = `workflow/${workflowId}/notes/${userTo}`;
 
@@ -23,7 +19,7 @@ export const getWorkflowNotesByWorkflowId = async ({
 	});
 
 	if (!response.ok) {
-		throw new Error("getWorkflowNotesByWorkflowId - could not get workflow status");
+		throw new Error("getWorkflowNotesByWorkflowId - could not get workflow notes");
 	}
 
 	return response.json();

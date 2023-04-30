@@ -1,21 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import ChatContainer from "@/components/ChatContainer";
 import ShipperWorkflowPricing from "./ShipperWorkflowPricing";
 
-import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { WorkflowType, WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
 
 interface WorkflowProps {
 	workflow: WorkflowType;
+	workflowNotes: WorkflowNotesType[] | null;
 	handleAcceptPrice: () => void;
 	handleDeclinePrice: () => void;
 }
 
 export default function ShipperWorkflow({
 	workflow,
+	workflowNotes,
 	handleAcceptPrice,
 	handleDeclinePrice
 }: WorkflowProps) {
+	const workflowUserFor = workflow.user_for;
 	const workflowStatus = workflow?.status;
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
@@ -23,6 +27,9 @@ export default function ShipperWorkflow({
 	const shipperNotes = workflow?.shipperNotes;
 	const uploadedFiles = workflow?.fileUrls;
 	const selectedCarrier = workflow.selectedCarrier;
+	const selectedCarrierId = selectedCarrier.id;
+
+	const userIdChatEnd = parseInt(workflowUserFor, 10);
 
 	// maybe i should get workflow notes here because i want up to date messages
 
@@ -287,13 +294,18 @@ export default function ShipperWorkflow({
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
-				<div>
-					<h2 className="text-xl">Notes</h2>
-					<div className="ml-28">
-						<p>{shipperNotes || "n/a"}</p>
+				{/* Shipper and carrier chat */}
+				{selectedCarrierId && workflowNotes && (
+					<div>
+						<h2 className="text-xl">Notes</h2>
+						<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
+						<ChatContainer
+							userIdChatEnd={userIdChatEnd}
+							userIdChatStart={selectedCarrierId}
+							messageArray={workflowNotes}
+						/>
 					</div>
-				</div>
-				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+				)}
 
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 

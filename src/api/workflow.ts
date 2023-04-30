@@ -36,12 +36,10 @@ export const getWorkflowsByUserId = async (userToken: string | undefined) => {
 };
 
 export const getWorkflowsForCarrier = async (userToken: string | undefined) => {
-	const response = await fetch(`${BASE_URL}/workflow/carrierFor`, {
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${userToken}`
-		},
-		method: "GET"
+	const response = await Fetch({
+		method: "GET",
+		userToken,
+		url: "workflow/carrierFor"
 	});
 
 	if (!response.ok) {
