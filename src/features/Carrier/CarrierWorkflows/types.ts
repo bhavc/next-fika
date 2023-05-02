@@ -97,3 +97,13 @@ export type CarrierWorkflowType = {
 export type CarrierWorkflowStatusType = {
 	[key: string]: string;
 };
+
+export type CarrierWorkflowNotesType = {
+	id: number;
+	message: string;
+	user_from: number;
+	user_to: number;
+	workflow_id: number;
+	modified_at: string;
+	created_at: string;
+};

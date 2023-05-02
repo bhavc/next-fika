@@ -92,7 +92,6 @@ export default function WorkflowId({
 		}
 	};
 
-	// TODO: work on sendMessage functionality
 	const handleMessageSend = async (message: string) => {
 		try {
 			setIsMessageSentLoading(true);
@@ -188,8 +187,7 @@ export default function WorkflowId({
 							<h2 className="text-xl">Notes</h2>
 							<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
 							<ChatContainer
-								userIdChatEnd={userIdChatEnd}
-								userIdChatStart={selectedCarrierId}
+								userIdChatEnd={selectedCarrierId}
 								messageArray={workflowNotes}
 								handleMessageSend={handleMessageSend}
 								isMessageSentLoading={isMessageSentLoading}

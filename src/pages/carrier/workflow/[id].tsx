@@ -5,6 +5,7 @@ import { ChangeEvent } from "react";
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getDriversByCompany } from "@/api/drivers";
 import { getWorkflowStatusByStatuses } from "@/api/workflowStatus";
+import { getWorkflowNotesByWorkflowId, postWorkflowNotesByWorkflowId } from "@/api/workflowNotes";
 
 import { getCarrierWorkflowModalStatusChangeCopy } from "@/features/Carrier/CarrierWorkflows/helpers";
 
@@ -12,6 +13,7 @@ import CarrierLayout from "@/layouts/CarrierLayout";
 import CarrierWorkflow from "@/features/Carrier/CarrierWorkflows/CarrierWorkflow";
 import CarrierWorkflowPricing from "@/features/Carrier/CarrierWorkflows/CarrierWorkflowPricing";
 
+import FileUploader from "@/components/FileUploader";
 import WorkflowStatusDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowStatusDropdown";
 import WorkflowAssignDriverDropdown from "@/features/Carrier/CarrierWorkflows/WorkflowAssignDriverDropdown";
 import Modal from "@/components/Modal";
@@ -23,9 +25,15 @@ import type {
 	CarrierWorkflowType,
 	CarrierWorkflowStatusType
 } from "@/features/Carrier/CarrierWorkflows/types";
+import type { FileType } from "@/features/Carrier/CarrierWorkflows/types";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
+import type { WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
+
+import ChatContainer from "@/components/ChatContainer";
 
 import IconLeft from "public/svg/arrow-left.svg";
+import PDFIcon from "public/svg/PDF_file_icon.svg";
+import TextIcon from "public/svg/file-text.svg";
 import { toast } from "react-hot-toast";
 
 type BidSelectValueType = "accept" | "counter";
@@ -48,6 +56,12 @@ export default function WorkflowId({
 	const workflowId = workflow.id;
 	const workflowAssignedDriver = workflow.assignedDriver;
 	const price = workflow.workflowPriceData.price;
+	const userFor = workflow.userId;
+	const userForAsInt = parseInt(userFor, 10);
+	const workflowUploadedFiles = workflow?.fileUrls;
+
+	// toddo this should be the current users id
+	const carrierId = workflow.selectedCarrier.id;
 
 	// TODO figure out what should happen on
 	// counter price. should a user have to assign a driver on counter
@@ -72,6 +86,11 @@ export default function WorkflowId({
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState(price?.toString() || "");
 	const [quotePriceError, setQuotePriceError] = useState(false);
+	const [workflowNotes, setWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
+	const [isMessageSentLoading, setIsMessageSentLoading] = useState(false);
+	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>(
+		workflowUploadedFiles ? workflowUploadedFiles : []
+	);
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
@@ -176,6 +195,77 @@ export default function WorkflowId({
 		setWorkflowStatusChangeNotes(event.target.value);
 	};
 
+	// TODO: work on sendMessage functionality
+	const handleMessageSend = async (message: string) => {
+		try {
+			setIsMessageSentLoading(true);
+			const response = await postWorkflowNotesByWorkflowId({
+				userToken,
+				workflowId,
+				userTo: userForAsInt,
+				message
+			});
+
+			const responseMessage = response.message;
+			const responseWorkflowNotes = response.workflowNotes;
+
+			toast.success(responseMessage);
+			setIsMessageSentLoading(false);
+			setWorkflowNotes(responseWorkflowNotes);
+		} catch (err) {
+			toast.error("Error sending message workflow");
+		}
+	};
+
+	const handleUploadedFiles = async (data: any[]) => {
+		// what i want to do is send an update
+		setUploadedFiles(data);
+
+		try {
+			const updateData: { [key: string]: any } = {
+				uploadedFiles: data
+			};
+
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error adding workflow files");
+		}
+	};
+
+	const handleUploadedFileRemove = async (event: MouseEvent<HTMLElement>, key: number) => {
+		// what i want to do is send an update to the backend
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
+
+		try {
+			const updateData: { [key: string]: any } = {
+				uploadedFilesCopy
+			};
+
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error removing workflow files");
+		}
+	};
+
+	useEffect(() => {
+		getWorkflowNotesByWorkflowId({
+			userToken,
+			workflowId,
+			userTo: userFor
+		})
+			.then((data: { message: string; workflowNotes: WorkflowNotesType[] }) => {
+				setWorkflowNotes(data.workflowNotes);
+			})
+			.catch((err: any) => {
+				setWorkflowNotes(null);
+			});
+	}, [userToken, workflowId, userFor]);
+
 	const ModalTextArea = (
 		<textarea
 			placeholder="Add any other notes here that you may want the shipper to know"
@@ -266,6 +356,61 @@ export default function WorkflowId({
 							carrierCounterRequest={carrierCounterRequest}
 						/>
 					</CarrierWorkflow>
+					{/* Shipper and carrier chat */}
+					{carrierId && workflowNotes && (
+						<div className="bg-slate-100 p-4 ">
+							<h2 className="text-xl">Notes</h2>
+							<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
+							<ChatContainer
+								userIdChatEnd={userForAsInt}
+								messageArray={workflowNotes}
+								handleMessageSend={handleMessageSend}
+								isMessageSentLoading={isMessageSentLoading}
+							/>
+						</div>
+					)}
+					<div className="mt-6 mb-6 border-b-2 border-slate-300" />
+
+					{/* Carrier and driver chat */}
+					{!["Delivered", "Rejected", "Cancelled", "Deleted"].includes(workflowStatus) ? (
+						<div>
+							<h2 className="prose prose-2xl">Upload Files</h2>
+							<p>Add any documents relating to shipping manifest, Bol #, T1 document etc.</p>
+							<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
+							<div className="my-2">
+								<div className="mt-1 flex">
+									<FileUploader
+										uploadedFiles={uploadedFiles}
+										handleUploadedFiles={handleUploadedFiles}
+										userToken={userToken}
+										handleUploadedFileRemove={handleUploadedFileRemove}
+									/>
+								</div>
+							</div>
+						</div>
+					) : (
+						<div>
+							<div className="flex flex-col gap-4">
+								<h2 className="text-xl">Your uploaded files: </h2>
+								{workflowUploadedFiles?.map((file, key) => {
+									return (
+										<Link href={file.url} key={key} target="_blank">
+											<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
+												{file.type === "application/pdf" ? (
+													<PDFIcon height={48} width={48} />
+												) : (
+													<TextIcon height={48} width={48} />
+												)}
+												<div className="flex justify-center items-center">
+													<h2>{file.name}</h2>
+												</div>
+											</div>
+										</Link>
+									);
+								})}
+							</div>
+						</div>
+					)}
 				</main>
 				<Modal
 					open={modalOpen}
