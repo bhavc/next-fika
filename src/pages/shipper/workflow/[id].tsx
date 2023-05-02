@@ -114,15 +114,39 @@ export default function WorkflowId({
 		}
 	};
 
-	const handleUploadedFiles = (data: any[]) => {
+	const handleUploadedFiles = async (data: any[]) => {
+		// what i want to do is send an update
 		setUploadedFiles(data);
+
+		try {
+			const updateData: { [key: string]: any } = {
+				uploadedFiles: data
+			};
+
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error adding workflow files");
+		}
 	};
 
-	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+	const handleUploadedFileRemove = async (event: MouseEvent<HTMLElement>, key: number) => {
+		// what i want to do is send an update to the backend
 		event.preventDefault();
 		const uploadedFilesCopy = [...uploadedFiles];
 		uploadedFilesCopy.splice(key, 1);
 		setUploadedFiles(uploadedFilesCopy);
+
+		try {
+			const updateData: { [key: string]: any } = {
+				uploadedFilesCopy
+			};
+
+			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+			toast.success(response.message);
+		} catch (err) {
+			toast.error("Error removing workflow files");
+		}
 	};
 
 	useEffect(() => {
@@ -194,6 +218,7 @@ export default function WorkflowId({
 					) : (
 						<div>
 							<div className="flex flex-col gap-4">
+								<h2 className="text-xl">Your uploaded files: </h2>
 								{workflowUploadedFiles?.map((file, key) => {
 									return (
 										<Link href={file.url} key={key} target="_blank">
