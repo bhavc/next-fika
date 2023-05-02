@@ -1,35 +1,23 @@
-import Image from "next/image";
-import Link from "next/link";
-
-import ChatContainer from "@/components/ChatContainer";
 import ShipperWorkflowPricing from "./ShipperWorkflowPricing";
 
-import type { WorkflowType, WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 
 interface WorkflowProps {
 	workflow: WorkflowType;
-	workflowNotes: WorkflowNotesType[] | null;
 	handleAcceptPrice: () => void;
 	handleDeclinePrice: () => void;
 }
 
 export default function ShipperWorkflow({
 	workflow,
-	workflowNotes,
 	handleAcceptPrice,
 	handleDeclinePrice
 }: WorkflowProps) {
-	const workflowUserFor = workflow.user_for;
 	const workflowStatus = workflow?.status;
 	const workflowAddressData = workflow?.workflowAddressData;
 	const workflowContainerData = workflow?.workflowContainerData;
 	const workflowPriceData = workflow?.workflowPriceData;
-	const shipperNotes = workflow?.shipperNotes;
-	const uploadedFiles = workflow?.fileUrls;
 	const selectedCarrier = workflow.selectedCarrier;
-	const selectedCarrierId = selectedCarrier.id;
-
-	const userIdChatEnd = parseInt(workflowUserFor, 10);
 
 	// maybe i should get workflow notes here because i want up to date messages
 
@@ -79,12 +67,8 @@ export default function ShipperWorkflow({
 		returnDepotName
 	} = workflowContainerData;
 
-	// const imageFileTypes = ["image/png", "image/jpeg", "image/jpg"];
-	// const imageFiles = uploadedFiles?.filter((file) => imageFileTypes.includes(file.type));
-	// const nonImageFiles = uploadedFiles?.filter((file) => !imageFileTypes.includes(file.type));
-
 	return (
-		<div className="w-full bg-slate-100 rounded-b-md p-4 mb-4">
+		<div className="w-full bg-slate-100 rounded-b-md p-4">
 			<div className="border-2 border-slate-300 p-4">
 				<div>
 					<h2 className="text-xl mb-2">Container & Shipment #:</h2>
@@ -116,7 +100,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
 				<div className="flex flex-col lg:flex-row">
 					<div>
 						<h2 className="text-xl mb-2">Pickup address:</h2>
@@ -148,7 +131,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-4 mb-4 border-b-2 border-slate-300" />
-
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
 					<div className="md:ml-28">
@@ -161,7 +143,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
 				{/* TODO: add details about the carrier */}
 				<div>
 					<h2 className="text-xl mb-2">Selected Carrier</h2>
@@ -189,7 +170,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
 				<div>
 					<h2 className="text-xl mb-2">Goods Description:</h2>
 					<div className="ml-28">
@@ -197,7 +177,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
 					<div>
@@ -293,41 +272,6 @@ export default function ShipperWorkflow({
 					<div></div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
-				{/* Shipper and carrier chat */}
-				{selectedCarrierId && workflowNotes && (
-					<div>
-						<h2 className="text-xl">Notes</h2>
-						<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
-						<ChatContainer
-							userIdChatEnd={userIdChatEnd}
-							userIdChatStart={selectedCarrierId}
-							messageArray={workflowNotes}
-						/>
-					</div>
-				)}
-
-				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-
-				{uploadedFiles && uploadedFiles.length > 0 && (
-					<div>
-						<h2 className="text-xl mb-4">Your uploaded files: </h2>
-						<div className="flex flex-col gap-4">
-							{uploadedFiles?.map((file, key) => {
-								return (
-									<Link href={file.url} key={key} target="_blank">
-										<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
-											<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
-											<div className="flex justify-center items-center">
-												<h2>{file.name}</h2>
-											</div>
-										</div>
-									</Link>
-								);
-							})}
-						</div>
-					</div>
-				)}
 			</div>
 		</div>
 	);

@@ -9,7 +9,6 @@ export const getWorkflowNotesByWorkflowId = async ({
 	workflowId: string;
 	userTo?: string;
 }) => {
-	// might need query params in here sometime
 	const url = `workflow/${workflowId}/notes/${userTo}`;
 
 	const response = await Fetch({
@@ -20,6 +19,35 @@ export const getWorkflowNotesByWorkflowId = async ({
 
 	if (!response.ok) {
 		throw new Error("getWorkflowNotesByWorkflowId - could not get workflow notes");
+	}
+
+	return response.json();
+};
+
+export const postWorkflowNotesByWorkflowId = async ({
+	userToken,
+	workflowId,
+	userTo,
+	message
+}: {
+	userToken: string;
+	workflowId: string;
+	userTo: number | null;
+	message: string;
+}) => {
+	const url = `workflow/${workflowId}/notes/${userTo}`;
+
+	const response = await Fetch({
+		method: "POST",
+		userToken,
+		url,
+		body: {
+			message
+		}
+	});
+
+	if (!response.ok) {
+		throw new Error("postWorkflowNotesByWorkflowId - could not get workflow notes");
 	}
 
 	return response.json();
