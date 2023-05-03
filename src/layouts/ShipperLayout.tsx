@@ -78,9 +78,22 @@ export default function ShipperLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 							<Link
-								href={"/shipper/workflows"}
+								href={"/shipper/workflows/ongoing"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/shipper/workflows" ? "bg-accent" : "bg-inherit"
+									currentPath === "/shipper/workflows/ongoing" ? "bg-accent" : "bg-inherit"
+								}`}
+							>
+								<div className="flex flex-row">
+									<div className="mt-2">
+										<HistoryIcon stroke="white" />
+									</div>
+									<p className="prose lg:prose-xl pl-2 text-white">Ongoing Deliveries</p>
+								</div>
+							</Link>
+							<Link
+								href={"/shipper/workflows/past"}
+								className={`hover:bg-accent p-2 rounded-md ${
+									currentPath === "/shipper/workflows/past" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
 								<div className="flex flex-row">

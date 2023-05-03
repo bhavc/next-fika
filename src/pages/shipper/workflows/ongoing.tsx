@@ -12,17 +12,12 @@ import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 import { toast } from "react-hot-toast";
 
 export default function Workflows({ userToken }: { userToken: string }) {
-	const router = useRouter();
-	const query = router.query;
-
-	const statusGroup = query.statusGroup as string;
-
 	const [workflows, setWorkflows] = useState<WorkflowType[] | undefined>(undefined);
 	const [isError, setIsError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		getWorkflowsByUserId({ userToken, statusGroup })
+		getWorkflowsByUserId({ userToken, statusGroup: "active" })
 			.then((workflowData) => {
 				setWorkflows(workflowData.workflows);
 			})

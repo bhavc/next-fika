@@ -19,13 +19,23 @@ export const createWorkflow = async (userToken: string | undefined, workflowData
 	return response.json();
 };
 
-export const getWorkflowsByUserId = async (userToken: string | undefined) => {
-	const response = await fetch(`${BASE_URL}/workflow`, {
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${userToken}`
-		},
-		method: "GET"
+export const getWorkflowsByUserId = async ({
+	userToken,
+	statusGroup
+}: {
+	userToken: string;
+	statusGroup?: string;
+}) => {
+	let url = "workflow";
+
+	if (statusGroup) {
+		url = `workflow?statusGroup=${statusGroup}`;
+	}
+
+	const response = await Fetch({
+		method: "GET",
+		userToken,
+		url
 	});
 
 	if (!response.ok) {

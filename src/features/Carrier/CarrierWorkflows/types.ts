@@ -11,6 +11,9 @@ export type CarrierWorkflowStatus =
 	| "Cancelled"
 	| "Deleted";
 
+export type CarrierWorkflowActiveStatus = "Triage" | "Counter Price" | "Allocated" | "In Progress";
+export type CarrierWorkflowInactiveStatus = "Delivered" | "Rejected" | "Cancelled" | "Deleted";
+
 export type FileType = {
 	name: string;
 	type: string;
