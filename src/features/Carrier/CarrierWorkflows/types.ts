@@ -22,7 +22,7 @@ export type FileType = {
 };
 
 export type CarrierWorkflowAddressDataType = {
-	t1Number?: string;
+	customsReference?: string;
 	bolNumber?: string;
 	pickupWindow: string;
 	dropoffWindow: string;

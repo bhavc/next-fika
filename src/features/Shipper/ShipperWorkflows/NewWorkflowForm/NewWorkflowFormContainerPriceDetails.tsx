@@ -168,7 +168,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 
 				<div className="divider" />
 
-				<h2 className="prose prose-2xl">Container Details</h2>
+				<h2 className="prose prose-2xl">Cargo Details</h2>
 				<div className="mb-2 grid grid-cols-2 gap-2">
 					<div>
 						<label>Type / Mode*</label>
@@ -248,7 +248,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 						</div>
 					</div>
 					<div>
-						<label># of Packages*</label>
+						<label># of Packages</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
@@ -256,7 +256,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 								className={`input w-full ${
 									errors.numberOfPackages ? "border-error" : "border-neutral"
 								}`}
-								{...register("numberOfPackages", { required: true })}
+								{...register("numberOfPackages")}
 							/>
 						</div>
 					</div>
@@ -267,7 +267,6 @@ export default function NewWorkflowFormContainerPriceDetails({
 						<label>Net Weight*</label>
 						<p className="text-sm pl-4 text-slate-500">*In kilograms (kg)</p>
 						<div className="mt-1 flex rounded-md shadow-sm">
-							{/* Change this from number to text type */}
 							<input
 								type="number"
 								placeholder="467.310"
@@ -292,16 +291,17 @@ export default function NewWorkflowFormContainerPriceDetails({
 						</div>
 					</div>
 					<div>
-						<label>Goods Volume*</label>
-						<p className="text-sm pl-4 text-slate-500">*Please specify units</p>
-						<div className="mt-1 flex rounded-md shadow-sm">
+						<label>Goods Volume</label>
+						<p className="text-sm pl-4 text-slate-500">Please specify units (in m³)</p>
+						<label className=" mt-1 input-group flex rounded-md shadow-sm">
 							<input
 								type="text"
-								placeholder="18.520 M3"
+								placeholder="18.520"
 								className={`input w-full ${errors.goodsVolume ? "border-error" : "border-neutral"}`}
 								{...register("goodsVolume", { required: true })}
-							/>
-						</div>
+							/>{" "}
+							<span>m³</span>
+						</label>
 					</div>
 				</div>
 

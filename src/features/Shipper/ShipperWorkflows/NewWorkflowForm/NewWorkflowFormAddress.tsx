@@ -20,7 +20,7 @@ export type WorkflowFormAddressInputs = {
 	dropoffWindow: string;
 	dropOffAppointmentNeeded: boolean;
 	bolNumber: string;
-	t1Number: string;
+	customsReference: string;
 	borderCrossing: string;
 };
 
@@ -55,7 +55,7 @@ export default function NewWorkflowFormAddress({
 			dropoffWindow: workflowFormAddressState.dropoffWindow,
 			dropOffAppointmentNeeded: workflowFormAddressState.dropOffAppointmentNeeded,
 			bolNumber: workflowFormAddressState.bolNumber,
-			t1Number: workflowFormAddressState.t1Number,
+			customsReference: workflowFormAddressState.customsReference,
 			borderCrossing: workflowFormAddressState.borderCrossing
 		}
 	});
@@ -297,13 +297,15 @@ export default function NewWorkflowFormAddress({
 						</div>
 					</div>
 					<div>
-						<label>T1 Reference #</label>
+						<label>Customs Reference #</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
 								placeholder="GS2269XMBS005M2"
-								className={`input w-full ${errors.t1Number ? "border-error" : "border-neutral"}`}
-								{...register("t1Number")}
+								className={`input w-full ${
+									errors.customsReference ? "border-error" : "border-neutral"
+								}`}
+								{...register("customsReference")}
 							/>
 						</div>
 					</div>

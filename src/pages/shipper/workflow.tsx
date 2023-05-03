@@ -27,7 +27,7 @@ import { getCountryFromAddress } from "@/features/Shipper/ShipperWorkflows/helpe
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(2);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -45,7 +45,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 			dropoffWindow: "",
 			dropOffAppointmentNeeded: false,
 			bolNumber: "",
-			t1Number: "",
+			customsReference: "",
 			borderCrossing: ""
 		});
 

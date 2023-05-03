@@ -30,7 +30,7 @@ export type UserCarrier = {
 };
 
 export type WorkflowAddressDataType = {
-	t1Number?: string;
+	customsReference?: string;
 	bolNumber?: string;
 	pickupWindow: string;
 	dropoffWindow: string;

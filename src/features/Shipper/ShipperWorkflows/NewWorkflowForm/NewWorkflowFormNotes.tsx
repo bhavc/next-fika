@@ -47,7 +47,7 @@ export default function NewWorkflowFormNotes({
 			<form id="newWorkflowFormNotes" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<div>
 					<h2 className="prose prose-2xl">Upload Files</h2>
-					<p>Add any documents relating to shipping manifest, Bol #, T1 document etc.</p>
+					<p>Add any documents relating to shipping manifest, Bol #, Customs document etc.</p>
 					<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
 					<div className="my-2">
 						<div className="mt-1 flex">
