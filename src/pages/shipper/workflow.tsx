@@ -31,7 +31,7 @@ export default function Workflow({ userToken }: { userToken: string }) {
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
-			shipmentNumber: "",
+			cargoReferenceNumber: "",
 			pickupCompanyName: "",
 			pickupAddress: "",
 			pickupContactName: "",

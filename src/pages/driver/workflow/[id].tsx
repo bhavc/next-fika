@@ -37,7 +37,7 @@ export default function DriverWorkflowId({
 		pickupAddress,
 		borderCrossing,
 		dropoffAddress,
-		shipmentNumber,
+		cargoReferenceNumber,
 		containerNumber,
 		pickupCompanyName,
 		pickupContactName,
@@ -144,7 +144,7 @@ export default function DriverWorkflowId({
 			<div className="flex flex-col justify-center items-center mt-4">
 				<div className="card w-80 bg-base-100 shadow-xl">
 					<div className="card-body">
-						<p className="font-bold">Shipment #: {shipmentNumber}</p>
+						<p className="font-bold">Shipment #: {cargoReferenceNumber}</p>
 						<p className="font-bold">BOL # {bolNumber}</p>
 
 						<div className="border-2 my-2" />

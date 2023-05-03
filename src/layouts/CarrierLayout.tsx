@@ -76,6 +76,7 @@ export default function CarrierLayout({ children }: LayoutProps) {
 									currentPath === "/carrier/workflows" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
+								{/* TODO add a past deliveries here as well */}
 								<div className="flex flex-row">
 									<div className="mt-2">
 										<HistoryIcon stroke="white" />

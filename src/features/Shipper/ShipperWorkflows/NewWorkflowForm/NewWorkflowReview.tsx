@@ -46,7 +46,7 @@ export default function NewWorkflowFormReview({
 		pickupContactName,
 		pickupContactPhone,
 		pickupWindow,
-		shipmentNumber,
+		cargoReferenceNumber,
 		bolNumber,
 		t1Number,
 		borderCrossing
@@ -99,9 +99,9 @@ export default function NewWorkflowFormReview({
 							</div>
 						</div>
 						<div className="flex flex-col gap-2 w-fit">
-							<h3 className="text-md">Shipping Number</h3>
+							<h3 className="text-md">Cargo Reference Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
-								<p className="text-md text-accent">{shipmentNumber}</p>
+								<p className="text-md text-accent">{cargoReferenceNumber}</p>
 							</div>
 						</div>
 						<div className="flex flex-col gap-2 w-fit">

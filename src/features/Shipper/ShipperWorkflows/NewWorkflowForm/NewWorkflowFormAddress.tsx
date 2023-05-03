@@ -6,7 +6,7 @@ import IconRight from "public/svg/arrow-right.svg";
 
 export type WorkflowFormAddressInputs = {
 	containerNumber: string;
-	shipmentNumber: string;
+	cargoReferenceNumber: string;
 	pickupCompanyName: string;
 	pickupAddress: string;
 	pickupContactName: string;
@@ -41,7 +41,7 @@ export default function NewWorkflowFormAddress({
 	} = useForm<WorkflowFormAddressInputs>({
 		defaultValues: {
 			containerNumber: workflowFormAddressState.containerNumber,
-			shipmentNumber: workflowFormAddressState.shipmentNumber,
+			cargoReferenceNumber: workflowFormAddressState.cargoReferenceNumber,
 			pickupCompanyName: workflowFormAddressState.pickupCompanyName,
 			pickupAddress: workflowFormAddressState.pickupAddress,
 			pickupContactName: workflowFormAddressState.pickupContactName,
@@ -69,7 +69,7 @@ export default function NewWorkflowFormAddress({
 			<form id="newWorkflowFormAddress" onSubmit={handleSubmit(onSubmit)} className="w-full">
 				<div className="mb-2 grid grid-cols-2 gap-4">
 					<div>
-						<label>Container Number*</label>
+						<label>Container Number / Shipment Reference*</label>
 						<div className="mt-1 flex rounded-md shadow-sm">
 							<input
 								type="text"
@@ -85,7 +85,7 @@ export default function NewWorkflowFormAddress({
 					<div>
 						{/* TODO: This will be generated if not provided */}
 						<div className="flex flex-row">
-							<label>Shipment Number</label>
+							<label>Cargo Reference Number</label>
 							<p className="text-sm pl-4 text-slate-500">*This will be generated if not provided</p>
 						</div>
 						<div className="mt-1 flex rounded-md shadow-sm">
@@ -93,9 +93,9 @@ export default function NewWorkflowFormAddress({
 								type="text"
 								placeholder="S104697223"
 								className={`input w-full ${
-									errors.shipmentNumber ? "border-error" : "border-neutral"
+									errors.cargoReferenceNumber ? "border-error" : "border-neutral"
 								}`}
-								{...register("shipmentNumber", { required: false })}
+								{...register("cargoReferenceNumber", { required: false })}
 							/>
 						</div>
 					</div>
