@@ -77,6 +77,7 @@ export default function ChatContainer({
 					})}
 			</div>
 
+			{/* TODO add disabled state */}
 			<div>
 				<div className="form-control">
 					<div className="input-group mt-4">

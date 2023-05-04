@@ -45,11 +45,23 @@ export const getWorkflowsByUserId = async ({
 	return response.json();
 };
 
-export const getWorkflowsForCarrier = async (userToken: string | undefined) => {
+export const getWorkflowsForCarrier = async ({
+	userToken,
+	statusGroup
+}: {
+	userToken?: string;
+	statusGroup?: string;
+}) => {
+	let url = "workflow/carrierFor";
+
+	if (statusGroup) {
+		url = `workflow/carrierFor?statusGroup=${statusGroup}`;
+	}
+
 	const response = await Fetch({
 		method: "GET",
 		userToken,
-		url: "workflow/carrierFor"
+		url
 	});
 
 	if (!response.ok) {

@@ -71,17 +71,30 @@ export default function CarrierLayout({ children }: LayoutProps) {
 								</div>
 							</Link>
 							<Link
-								href={"/carrier/workflows"}
+								href={"/carrier/workflows/ongoing"}
 								className={`hover:bg-accent p-2 rounded-md ${
-									currentPath === "/carrier/workflows" ? "bg-accent" : "bg-inherit"
+									currentPath === "/carrier/workflows/ongoing" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
-								{/* TODO add a past deliveries here as well */}
+								{/* TODO: change the icon here */}
 								<div className="flex flex-row">
 									<div className="mt-2">
 										<HistoryIcon stroke="white" />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Assigned Deliveries</p>
+								</div>
+							</Link>
+							<Link
+								href={"/carrier/workflows/past"}
+								className={`hover:bg-accent p-2 rounded-md ${
+									currentPath === "/carrier/workflows/past" ? "bg-accent" : "bg-inherit"
+								}`}
+							>
+								<div className="flex flex-row">
+									<div className="mt-2">
+										<HistoryIcon stroke="white" />
+									</div>
+									<p className="prose lg:prose-xl pl-2 text-white">Past Deliveries</p>
 								</div>
 							</Link>
 							<Link

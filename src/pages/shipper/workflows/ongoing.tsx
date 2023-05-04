@@ -42,19 +42,7 @@ export default function Workflows({ userToken }: { userToken: string }) {
 				<div className="bg-slate-100 mt-4 p-4 rounded-t-md">
 					<h1 className="text-3xl text-left mb-4">View your past Workflows</h1>
 					<div className="flex justify-end mb-4">
-						<div className="form-control w-1/2">
-							{/* <div className="input-group">
-								<input
-									type="text"
-									placeholder="Search…"
-									className="input input-bordered w-full"
-									onChange={handleOnSearch}
-								/>
-								<button className="btn btn-primary btn-square" onClick={handleClick}>
-									<SearchIcon width={24} height={24} />
-								</button>
-							</div> */}
-						</div>
+						<div className="form-control w-1/2"></div>
 					</div>
 					<WorkflowTableList workflows={workflows} isLoading={isLoading} />
 				</div>

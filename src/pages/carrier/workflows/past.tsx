@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	try {
-		workflowData = await getWorkflowsForCarrier({ userToken });
+		workflowData = await getWorkflowsForCarrier({ userToken, statusGroup: "inactive" });
 		const response = await getCurrentUser(userToken);
 		userData = response.data;
 	} catch (err) {
