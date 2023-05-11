@@ -23,65 +23,60 @@ export default function Driver({
 
 	return (
 		<DriverLayout>
-			<main>
-				{workflowId && (
-					<div className="flex align-middle justify-center">
-						<div className="alert alert-info shadow-lg absolute top-20 z-10 w-3/4 items-center justify-center">
+			{workflowId ? (
+				<div className="flex align-middle justify-center">
+					<div className="alert alert-info">
+						<div>
 							<div>
 								<AlertIcon />
-								{/* TODO this needs to be fixed */}
-								<span className="text-white">
-									You have a delivery in progress. Click{" "}
-									<Link href={`/driver/workflow/${workflowId}`} className="underline">
-										here
-									</Link>{" "}
-									to see the delivery
-								</span>
 							</div>
+							{/* TODO this needs to be fixed */}
+							<span className="text-white">
+								You have a delivery in progress. Click{" "}
+								<Link href={`/driver/workflow/${workflowId}`} className="underline">
+									here
+								</Link>{" "}
+								to see the delivery
+							</span>
 						</div>
 					</div>
-				)}
-				<div className="flex flex-col pt-16">
-					<div className="max-w-xl">
-						<h1 className="text-3xl text-black mt-4 text-left">Welcome, {firstName}</h1>
-					</div>
-					<div className="flex flex-col items-center mt-4 gap-4">
-						<Link href={`/driver/workflow/${workflowId}`}>
-							<div className="card w-80 bg-base-100 shadow-xl">
-								<div className="card-body">
-									<h2 className="card-title">Most Recent delivery</h2>
-									{!workflowId && (
-										<p className="text-sm text-error">
-											*User as not been assigned to any deliveries yet
-										</p>
-									)}
-								</div>
-							</div>
-						</Link>
-						<Link href={`/driver/workflows`}>
-							<div className="card w-80 bg-base-100 shadow-xl">
-								<div className="card-body">
-									<h2 className="card-title">Assigned deliveries</h2>
-								</div>
-							</div>
-						</Link>
-						<Link href="tel:123-456-7890">
-							<div className="card w-80 bg-base-100 shadow-xl">
-								<div className="card-body">
-									<h2 className="card-title">Call Dispatch</h2>
-								</div>
-							</div>
-						</Link>
-						<Link href={`/driver/settings`}>
-							<div className="card w-80 bg-base-100 shadow-xl">
-								<div className="card-body">
-									<h2 className="card-title">User Settings</h2>
-								</div>
-							</div>
-						</Link>
-					</div>
 				</div>
-			</main>
+			) : (
+				<div />
+			)}
+			<div className="flex flex-col">
+				<div className="max-w-xl">
+					<h1 className="text-3xl text-black mt-4 text-left">Welcome, {firstName}</h1>
+				</div>
+				<div className="flex flex-col items-center mt-4 gap-4">
+					<Link href={`/driver/workflow/${workflowId}`}>
+						<div className="card w-80 bg-base-100 shadow-xl">
+							<div className="card-body">
+								<h2 className="card-title">Most Recent delivery</h2>
+								{!workflowId && (
+									<p className="text-sm text-error">
+										*User as not been assigned to any deliveries yet
+									</p>
+								)}
+							</div>
+						</div>
+					</Link>
+					<Link href={`/driver/workflows`}>
+						<div className="card w-80 bg-base-100 shadow-xl">
+							<div className="card-body">
+								<h2 className="card-title">Assigned deliveries</h2>
+							</div>
+						</div>
+					</Link>
+					<Link href="tel:123-456-7890">
+						<div className="card w-80 bg-base-100 shadow-xl">
+							<div className="card-body">
+								<h2 className="card-title">Call Dispatch</h2>
+							</div>
+						</div>
+					</Link>
+				</div>
+			</div>
 		</DriverLayout>
 	);
 }

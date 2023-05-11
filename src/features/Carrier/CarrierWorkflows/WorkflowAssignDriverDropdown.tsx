@@ -14,8 +14,7 @@ export default function WorkflowAssignDriverDropdown({
 		<select
 			className="select select-bordered w-full max-w-xs"
 			onChange={handleDriverChange}
-			defaultValue={-1}
-			value={assignedDriver?.id}
+			value={assignedDriver?.id || -1}
 		>
 			<option disabled={true} value={-1}>
 				Select a driver

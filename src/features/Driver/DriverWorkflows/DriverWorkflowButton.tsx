@@ -9,11 +9,14 @@ export default function DriverWorflowButton({
 }) {
 	if (workflowStatus === "Allocated") {
 		return (
-			<div className="flex flex-row gap-4 mt-4">
-				<button className="btn btn-error" onClick={() => handleStatusChange("Rejected")}>
+			<div className="flex flex-row gap-6 h-20 mt-10 mb-10">
+				<button className="btn btn-error flex-1" onClick={() => handleStatusChange("Rejected")}>
 					Reject
 				</button>
-				<button className="btn btn-success" onClick={() => handleStatusChange("In Progress")}>
+				<button
+					className="btn btn-success flex-1"
+					onClick={() => handleStatusChange("In Progress")}
+				>
 					Start
 				</button>
 			</div>

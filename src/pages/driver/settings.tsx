@@ -190,7 +190,7 @@ export default function DriverSettings({
 										</p>
 										<input
 											type="text"
-											placeholder="fikaUser24"
+											placeholder={`${driverUserName ? driverUserName : "*******k"}`}
 											className={`input w-full ${
 												errors.driverUserName ? "border-error" : "border-neutral"
 											}`}

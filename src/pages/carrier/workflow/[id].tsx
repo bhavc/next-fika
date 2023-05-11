@@ -1,6 +1,6 @@
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import Link from "next/link";
-import { ChangeEvent } from "react";
+import { useRouter } from "next/router";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getDriversByCompany } from "@/api/drivers";
@@ -52,6 +52,8 @@ export default function WorkflowId({
 	workflowStatusData: { [key: string]: string }[];
 	drivers: UserDriver[];
 }) {
+	const router = useRouter();
+
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
 	const workflowAssignedDriver = workflow.assignedDriver;
@@ -86,17 +88,25 @@ export default function WorkflowId({
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState(price?.toString() || "");
 	const [quotePriceError, setQuotePriceError] = useState(false);
-	const [workflowNotes, setWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
-	const [isMessageSentLoading, setIsMessageSentLoading] = useState(false);
+	const [shipperWorkflowNotes, setShipperWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
+	const [driverWorkflowNotes, setDriverWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
+	const [isMessageSentShipperLoading, setIsMessageSentShipperLoading] = useState(false);
+	const [isMessageSentDriverLoading, setIsMessageSentDriverLoading] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>(
 		workflowUploadedFiles ? workflowUploadedFiles : []
 	);
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
+	// TODO remove note sending functionality on status change
 	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
-		setNewStatus(event.target.value as CarrierWorkflowStatus);
+		const newStatus = event.target.value as CarrierWorkflowStatus;
+		setNewStatus(newStatus);
 		setWorkflowStatusChangeNotes("");
+
+		// if (newStatus === "Triage") {
+		// 	setAssignedDriver("")
+		// }
 	};
 
 	// if in a certain status (allocated) and no driver is selected, allow user
@@ -106,6 +116,9 @@ export default function WorkflowId({
 		const mappedDriver = drivers.find((driver) => driver.id === driverId);
 		setAssignedDriver(mappedDriver);
 	};
+
+	const refreshData = () => router.replace(router.asPath);
+
 	const handleSaveChanges = async (event: MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 
@@ -137,7 +150,9 @@ export default function WorkflowId({
 			}
 		}
 
-		setModalOpen(true);
+		// can add modal functionality later
+		// setModalOpen(true);
+		handleConfirmModal();
 	};
 
 	const handleBidSelectChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -153,8 +168,10 @@ export default function WorkflowId({
 		setCarrierCounterRequest(event.target.value);
 	};
 
+	// TODO: add logic for status changes
 	const handleConfirmModal = async () => {
 		try {
+			// TODO change where the message is posted here
 			const updateData: { [key: string]: any } = {
 				workflow: {
 					status: newStatus,
@@ -163,6 +180,10 @@ export default function WorkflowId({
 				},
 				payment: {}
 			};
+
+			if (newStatus === "Triage") {
+				updateData.workflow.assignedDriver = undefined;
+			}
 
 			// RFQ in the body
 			if (carrierQuoteRequest) {
@@ -179,6 +200,7 @@ export default function WorkflowId({
 			const response = await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
 			setPreviousStatus(newStatus);
 			toast.success(response.message);
+			refreshData();
 		} catch (err) {
 			toast.error("Error updating workflow");
 		} finally {
@@ -196,9 +218,9 @@ export default function WorkflowId({
 	};
 
 	// TODO: work on sendMessage functionality
-	const handleMessageSend = async (message: string) => {
+	const handleMessageSendShipper = async (message: string) => {
 		try {
-			setIsMessageSentLoading(true);
+			setIsMessageSentShipperLoading(true);
 			const response = await postWorkflowNotesByWorkflowId({
 				userToken,
 				workflowId,
@@ -210,8 +232,31 @@ export default function WorkflowId({
 			const responseWorkflowNotes = response.workflowNotes;
 
 			toast.success(responseMessage);
-			setIsMessageSentLoading(false);
-			setWorkflowNotes(responseWorkflowNotes);
+			setIsMessageSentShipperLoading(false);
+			setShipperWorkflowNotes(responseWorkflowNotes);
+		} catch (err) {
+			toast.error("Error sending message workflow");
+		}
+	};
+
+	const handleMessageSendDriver = async (message: string) => {
+		try {
+			if (assignedDriver?.id) {
+				setIsMessageSentDriverLoading(true);
+				const response = await postWorkflowNotesByWorkflowId({
+					userToken,
+					workflowId,
+					userTo: assignedDriver?.id,
+					message
+				});
+
+				const responseMessage = response.message;
+				const responseWorkflowNotes = response.workflowNotes;
+
+				toast.success(responseMessage);
+				setIsMessageSentDriverLoading(false);
+				setDriverWorkflowNotes(responseWorkflowNotes);
+			}
 		} catch (err) {
 			toast.error("Error sending message workflow");
 		}
@@ -259,12 +304,28 @@ export default function WorkflowId({
 			userTo: userFor
 		})
 			.then((data: { message: string; workflowNotes: WorkflowNotesType[] }) => {
-				setWorkflowNotes(data.workflowNotes);
+				setShipperWorkflowNotes(data.workflowNotes);
 			})
 			.catch((err: any) => {
-				setWorkflowNotes(null);
+				setShipperWorkflowNotes(null);
 			});
 	}, [userToken, workflowId, userFor]);
+
+	useEffect(() => {
+		if (assignedDriver && assignedDriver.id) {
+			getWorkflowNotesByWorkflowId({
+				userToken,
+				workflowId,
+				userTo: assignedDriver?.id.toString()
+			})
+				.then((data: { message: string; workflowNotes: WorkflowNotesType[] }) => {
+					setDriverWorkflowNotes(data.workflowNotes);
+				})
+				.catch((err: any) => {
+					setDriverWorkflowNotes(null);
+				});
+		}
+	}, [userToken, workflowId, assignedDriver]);
 
 	const ModalTextArea = (
 		<textarea
@@ -357,18 +418,32 @@ export default function WorkflowId({
 						/>
 					</CarrierWorkflow>
 					{/* Shipper and carrier chat */}
-					{carrierId && workflowNotes && (
+					{carrierId && shipperWorkflowNotes && (
 						<div className="bg-slate-100 p-4 ">
 							<h2 className="text-xl">Notes</h2>
-							<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
+							<p className="text-md pl-4 mb-4">This is your chat history with the Shipper</p>
 							<ChatContainer
 								userIdChatEnd={userForAsInt}
-								messageArray={workflowNotes}
-								handleMessageSend={handleMessageSend}
-								isMessageSentLoading={isMessageSentLoading}
+								messageArray={shipperWorkflowNotes}
+								handleMessageSend={handleMessageSendShipper}
+								isMessageSentLoading={isMessageSentShipperLoading}
 							/>
 						</div>
 					)}
+
+					{assignedDriver && driverWorkflowNotes && (
+						<div className="bg-slate-100 p-4 ">
+							<h2 className="text-xl">Notes</h2>
+							<p className="text-md pl-4 mb-4">This is your chat history with the Driver</p>
+							<ChatContainer
+								userIdChatEnd={userForAsInt}
+								messageArray={driverWorkflowNotes}
+								handleMessageSend={handleMessageSendDriver}
+								isMessageSentLoading={isMessageSentDriverLoading}
+							/>
+						</div>
+					)}
+
 					<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 					{/* Carrier and driver chat */}

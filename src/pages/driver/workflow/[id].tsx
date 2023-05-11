@@ -1,4 +1,5 @@
 import { useState, MouseEvent, ChangeEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { getCurrentUser } from "@/api/user";
 import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflow";
@@ -27,8 +28,12 @@ export default function DriverWorkflowId({
 	workflowId: string;
 }) {
 	const router = useRouter();
+	const currentTab = router.query.tab;
+
 	const workflowStatus = workflow.status;
 	const workflowAddressData = workflow.workflowAddressData;
+	const workflowContainerData = workflow.workflowContainerData;
+
 	const {
 		customsReference,
 		bolNumber,
@@ -48,6 +53,8 @@ export default function DriverWorkflowId({
 		pickupAppointmentNeeded,
 		dropOffAppointmentNeeded
 	} = workflowAddressData;
+
+	const { goodsVolume, grossWeight, width, length, height } = workflowContainerData;
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
@@ -138,11 +145,41 @@ export default function DriverWorkflowId({
 		/>
 	);
 
+	const driverWorkflowLinks = [
+		{
+			name: "General",
+			href: `/driver/workflow/${workflowId}`,
+			active: currentTab === undefined
+		},
+		{
+			name: "Details",
+			href: `/driver/workflow/${workflowId}/?tab=details`,
+			active: currentTab === "details"
+		},
+		{
+			name: "Chat",
+			href: `/driver/workflow/${workflowId}/?tab=chat`,
+			active: currentTab === "chat"
+		}
+	];
+
 	return (
 		<DriverLayout leftSideItems={leftSideItems}>
-			<h1 className="text-3xl text-black">Delivery</h1>
-			<div className="flex flex-col justify-center items-center mt-4">
-				<div className="card w-80 bg-base-100 shadow-xl">
+			<div className="flex flex-col justify-center items-center h-auto">
+				<div className="tabs justify-center bg-base-100 w-full rounded-t-2xl pt-2">
+					{driverWorkflowLinks.map((driverWorkflowLink, index) => {
+						return driverWorkflowLink.active ? (
+							<Link className="tab tab-lg tab-bordered" key={index} href={driverWorkflowLink.href}>
+								{driverWorkflowLink.name}
+							</Link>
+						) : (
+							<Link className="tab tab-lg" key={index} href={driverWorkflowLink.href}>
+								{driverWorkflowLink.name}
+							</Link>
+						);
+					})}
+				</div>
+				<div className="card bg-base-100 shadow-xl rounded-t-none">
 					<div className="card-body">
 						<p className="font-bold">Shipment #: {cargoReferenceNumber}</p>
 						<p className="font-bold">BOL # {bolNumber}</p>

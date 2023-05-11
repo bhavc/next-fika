@@ -2,6 +2,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState, MouseEvent } from "react";
 
 import { getCurrentUser } from "@/api/user";
 import { onboardDriver } from "@/api/registration";
@@ -10,6 +11,7 @@ import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/hel
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
+import FileUploader from "@/components/FileUploader";
 
 import type { GetServerSideProps } from "next";
 import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
@@ -39,6 +41,19 @@ export default function OnboardDriver({
 	requiresVerify: boolean;
 	userData: UserCarrier;
 }) {
+	const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+
+	const handleUploadedFiles = (data: any[]) => {
+		setUploadedFiles(data);
+	};
+
+	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
+	};
+
 	const router = useRouter();
 	const {
 		register,
@@ -53,7 +68,7 @@ export default function OnboardDriver({
 			const companyName = userData.companyName;
 
 			const onboardDriverSubmitData = {
-				...data,
+				data: { ...data, driverFiles: uploadedFiles },
 				companyName
 			};
 
@@ -97,13 +112,15 @@ export default function OnboardDriver({
 								<div className="card-body">
 									<form id="carrierOnboardDriversForm" onSubmit={handleSubmit(onSubmit)} noValidate>
 										<h2 className="text-xl mb-4">Invite drivers to your organization here.</h2>
-
 										<div className="divider" />
-
-										<div className="flex flex-row flex-wrap gap-4 w-full">
+										<h2 className="text-xl">Driver Profile</h2>
+										<p className="text-md mb-4 pl-8">
+											Add personal information about your driver here
+										</p>
+										<div className="flex flex-row flex-wrap gap-4 w-full pl-8">
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Username</label>
+													<label className="text-md">Username</label>
 													<p className="text-sm pl-4 text-error">*Required</p>
 												</div>
 												<input
@@ -116,7 +133,7 @@ export default function OnboardDriver({
 												/>
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
-												<label className="text-xl">Email</label>
+												<label className="text-md">Email</label>
 												<input
 													type="text"
 													placeholder="fikafreight@gmail.com"
@@ -126,7 +143,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Password</label>
+													<label className="text-md">Password</label>
 													<p className="text-sm pl-4 text-error">*Required</p>
 												</div>
 												<input
@@ -140,7 +157,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Confirm Password</label>
+													<label className="text-md">Confirm Password</label>
 													<p className="text-sm pl-4 text-error">*Required</p>
 												</div>
 												<input
@@ -166,7 +183,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">First Name</label>
+													<label className="text-md">First Name</label>
 												</div>
 												<input
 													type="text"
@@ -179,7 +196,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Last Name</label>
+													<label className="text-md">Last Name</label>
 												</div>
 												<input
 													type="text"
@@ -192,7 +209,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Address</label>
+													<label className="text-md">Address</label>
 												</div>
 												<Controller
 													name="driverAddress"
@@ -209,7 +226,7 @@ export default function OnboardDriver({
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
 												<div>
-													<label className="text-xl">Phone #</label>
+													<label className="text-md">Phone #</label>
 													<p className="text-sm pl-4 text-error">*Required</p>
 												</div>
 												<input
@@ -222,7 +239,7 @@ export default function OnboardDriver({
 												/>
 											</div>
 											<div className="flex flex-col gap-2 w-full sm:w-1/2">
-												<label className="text-xl">Emergency #</label>
+												<label className="text-md">Emergency #</label>
 												<input
 													type="text"
 													placeholder="+19671111567"
@@ -232,6 +249,30 @@ export default function OnboardDriver({
 											</div>
 										</div>
 										<div className="divider" />
+										<h2 className="text-xl">Driver Files</h2>
+										<p className="text-md mb-4 pl-8">
+											Add information about the driver such as licenses, certifications etc.
+										</p>
+										<div>
+											<h2 className="text-md">Upload Files</h2>
+											<p className="text-sm pl-4 text-slate-500">
+												Add any and all documents relating to your insurance. Once validated, we
+												will clear your account so you can manage your deliveries
+											</p>
+											<p className="text-sm pl-4 text-slate-500">
+												*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)
+											</p>
+											<div className="my-2 w-full sm:w-1/2">
+												<div className="mt-1 flex">
+													<FileUploader
+														uploadedFiles={uploadedFiles}
+														handleUploadedFiles={handleUploadedFiles}
+														userToken={userToken}
+														handleUploadedFileRemove={handleUploadedFileRemove}
+													/>
+												</div>
+											</div>
+										</div>
 
 										<div className="flex justify-end mt-4">
 											<button
