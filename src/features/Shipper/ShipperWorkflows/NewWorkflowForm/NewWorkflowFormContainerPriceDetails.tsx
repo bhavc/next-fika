@@ -13,9 +13,10 @@ export type WorkflowFormPriceInputs = {
 export type WorkflowFormContainerDetailsInputs = {
 	goodsDescription: string;
 	cargoType: string;
-	length: string;
-	width: string;
-	height: string;
+	containerLength: string;
+	containerWidth: string;
+	containerHeight: string;
+	containerTypeLabel: string;
 	sealNumber: string;
 	numberOfPackages: string;
 	grossWeight: string;
@@ -60,9 +61,10 @@ export default function NewWorkflowFormContainerPriceDetails({
 			customPrice: workflowFormPriceState.customPrice,
 			goodsDescription: workflowFormContainerDetailsState.goodsDescription,
 			cargoType: workflowFormContainerDetailsState.cargoType,
-			length: workflowFormContainerDetailsState.length,
-			width: workflowFormContainerDetailsState.width,
-			height: workflowFormContainerDetailsState.height,
+			containerLength: workflowFormContainerDetailsState.containerLength,
+			containerWidth: workflowFormContainerDetailsState.containerWidth,
+			containerHeight: workflowFormContainerDetailsState.containerHeight,
+			containerTypeLabel: workflowFormContainerDetailsState.containerTypeLabel,
 			sealNumber: workflowFormContainerDetailsState.sealNumber,
 			numberOfPackages: workflowFormContainerDetailsState.numberOfPackages,
 			grossWeight: workflowFormContainerDetailsState.grossWeight,
@@ -97,13 +99,10 @@ export default function NewWorkflowFormContainerPriceDetails({
 	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs> = (
 		data
 	) => {
-		console.log("onsubmit data", data);
-
-		console.log("selectedCargoTypeData", selectedCargoTypeData);
-
-		data.height = selectedCargoTypeData.height as string;
-		data.width = selectedCargoTypeData.width as string;
-		data.length = selectedCargoTypeData.length as string;
+		data.containerHeight = selectedCargoTypeData.height as string;
+		data.containerWidth = selectedCargoTypeData.width as string;
+		data.containerLength = selectedCargoTypeData.length as string;
+		data.containerTypeLabel = selectedCargoTypeData.name as string;
 		data.netWeight = `${data.netWeight}kg`;
 		data.grossWeight = `${calculatedGrossWeight}kg`;
 
@@ -207,7 +206,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 							<input
 								type="text"
 								className={`input w-full bg-slate-200 ${
-									errors.length ? "border-error" : "border-neutral"
+									errors.containerLength ? "border-error" : "border-neutral"
 								}`}
 								value={selectedCargoTypeData.length}
 								readOnly
@@ -220,7 +219,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 							<input
 								type="text"
 								className={`input w-full bg-slate-200 ${
-									errors.width ? "border-error" : "border-neutral"
+									errors.containerWidth ? "border-error" : "border-neutral"
 								}`}
 								value={selectedCargoTypeData.width}
 								readOnly
@@ -233,7 +232,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 							<input
 								type="text"
 								className={`input w-full bg-slate-200 ${
-									errors.height ? "border-error" : "border-neutral"
+									errors.containerHeight ? "border-error" : "border-neutral"
 								}`}
 								value={selectedCargoTypeData.height}
 								readOnly

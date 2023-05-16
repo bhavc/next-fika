@@ -27,7 +27,7 @@ import { getCountryFromAddress } from "@/features/Shipper/ShipperWorkflows/helpe
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(2);
+	const [step, setStep] = useState(0);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",
@@ -58,9 +58,10 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		useState<WorkflowFormContainerDetailsInputs>({
 			goodsDescription: "",
 			cargoType: "",
-			length: "",
-			width: "",
-			height: "",
+			containerLength: "",
+			containerWidth: "",
+			containerHeight: "",
+			containerTypeLabel: "",
 			sealNumber: "",
 			numberOfPackages: "",
 			grossWeight: "",

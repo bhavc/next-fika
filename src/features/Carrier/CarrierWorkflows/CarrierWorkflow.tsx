@@ -39,9 +39,10 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 	const {
 		goodsDescription,
 		cargoType,
-		length,
-		width,
-		height,
+		containerTypeLabel,
+		containerLength,
+		containerWidth,
+		containerHeight,
 		sealNumber,
 		numberOfPackages,
 		grossWeight,
@@ -167,7 +168,7 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 								<tr>
 									<td>Dimensions</td>
 									<td>
-										{length} x {width} x {height}
+										{containerLength} x {containerWidth} x {containerHeight}
 									</td>
 								</tr>
 								<tr>

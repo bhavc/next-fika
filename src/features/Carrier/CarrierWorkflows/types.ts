@@ -42,10 +42,11 @@ export type CarrierWorkflowAddressDataType = {
 };
 
 export type CarrierWorkflowContainerDataType = {
-	width: string;
+	containerWidth: string;
 	frozen?: boolean;
-	height: string;
-	length: string;
+	containerHeight: string;
+	containerLength: string;
+	containerTypeLabel: string;
 	damaged?: boolean;
 	isHumid?: boolean;
 	isReturn?: boolean;

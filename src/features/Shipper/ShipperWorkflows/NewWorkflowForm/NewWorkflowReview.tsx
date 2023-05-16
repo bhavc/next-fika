@@ -57,9 +57,10 @@ export default function NewWorkflowFormReview({
 	const {
 		goodsDescription,
 		cargoType,
-		length,
-		width,
-		height,
+		containerLength,
+		containerWidth,
+		containerHeight,
+		containerTypeLabel,
 		sealNumber,
 		numberOfPackages,
 		grossWeight,
@@ -224,12 +225,12 @@ export default function NewWorkflowFormReview({
 							<tbody>
 								<tr>
 									<td>Cargo Type</td>
-									<td>{cargoType}</td>
+									<td>{containerTypeLabel}</td>
 								</tr>
 								<tr>
 									<td>Dimensions</td>
 									<td>
-										{length} x {width} x {height}
+										{containerLength} x {containerWidth} x {containerHeight}
 									</td>
 								</tr>
 								<tr>

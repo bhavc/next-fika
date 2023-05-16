@@ -50,10 +50,11 @@ export type WorkflowAddressDataType = {
 };
 
 export type WorkflowContainerDataType = {
-	width: string;
+	containerWidth: string;
 	frozen?: boolean;
-	height: string;
-	length: string;
+	containerHeight: string;
+	containerLength: string;
+	containerTypeLabel: string;
 	damaged?: boolean;
 	isHumid?: boolean;
 	isReturn?: boolean;
