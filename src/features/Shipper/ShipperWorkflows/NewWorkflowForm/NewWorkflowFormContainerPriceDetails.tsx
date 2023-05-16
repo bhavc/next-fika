@@ -87,7 +87,9 @@ export default function NewWorkflowFormContainerPriceDetails({
 	const isReturn = watch("isReturn");
 
 	const selectedCargoType = watch("cargoType");
+	console.log("selectedCargoType", selectedCargoType);
 	const selectedCargoTypeData = mapSelectedCargoValueToDimensions(selectedCargoType);
+	console.log("selectedCargoTypeData", selectedCargoTypeData);
 	const selectedCargoWeight = selectedCargoTypeData.weight;
 	const watchedNetWeight = watch("netWeight");
 	const calculatedGrossWeight = +watchedNetWeight + +selectedCargoWeight;
@@ -95,6 +97,10 @@ export default function NewWorkflowFormContainerPriceDetails({
 	const onSubmit: SubmitHandler<WorkflowFormContainerDetailsInputs & WorkflowFormPriceInputs> = (
 		data
 	) => {
+		console.log("onsubmit data", data);
+
+		console.log("selectedCargoTypeData", selectedCargoTypeData);
+
 		data.height = selectedCargoTypeData.height as string;
 		data.width = selectedCargoTypeData.width as string;
 		data.length = selectedCargoTypeData.length as string;
@@ -298,7 +304,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 								type="text"
 								placeholder="18.520"
 								className={`input w-full ${errors.goodsVolume ? "border-error" : "border-neutral"}`}
-								{...register("goodsVolume", { required: true })}
+								{...register("goodsVolume")}
 							/>{" "}
 							<span>m³</span>
 						</label>

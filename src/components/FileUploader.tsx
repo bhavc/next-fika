@@ -91,10 +91,10 @@ export default function FileUploader({
 			</div>
 			<div className="mt-4">
 				<h2 className="text-xl">Your uploaded files: </h2>
-				<div className="flex flex-col gap-4 mt-4">
+				<div className="flex flex-col gap-4">
 					{imageFiles?.map((file, key) => {
 						return (
-							<div key={key}>
+							<div key={key} className="flex">
 								<Link href={file.url} key={key} target="_blank">
 									<div className="flex flex-row border-b-2 p-4 border-slate-300 gap-4">
 										<Image src={file.url} width={48} height={48} alt={`image: ${key}`} />
@@ -103,8 +103,11 @@ export default function FileUploader({
 										</div>
 									</div>
 								</Link>
-								<button className="absolute right-0">
-									<CloseIcon />
+								<button
+									className="z-10 relative hover:opacity-75 right-1 -top-5"
+									onClick={(e) => handleUploadedFileRemove(e, key)}
+								>
+									<TrashIcon width={30} height={30} />
 								</button>
 							</div>
 						);

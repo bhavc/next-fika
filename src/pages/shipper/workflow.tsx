@@ -18,7 +18,7 @@ import NewWorkflowFormReview from "@/features/Shipper/ShipperWorkflows/NewWorkfl
 
 import { createWorkflow } from "@/api/workflow";
 
-import { FileType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { FileType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { UserCarrier } from "../../features/Carrier/UserCarrier/types";
 
 import AlertIcon from "public/svg/alert-circle.svg";
@@ -27,7 +27,7 @@ import { getCountryFromAddress } from "@/features/Shipper/ShipperWorkflows/helpe
 
 export default function Workflow({ userToken }: { userToken: string }) {
 	const router = useRouter();
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(2);
 	const [workflowFormAddressState, setWorkflowFormAddressState] =
 		useState<WorkflowFormAddressInputs>({
 			containerNumber: "",

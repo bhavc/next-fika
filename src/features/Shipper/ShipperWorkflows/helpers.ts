@@ -2,7 +2,7 @@ import { ShipperWorkflowStatus } from "./types";
 
 export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string | number } } = {
 	"0": {
-		value: "0",
+		value: 0,
 		name: "20 ft dry shipping container",
 		height: `7' 6 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -10,7 +10,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 2229
 	},
 	"1": {
-		value: "1",
+		value: 1,
 		name: "40 ft dry shipping container",
 		height: `7' 10 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -18,7 +18,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 3701
 	},
 	"2": {
-		value: "2",
+		value: 2,
 		name: "40 ft high cube standard shipping container",
 		height: `8' 10 ⅛"`,
 		width: `7' 8 ⅝"`,
@@ -26,7 +26,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 3968
 	},
 	"3": {
-		value: "3",
+		value: 3,
 		name: "45 ft high cube standard shipping container",
 		height: `8' 10"`,
 		width: `7' 11"`,
@@ -34,7 +34,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 4950
 	},
 	"4": {
-		value: "4",
+		value: 4,
 		name: "20 ft ventilated shipping container",
 		height: `7' 10 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -42,7 +42,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 2394
 	},
 	"5": {
-		value: "5",
+		value: 5,
 		name: "20 ft refrigerated shipping container",
 		height: `7' 4 ⅞"`,
 		width: `7'6"`,
@@ -50,7 +50,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 3160
 	},
 	"6": {
-		value: "6",
+		value: 6,
 		name: "40 ft refrigerated shipping container",
 		height: `7' 6 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -58,7 +58,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 4889
 	},
 	"7": {
-		value: "7",
+		value: 7,
 		name: "20 ft flat rack shipping container",
 		height: `7' 3 ⅞"`,
 		width: `8'`,
@@ -66,7 +66,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 2900
 	},
 	"8": {
-		value: "8",
+		value: 8,
 		name: "40 ft flat rack shipping container",
 		height: `7' 5 ⅓"`,
 		width: `7' 4"`,
@@ -74,7 +74,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 5850
 	},
 	"9": {
-		value: "9",
+		value: 9,
 		name: "20 ft open top shipping container",
 		height: `7' 10 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -82,7 +82,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 2394
 	},
 	"10": {
-		value: "10",
+		value: 10,
 		name: "20 ft dry shipping container",
 		height: `7' 10 ¼"`,
 		width: `7' 8 ⅝"`,
@@ -90,7 +90,7 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		weight: 3850
 	},
 	"11": {
-		value: "11",
+		value: 11,
 		name: "20 ft ISO tank shipping container",
 		height: `8' 6"`,
 		width: `8'`,

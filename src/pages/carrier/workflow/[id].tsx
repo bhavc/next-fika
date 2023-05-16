@@ -363,15 +363,18 @@ export default function WorkflowId({
 						</div>
 					</div>
 
-					<div className="flex justify-end align-middle bg-slate-100 px-4">
-						<WorkflowStatusDropdown
-							handleStatusChange={handleStatusChange}
-							newStatus={newStatus}
-							previousStatus={previousStatus}
-							workflow={workflow}
-							bidSelectValue={bidSelectValue}
-						/>
-					</div>
+					{!["Rejected"].includes(workflowStatus) && (
+						<div className="flex justify-end align-middle bg-slate-100 px-4">
+							<WorkflowStatusDropdown
+								handleStatusChange={handleStatusChange}
+								newStatus={newStatus}
+								previousStatus={previousStatus}
+								workflow={workflow}
+								bidSelectValue={bidSelectValue}
+							/>
+						</div>
+					)}
+
 					{showAssignDriverDropdown && (
 						<div className="flex justify-end align-middle bg-slate-100 px-4 py-4">
 							<WorkflowAssignDriverDropdown

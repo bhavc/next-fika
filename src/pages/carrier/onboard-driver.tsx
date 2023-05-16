@@ -68,7 +68,8 @@ export default function OnboardDriver({
 			const companyName = userData.companyName;
 
 			const onboardDriverSubmitData = {
-				data: { ...data, driverFiles: uploadedFiles },
+				...data,
+				driverFiles: uploadedFiles,
 				companyName
 			};
 

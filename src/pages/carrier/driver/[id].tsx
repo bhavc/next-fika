@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState, MouseEvent } from "react";
 
 import { getCurrentUser } from "@/api/user";
 import { getDriverById, removeDriverFormOrganization } from "@/api/drivers";
@@ -8,7 +9,10 @@ import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/hel
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 
+import FileUploader from "@/components/FileUploader";
+
 import type { GetServerSideProps } from "next";
+import type { FileType } from "@/features/Shipper/ShipperWorkflows/types";
 import type { UserCarrier } from "@/features/Carrier/UserCarrier/types";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
 
@@ -29,6 +33,10 @@ export default function Driver({
 	userToken: string;
 }) {
 	const router = useRouter();
+	const driverFileData = driverData.driverFileData;
+	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>(
+		driverFileData ? driverFileData : []
+	);
 
 	const {
 		id,
@@ -44,6 +52,18 @@ export default function Driver({
 		// role, this is going to be driver regardless
 		status
 	} = driverData;
+
+	// TODO upload on save to the profile?
+	const handleUploadedFiles = (data: any[]) => {
+		setUploadedFiles(data);
+	};
+
+	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
+		event.preventDefault();
+		const uploadedFilesCopy = [...uploadedFiles];
+		uploadedFilesCopy.splice(key, 1);
+		setUploadedFiles(uploadedFilesCopy);
+	};
 
 	const handleRemoveDriverFromOrg = async () => {
 		try {
@@ -151,6 +171,7 @@ export default function Driver({
 												<p className="text-md pl-4">{gender ? gender : "n/a"}</p>
 											</div>
 										</div>
+										{/* TODO change the style of this to be like the others */}
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<div>
 												<label className="text-xl">Status</label>
@@ -159,6 +180,24 @@ export default function Driver({
 										</div>
 									</div>
 									<div className="divider" />
+
+									<div>
+										<h2 className="prose prose-2xl">Upload Files</h2>
+										<p>
+											Add any documents relating to shipping manifest, Bol #, Customs document etc.
+										</p>
+										<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
+										<div className="my-2">
+											<div className="mt-1 flex">
+												<FileUploader
+													uploadedFiles={uploadedFiles}
+													handleUploadedFiles={handleUploadedFiles}
+													userToken={userToken}
+													handleUploadedFileRemove={handleUploadedFileRemove}
+												/>
+											</div>
+										</div>
+									</div>
 
 									<div className="flex justify-end mt-4">
 										<button
@@ -218,6 +257,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		gender: null,
 		bucketStorageUrls: null,
 		avatarImageData: null,
+		driverFileData: [],
 		role: "",
 		status: ""
 	};

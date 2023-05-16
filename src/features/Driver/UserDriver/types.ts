@@ -10,6 +10,7 @@ export type UserDriver = {
 	emergencyNumbers: string[] | null;
 	gender: string | null;
 	avatarImageData: any | null;
+	driverFileData: any[];
 	bucketStorageUrls: any[] | null;
 	role: string;
 	status: string;

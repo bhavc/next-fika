@@ -220,7 +220,7 @@ export default function ShipperWorkflow({
 								</tr>
 								<tr>
 									<td>Goods Volume</td>
-									<td>{goodsVolume}</td>
+									<td>{goodsVolume || "--"}</td>
 								</tr>
 								<tr>
 									<td>Humidity Control Required</td>

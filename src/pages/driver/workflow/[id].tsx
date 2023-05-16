@@ -170,11 +170,11 @@ export default function DriverWorkflowId({
 					{driverWorkflowLinks.map((driverWorkflowLink, index) => {
 						return driverWorkflowLink.active ? (
 							<Link className="tab tab-lg tab-bordered" key={index} href={driverWorkflowLink.href}>
-								{driverWorkflowLink.name}
+								<p className="font-bold">{driverWorkflowLink.name}</p>
 							</Link>
 						) : (
 							<Link className="tab tab-lg" key={index} href={driverWorkflowLink.href}>
-								{driverWorkflowLink.name}
+								<p>{driverWorkflowLink.name}</p>
 							</Link>
 						);
 					})}
@@ -252,6 +252,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		emergencyNumbers: [],
 		avatarImageData: {},
 		bucketStorageUrls: [],
+		driverFileData: [],
 		role: "",
 		status: "",
 		gender: ""
