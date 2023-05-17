@@ -89,9 +89,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 	const isReturn = watch("isReturn");
 
 	const selectedCargoType = watch("cargoType");
-	console.log("selectedCargoType", selectedCargoType);
 	const selectedCargoTypeData = mapSelectedCargoValueToDimensions(selectedCargoType);
-	console.log("selectedCargoTypeData", selectedCargoTypeData);
 	const selectedCargoWeight = selectedCargoTypeData.weight;
 	const watchedNetWeight = watch("netWeight");
 	const calculatedGrossWeight = +watchedNetWeight + +selectedCargoWeight;

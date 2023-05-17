@@ -315,7 +315,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		avatarImageData: null,
 		bucketStorageUrls: [],
 		role: "",
-		status: ""
+		status: "",
+		driverFileData: []
 	};
 
 	if (!userToken) {

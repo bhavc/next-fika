@@ -44,6 +44,7 @@ export default function DriverWorkflowId({
 		dropoffAddress,
 		cargoReferenceNumber,
 		containerNumber,
+		pickupNumber,
 		pickupCompanyName,
 		pickupContactName,
 		dropoffCompanyName,
@@ -54,7 +55,8 @@ export default function DriverWorkflowId({
 		dropOffAppointmentNeeded
 	} = workflowAddressData;
 
-	const { goodsVolume, grossWeight, width, length, height } = workflowContainerData;
+	const { goodsVolume, grossWeight, containerWidth, containerLength, containerHeight } =
+		workflowContainerData;
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
@@ -182,7 +184,8 @@ export default function DriverWorkflowId({
 				<div className="card bg-base-100 shadow-xl rounded-t-none">
 					<div className="card-body">
 						<p className="font-bold">Shipment #: {cargoReferenceNumber}</p>
-						<p className="font-bold">BOL # {bolNumber}</p>
+						<p className="font-bold">BOL #: {bolNumber}</p>
+						<p className="font-bold">Pickup #: {pickupNumber}</p>
 
 						<div className="border-2 my-2" />
 

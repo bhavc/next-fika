@@ -7,6 +7,7 @@ import IconRight from "public/svg/arrow-right.svg";
 export type WorkflowFormAddressInputs = {
 	containerNumber: string;
 	cargoReferenceNumber: string;
+	pickupNumber: string;
 	pickupCompanyName: string;
 	pickupAddress: string;
 	pickupContactName: string;
@@ -42,6 +43,7 @@ export default function NewWorkflowFormAddress({
 		defaultValues: {
 			containerNumber: workflowFormAddressState.containerNumber,
 			cargoReferenceNumber: workflowFormAddressState.cargoReferenceNumber,
+			pickupNumber: workflowFormAddressState.pickupNumber,
 			pickupCompanyName: workflowFormAddressState.pickupCompanyName,
 			pickupAddress: workflowFormAddressState.pickupAddress,
 			pickupContactName: workflowFormAddressState.pickupContactName,
@@ -96,6 +98,20 @@ export default function NewWorkflowFormAddress({
 									errors.cargoReferenceNumber ? "border-error" : "border-neutral"
 								}`}
 								{...register("cargoReferenceNumber", { required: false })}
+							/>
+						</div>
+					</div>
+
+					<div>
+						<label>Pickup Number</label>
+						<div className="mt-1 flex rounded-md shadow-sm">
+							<input
+								type="text"
+								placeholder="89054"
+								className={`input w-full ${
+									errors.pickupNumber ? "border-error" : "border-neutral"
+								}`}
+								{...register("pickupNumber")}
 							/>
 						</div>
 					</div>

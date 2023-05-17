@@ -27,6 +27,7 @@ export type WorkflowAddressDataType = {
 	borderCrossing?: string;
 	dropoffAddress: string;
 	cargoReferenceNumber: string;
+	pickupNumber: string;
 	containerNumber: string;
 	pickupCompanyName: string;
 	pickupContactName: string;

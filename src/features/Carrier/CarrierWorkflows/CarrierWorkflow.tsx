@@ -31,6 +31,7 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 		pickupContactPhone,
 		pickupWindow,
 		cargoReferenceNumber,
+		pickupNumber,
 		bolNumber,
 		customsReference,
 		borderCrossing
@@ -81,6 +82,12 @@ export default function CarrierWorkflow({ workflow, children }: CarrierWorkflowP
 							<h3 className="text-md">Cargo Reference Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
 								<p className="text-md text-accent">{cargoReferenceNumber}</p>
+							</div>
+						</div>
+						<div className="flex flex-col gap-2 w-fit">
+							<h3 className="text-md">Pickup Number</h3>
+							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
+								<p className="text-md text-accent">{pickupNumber}</p>
 							</div>
 						</div>
 						<div className="flex flex-col gap-2 w-fit">
