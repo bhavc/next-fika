@@ -6,6 +6,7 @@ import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflo
 
 import DriverLayout from "@/layouts/DriverLayout";
 import DriverWorflowGeneral from "@/features/Driver/DriverWorkflows/DriverWorkflowGeneral";
+import DriverWorflowFiles from "@/features/Driver/DriverWorkflows/DriverWorkflowFiles";
 import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
 import DriverWorkflowStatusChangeModal from "@/features/Driver/DriverWorkflows/DriverWorkflowStatusChangeModal";
 import FileUploader from "@/components/FileUploader";
@@ -35,6 +36,8 @@ export default function DriverWorkflowId({
 	const workflowStatus = workflow.status;
 	const workflowAddressData = workflow.workflowAddressData;
 	const workflowContainerData = workflow.workflowContainerData;
+	const workflowFiles = workflow.uploadedFiles;
+	console.log("workflowFiles", workflowFiles);
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
@@ -171,6 +174,7 @@ export default function DriverWorkflowId({
 					{currentTab === "details" && (
 						<DriverWorflowDetails workflowContainerData={workflowContainerData} />
 					)}
+					{currentTab === "files" && <DriverWorflowFiles workflowFiles={workflowFiles} />}
 				</div>
 				<DriverWorflowButton
 					workflowStatus={workflowStatus}

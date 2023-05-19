@@ -15,8 +15,6 @@ export default function DriverWorflowDetails({
 		sealNumber
 	} = workflowContainerData;
 
-	console.log("workflowContainerData", workflowContainerData);
-
 	return (
 		<div className="card-body">
 			<div className="flex flex-col">
