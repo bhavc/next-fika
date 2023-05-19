@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/api/user";
 import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflow";
 
 import DriverLayout from "@/layouts/DriverLayout";
+import DriverWorflowGeneral from "@/features/Driver/DriverWorkflows/DriverWorkflowGeneral";
 import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
 import DriverWorkflowStatusChangeModal from "@/features/Driver/DriverWorkflows/DriverWorkflowStatusChangeModal";
 import FileUploader from "@/components/FileUploader";
@@ -17,6 +18,7 @@ import type {
 } from "@/features/Driver/DriverWorkflows/types";
 import type { FileType } from "@/features/Driver/DriverWorkflows/types";
 import { toast } from "react-hot-toast";
+import DriverWorflowDetails from "@/features/Driver/DriverWorkflows/DriverWorkflowDetails";
 
 export default function DriverWorkflowId({
 	workflow,
@@ -34,37 +36,13 @@ export default function DriverWorkflowId({
 	const workflowAddressData = workflow.workflowAddressData;
 	const workflowContainerData = workflow.workflowContainerData;
 
-	const {
-		customsReference,
-		bolNumber,
-		pickupWindow,
-		dropoffWindow,
-		pickupAddress,
-		borderCrossing,
-		dropoffAddress,
-		cargoReferenceNumber,
-		containerNumber,
-		pickupNumber,
-		pickupCompanyName,
-		pickupContactName,
-		dropoffCompanyName,
-		dropoffContactName,
-		pickupContactPhone,
-		dropoffContactPhone,
-		pickupAppointmentNeeded,
-		dropOffAppointmentNeeded
-	} = workflowAddressData;
-
-	const { goodsVolume, grossWeight, containerWidth, containerLength, containerHeight } =
-		workflowContainerData;
-
 	const [modalOpen, setModalOpen] = useState(false);
 	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 
 	const handleBack = () => {
-		return router.back();
+		return router.push("/driver");
 	};
 
 	const handleStatusChange = (newStatus: DriverWorkflowStatus) => {
@@ -159,6 +137,11 @@ export default function DriverWorkflowId({
 			active: currentTab === "details"
 		},
 		{
+			name: "Files",
+			href: `/driver/workflow/${workflowId}/?tab=files`,
+			active: currentTab === "files"
+		},
+		{
 			name: "Chat",
 			href: `/driver/workflow/${workflowId}/?tab=chat`,
 			active: currentTab === "chat"
@@ -181,43 +164,13 @@ export default function DriverWorkflowId({
 						);
 					})}
 				</div>
-				<div className="card bg-base-100 shadow-xl rounded-t-none">
-					<div className="card-body">
-						<p className="font-bold">Shipment #: {cargoReferenceNumber}</p>
-						<p className="font-bold">BOL #: {bolNumber}</p>
-						<p className="font-bold">Pickup #: {pickupNumber}</p>
-
-						<div className="border-2 my-2" />
-
-						<div className="flex flex-col">
-							<p className="font-bold">Pickup Company Name</p>
-							<p>{pickupCompanyName}</p>
-							<p className="font-bold">Pickup Address</p>
-							<p>{pickupAddress}</p>
-							<p className="font-bold">Pickup Window</p>
-							<p>{pickupWindow}</p>
-							{pickupAppointmentNeeded && (
-								<p className="italic">
-									Contact {pickupContactName}, {pickupContactPhone} when you&apos;ve arrived
-								</p>
-							)}
-						</div>
-						<div className="border-2 my-2" />
-
-						<div className="flex flex-col">
-							<p className="font-bold">Dropoff Company Name</p>
-							<p>{dropoffCompanyName}</p>
-							<p className="font-bold">Dropoff Address</p>
-							<p>{dropoffAddress}</p>
-							<p className="font-bold">Dropoff Window</p>
-							<p>{dropoffWindow}</p>
-							{dropOffAppointmentNeeded && (
-								<p className="italic">
-									Contact {dropoffContactName}, {dropoffContactPhone} when you&apos;ve arrived
-								</p>
-							)}
-						</div>
-					</div>
+				<div className="card bg-base-100 shadow-xl rounded-t-none w-full">
+					{currentTab === undefined && (
+						<DriverWorflowGeneral workflowAddressData={workflowAddressData} />
+					)}
+					{currentTab === "details" && (
+						<DriverWorflowDetails workflowContainerData={workflowContainerData} />
+					)}
 				</div>
 				<DriverWorflowButton
 					workflowStatus={workflowStatus}
