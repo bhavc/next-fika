@@ -8,15 +8,14 @@ import IconRight from "public/svg/arrow-right.svg";
 import { KeyboardEvent, MouseEvent, ChangeEvent } from "react";
 
 interface ChatContainerProps {
-	userIdChatEnd?: number;
-	userIdChatStart?: number;
+	currentUserId: number;
 	messageArray?: WorkflowNotesType[];
 	handleMessageSend: (message: string) => void;
 	isMessageSentLoading: boolean;
 }
 
 export default function ChatContainer({
-	userIdChatEnd,
+	currentUserId,
 	messageArray,
 	handleMessageSend,
 	isMessageSentLoading
@@ -52,12 +51,11 @@ export default function ChatContainer({
 			<div className="border-2 border-slate-300 p-4 h-96 w-full overflow-y-auto">
 				{messageArray &&
 					messageArray.map((messageObject, index) => {
-						const isCurrentUserMessage = messageObject.user_from === userIdChatEnd;
+						const isCurrentUserMessage = messageObject.user_from === currentUserId;
 
 						return isCurrentUserMessage ? (
-							<div className="chat chat-start" key={index}>
-								<div className="chat-bubble">
-									{messageObject.message}
+							<div className="chat chat-end" key={index}>
+								<div className="chat-bubble chat-bubble-info">
 									{messageObject.message}
 									<div className="text-sm italic text-right">
 										{formatDateStringToDateCalendar(messageObject.created_at)}
@@ -65,8 +63,8 @@ export default function ChatContainer({
 								</div>
 							</div>
 						) : (
-							<div className="chat chat-end" key={index}>
-								<div className="chat-bubble chat-bubble-info">
+							<div className="chat chat-start" key={index}>
+								<div className="chat-bubble">
 									{messageObject.message}
 									<div className="text-sm italic text-right">
 										{formatDateStringToDateCalendar(messageObject.created_at)}

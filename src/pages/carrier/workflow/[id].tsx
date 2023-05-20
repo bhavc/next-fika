@@ -1,6 +1,7 @@
 import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getDriversByCompany } from "@/api/drivers";
@@ -34,7 +35,6 @@ import ChatContainer from "@/components/ChatContainer";
 import IconLeft from "public/svg/arrow-left.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
-import { toast } from "react-hot-toast";
 
 type BidSelectValueType = "accept" | "counter";
 
@@ -88,13 +88,15 @@ export default function WorkflowId({
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState(price?.toString() || "");
 	const [quotePriceError, setQuotePriceError] = useState(false);
-	const [shipperWorkflowNotes, setShipperWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
-	const [driverWorkflowNotes, setDriverWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
+	const [shipperWorkflowNotes, setShipperWorkflowNotes] = useState<WorkflowNotesType[]>([]);
+	const [driverWorkflowNotes, setDriverWorkflowNotes] = useState<WorkflowNotesType[]>([]);
 	const [isMessageSentShipperLoading, setIsMessageSentShipperLoading] = useState(false);
 	const [isMessageSentDriverLoading, setIsMessageSentDriverLoading] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>(
 		workflowUploadedFiles ? workflowUploadedFiles : []
 	);
+
+	// TODO make workflowassignedDriver and assignedDriver the same?
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
@@ -241,12 +243,12 @@ export default function WorkflowId({
 
 	const handleMessageSendDriver = async (message: string) => {
 		try {
-			if (assignedDriver?.id) {
+			if (workflowAssignedDriver?.id) {
 				setIsMessageSentDriverLoading(true);
 				const response = await postWorkflowNotesByWorkflowId({
 					userToken,
 					workflowId,
-					userTo: assignedDriver?.id,
+					userTo: workflowAssignedDriver?.id,
 					message
 				});
 
@@ -307,25 +309,25 @@ export default function WorkflowId({
 				setShipperWorkflowNotes(data.workflowNotes);
 			})
 			.catch((err: any) => {
-				setShipperWorkflowNotes(null);
+				setShipperWorkflowNotes([]);
 			});
 	}, [userToken, workflowId, userFor]);
 
 	useEffect(() => {
-		if (assignedDriver && assignedDriver.id) {
+		if (workflowAssignedDriver && workflowAssignedDriver.id) {
 			getWorkflowNotesByWorkflowId({
 				userToken,
 				workflowId,
-				userTo: assignedDriver?.id.toString()
+				userTo: workflowAssignedDriver?.id.toString()
 			})
 				.then((data: { message: string; workflowNotes: WorkflowNotesType[] }) => {
 					setDriverWorkflowNotes(data.workflowNotes);
 				})
 				.catch((err: any) => {
-					setDriverWorkflowNotes(null);
+					setDriverWorkflowNotes([]);
 				});
 		}
-	}, [userToken, workflowId, assignedDriver]);
+	}, [userToken, workflowId, workflowAssignedDriver]);
 
 	const ModalTextArea = (
 		<textarea
@@ -420,13 +422,14 @@ export default function WorkflowId({
 							carrierCounterRequest={carrierCounterRequest}
 						/>
 					</CarrierWorkflow>
-					{/* Shipper and carrier chat */}
+
+					{/* Carrier & Driver chat */}
 					{carrierId && shipperWorkflowNotes && (
 						<div className="bg-slate-100 p-4 ">
-							<h2 className="text-xl">Notes</h2>
+							<h2 className="text-xl">Shipper Chat</h2>
 							<p className="text-md pl-4 mb-4">This is your chat history with the Shipper</p>
 							<ChatContainer
-								userIdChatEnd={userForAsInt}
+								currentUserId={carrierId}
 								messageArray={shipperWorkflowNotes}
 								handleMessageSend={handleMessageSendShipper}
 								isMessageSentLoading={isMessageSentShipperLoading}
@@ -434,12 +437,12 @@ export default function WorkflowId({
 						</div>
 					)}
 
-					{assignedDriver && driverWorkflowNotes && (
+					{carrierId && driverWorkflowNotes && (
 						<div className="bg-slate-100 p-4 ">
-							<h2 className="text-xl">Notes</h2>
+							<h2 className="text-xl">Driver Chat</h2>
 							<p className="text-md pl-4 mb-4">This is your chat history with the Driver</p>
 							<ChatContainer
-								userIdChatEnd={userForAsInt}
+								currentUserId={carrierId}
 								messageArray={driverWorkflowNotes}
 								handleMessageSend={handleMessageSendDriver}
 								isMessageSentLoading={isMessageSentDriverLoading}

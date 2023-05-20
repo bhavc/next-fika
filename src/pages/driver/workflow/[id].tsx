@@ -7,6 +7,7 @@ import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflo
 import DriverLayout from "@/layouts/DriverLayout";
 import DriverWorflowGeneral from "@/features/Driver/DriverWorkflows/DriverWorkflowGeneral";
 import DriverWorflowFiles from "@/features/Driver/DriverWorkflows/DriverWorkflowFiles";
+import DriverWorkflowChat from "@/features/Driver/DriverWorkflows/DriverWorkflowChat";
 import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
 import DriverWorkflowStatusChangeModal from "@/features/Driver/DriverWorkflows/DriverWorkflowStatusChangeModal";
 import FileUploader from "@/components/FileUploader";
@@ -22,12 +23,14 @@ import { toast } from "react-hot-toast";
 import DriverWorflowDetails from "@/features/Driver/DriverWorkflows/DriverWorkflowDetails";
 
 export default function DriverWorkflowId({
-	workflow,
 	userToken,
+	userData,
+	workflow,
 	workflowId
 }: {
-	workflow: DriverWorkflowType;
 	userToken: string;
+	userData: UserDriver;
+	workflow: DriverWorkflowType;
 	workflowId: string;
 }) {
 	const router = useRouter();
@@ -37,7 +40,9 @@ export default function DriverWorkflowId({
 	const workflowAddressData = workflow.workflowAddressData;
 	const workflowContainerData = workflow.workflowContainerData;
 	const workflowFiles = workflow.uploadedFiles;
-	console.log("workflowFiles", workflowFiles);
+
+	// TODO make a relation on the backend for the driver as to who this belongs to
+	const workflowCarrierId = workflow.selectedCarrier.id;
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
@@ -175,6 +180,14 @@ export default function DriverWorkflowId({
 						<DriverWorflowDetails workflowContainerData={workflowContainerData} />
 					)}
 					{currentTab === "files" && <DriverWorflowFiles workflowFiles={workflowFiles} />}
+					{currentTab === "chat" && (
+						<DriverWorkflowChat
+							userData={userData}
+							userToken={userToken}
+							workflowId={workflowId}
+							workflowCarrierId={workflowCarrierId}
+						/>
+					)}
 				</div>
 				<DriverWorflowButton
 					workflowStatus={workflowStatus}

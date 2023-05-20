@@ -44,7 +44,7 @@ export default function WorkflowId({
 
 	const workflowUploadedFiles = workflow?.fileUrls;
 
-	const userIdChatEnd = parseInt(workflowUserFor, 10);
+	const userIdAsNumber = parseInt(workflowUserFor, 10);
 
 	const [workflowNotes, setWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
 	const [isMessageSentLoading, setIsMessageSentLoading] = useState(false);
@@ -182,12 +182,12 @@ export default function WorkflowId({
 						handleDeclinePrice={handleDeclinePrice}
 					/>
 					{/* Shipper and carrier chat */}
-					{selectedCarrierId && workflowNotes && (
+					{userIdAsNumber && workflowNotes && (
 						<div className="bg-slate-100 p-4 ">
 							<h2 className="text-xl">Notes</h2>
 							<p className="text-md pl-4 mb-4">This is your chat history with the Carrier</p>
 							<ChatContainer
-								userIdChatEnd={selectedCarrierId}
+								currentUserId={userIdAsNumber}
 								messageArray={workflowNotes}
 								handleMessageSend={handleMessageSend}
 								isMessageSentLoading={isMessageSentLoading}
