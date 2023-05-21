@@ -44,8 +44,7 @@ export default function DriverWorkflowId({
 	// TODO make a relation on the backend for the driver as to who this belongs to
 	const workflowCarrierId = workflow.selectedCarrier.id;
 
-	const [modalOpen, setModalOpen] = useState(false);
-	const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
+	// const [updatedWorkflowStatus, setUpdatedWorkflowStatus] = useState(workflowStatus);
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>([]);
 	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 
@@ -53,13 +52,26 @@ export default function DriverWorkflowId({
 		return router.push("/driver");
 	};
 
-	const handleStatusChange = (newStatus: DriverWorkflowStatus) => {
-		setModalOpen(true);
-		setUpdatedWorkflowStatus(newStatus);
-	};
+	const handleStatusChange = async (newStatus: DriverWorkflowStatus) => {
+		const updateData = {
+			workflow: {
+				status: newStatus,
+				uploadedFiles,
+				driverNotes: workflowStatusChangeNotes
+			}
+		};
 
-	const handleCancelModal = () => {
-		setModalOpen(false);
+		try {
+			await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
+
+			toast.success("Successfully editing delivery");
+			router.replace(router.asPath);
+		} catch (err) {
+			toast.error("Error editing delivery");
+		} finally {
+			setUploadedFiles([]);
+			setWorkflowStatusChangeNotes("");
+		}
 	};
 
 	const handleUploadedFiles = (data: any[]) => {
@@ -75,29 +87,6 @@ export default function DriverWorkflowId({
 
 	const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setWorkflowStatusChangeNotes(event.target.value);
-	};
-
-	const handleConfirmModal = async () => {
-		const updateData = {
-			workflow: {
-				status: updatedWorkflowStatus,
-				uploadedFiles,
-				driverNotes: workflowStatusChangeNotes
-			}
-		};
-
-		try {
-			await editWorkflowByWorkflowId({ userToken, workflowId, body: updateData });
-
-			toast.success("Error editing delivery");
-			router.replace(router.asPath);
-		} catch (err) {
-			toast.error("Error editing delivery");
-		} finally {
-			setModalOpen(false);
-			setUploadedFiles([]);
-			setWorkflowStatusChangeNotes("");
-		}
 	};
 
 	const leftSideItems = [
@@ -194,14 +183,14 @@ export default function DriverWorkflowId({
 					handleStatusChange={handleStatusChange}
 				/>
 			</div>
-			<DriverWorkflowStatusChangeModal
+			{/* <DriverWorkflowStatusChangeModal
 				modalOpen={modalOpen}
 				workflowStatus={updatedWorkflowStatus}
 				handleCancelModal={handleCancelModal}
 				handleConfirmModal={handleConfirmModal}
 				ModalUploadArea={ModalUploadArea}
 				ModalTextArea={ModalTextArea}
-			/>
+			/> */}
 		</DriverLayout>
 	);
 }

@@ -180,77 +180,73 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		userToken
 	]);
 
-	console.log("carriers", carriers);
-
 	return (
-		<>
-			<ShipperLayout>
-				<main id="workflowParent" className="px-4 overflow-auto">
-					<div className="bg-slate-100 mt-2 px-4">
-						<h1 id="workflowHeader" className="text-3xl mt-4 text-left rounded-t-md p-4">
-							Create a new Delivery
-						</h1>
-						{step < 2 && (
-							<div className="alert alert-info shadow-lg">
-								<div>
-									<AlertIcon />
-									<span className="text-white">
-										Save all of your files to upload in the final section
-									</span>
-								</div>
+		<ShipperLayout>
+			<main id="workflowParent" className="px-4 overflow-auto">
+				<div className="bg-slate-100 mt-2 px-4">
+					<h1 id="workflowHeader" className="text-3xl mt-4 text-left rounded-t-md p-4">
+						Create a new Delivery
+					</h1>
+					{step < 2 && (
+						<div className="alert alert-info shadow-lg">
+							<div>
+								<AlertIcon />
+								<span className="text-white">
+									Save all of your files to upload in the final section
+								</span>
 							</div>
-						)}
+						</div>
+					)}
 
-						{step === 0 && (
-							<NewWorkflowFormAddress
-								handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
-								workflowFormAddressState={workflowFormAddressState}
-							/>
-						)}
-						{step === 1 && (
-							<NewWorkflowFormSelectCarrier
-								selectedCarrier={selectedCarrier}
-								handleSelectedCarrier={handleSelectedCarrier}
-								carriers={carriers}
-								handleNextStep={handleNextStep}
-								handleGoBack={handleGoBack}
-							/>
-						)}
-						{step === 2 && (
-							<NewWorkflowFormContainerPriceDetails
-								handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
-								handleGoBack={handleGoBack}
-								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
-								workflowFormPriceState={workflowFormPriceState}
-							/>
-						)}
-						{step === 3 && (
-							<NewWorkflowFormNotes
-								handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
-								workflowFormNotesState={workflowFormNotesState}
-								uploadedFiles={uploadedFiles}
-								handleUploadedFiles={handleUploadedFiles}
-								handleGoBack={handleGoBack}
-								userToken={userToken}
-								handleUploadedFileRemove={handleUploadedFileRemove}
-							/>
-						)}
-						{step === 4 && (
-							<NewWorkflowFormReview
-								workflowFormAddressState={workflowFormAddressState}
-								workflowFormContainerDetailsState={workflowFormContainerDetailsState}
-								workflowFormNotesState={workflowFormNotesState}
-								workflowFormPriceState={workflowFormPriceState}
-								selectedCarrier={selectedCarrier}
-								uploadedFiles={uploadedFiles}
-								handleGoBack={handleGoBack}
-								handleSubmit={handleSubmitReview}
-							/>
-						)}
-					</div>
-				</main>
-			</ShipperLayout>
-		</>
+					{step === 0 && (
+						<NewWorkflowFormAddress
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormAddress}
+							workflowFormAddressState={workflowFormAddressState}
+						/>
+					)}
+					{step === 1 && (
+						<NewWorkflowFormSelectCarrier
+							selectedCarrier={selectedCarrier}
+							handleSelectedCarrier={handleSelectedCarrier}
+							carriers={carriers}
+							handleNextStep={handleNextStep}
+							handleGoBack={handleGoBack}
+						/>
+					)}
+					{step === 2 && (
+						<NewWorkflowFormContainerPriceDetails
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormContainerDetails}
+							handleGoBack={handleGoBack}
+							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+							workflowFormPriceState={workflowFormPriceState}
+						/>
+					)}
+					{step === 3 && (
+						<NewWorkflowFormNotes
+							handleSubmitWorkflow={handleSubmitNewWorkflowFormNotes}
+							workflowFormNotesState={workflowFormNotesState}
+							uploadedFiles={uploadedFiles}
+							handleUploadedFiles={handleUploadedFiles}
+							handleGoBack={handleGoBack}
+							userToken={userToken}
+							handleUploadedFileRemove={handleUploadedFileRemove}
+						/>
+					)}
+					{step === 4 && (
+						<NewWorkflowFormReview
+							workflowFormAddressState={workflowFormAddressState}
+							workflowFormContainerDetailsState={workflowFormContainerDetailsState}
+							workflowFormNotesState={workflowFormNotesState}
+							workflowFormPriceState={workflowFormPriceState}
+							selectedCarrier={selectedCarrier}
+							uploadedFiles={uploadedFiles}
+							handleGoBack={handleGoBack}
+							handleSubmit={handleSubmitReview}
+						/>
+					)}
+				</div>
+			</main>
+		</ShipperLayout>
 	);
 }
 

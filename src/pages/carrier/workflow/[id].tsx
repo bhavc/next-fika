@@ -38,9 +38,6 @@ import TextIcon from "public/svg/file-text.svg";
 
 type BidSelectValueType = "accept" | "counter";
 
-// TODO: you may have to pull workflow on front end
-// when assigning allocated to triage and back you need to assign driver
-
 export default function WorkflowId({
 	workflow,
 	userToken,
@@ -62,19 +59,9 @@ export default function WorkflowId({
 	const userForAsInt = parseInt(userFor, 10);
 	const workflowUploadedFiles = workflow?.fileUrls;
 
-	// toddo this should be the current users id
+	// TODO this should be the current users id
 	const carrierId = workflow.selectedCarrier.id;
 
-	// TODO figure out what should happen on
-	// counter price. should a user have to assign a driver on counter
-	// or is there a new status?
-
-	// TODO driver notes need to be added.
-	// carrier <-> driver notes
-	// Shipper <-> carrier notes
-
-	// TODO figure out when a user should be able to be selected
-	// maybe we want to unassign and reassign to another user
 	const showAssignDriverDropdown =
 		workflowStatus === "Triage" ||
 		(workflowStatus === "Allocated" && Boolean(workflowAssignedDriver?.id) === false);
@@ -83,7 +70,7 @@ export default function WorkflowId({
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [assignedDriver, setAssignedDriver] = useState<UserDriver>();
 	const [modalOpen, setModalOpen] = useState(false);
-	const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
+	// const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
 	const [carrierQuoteRequest, setCarrierQuoteRequest] = useState("");
 	const [carrierCounterRequest, setCarrierCounterRequest] = useState(price?.toString() || "");
@@ -100,15 +87,10 @@ export default function WorkflowId({
 
 	const { titleText, bodyText } = getCarrierWorkflowModalStatusChangeCopy(newStatus);
 
-	// TODO remove note sending functionality on status change
 	const handleStatusChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		const newStatus = event.target.value as CarrierWorkflowStatus;
 		setNewStatus(newStatus);
-		setWorkflowStatusChangeNotes("");
-
-		// if (newStatus === "Triage") {
-		// 	setAssignedDriver("")
-		// }
+		// setWorkflowStatusChangeNotes("");
 	};
 
 	// if in a certain status (allocated) and no driver is selected, allow user
@@ -170,14 +152,11 @@ export default function WorkflowId({
 		setCarrierCounterRequest(event.target.value);
 	};
 
-	// TODO: add logic for status changes
 	const handleConfirmModal = async () => {
 		try {
-			// TODO change where the message is posted here
 			const updateData: { [key: string]: any } = {
 				workflow: {
 					status: newStatus,
-					carrierNotes: workflowStatusChangeNotes,
 					assignedDriver: assignedDriver?.id
 				},
 				payment: {}
@@ -215,11 +194,10 @@ export default function WorkflowId({
 		setModalOpen(false);
 	};
 
-	const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		setWorkflowStatusChangeNotes(event.target.value);
-	};
+	// const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
+	// 	setWorkflowStatusChangeNotes(event.target.value);
+	// };
 
-	// TODO: work on sendMessage functionality
 	const handleMessageSendShipper = async (message: string) => {
 		try {
 			setIsMessageSentShipperLoading(true);
@@ -329,14 +307,14 @@ export default function WorkflowId({
 		}
 	}, [userToken, workflowId, workflowAssignedDriver]);
 
-	const ModalTextArea = (
-		<textarea
-			placeholder="Add any other notes here that you may want the shipper to know"
-			className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
-			onChange={handleWorkflowStatusChangeNotes}
-			value={workflowStatusChangeNotes}
-		/>
-	);
+	// const ModalTextArea = (
+	// 	<textarea
+	// 		placeholder="Add any other notes here that you may want the shipper to know"
+	// 		className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
+	// 		onChange={handleWorkflowStatusChangeNotes}
+	// 		value={workflowStatusChangeNotes}
+	// 	/>
+	// );
 
 	const isSaveAllButtonDisabled = () => {
 		return newStatus === previousStatus;
@@ -499,7 +477,7 @@ export default function WorkflowId({
 					body={
 						<div>
 							<p className="mb-4">{bodyText}</p>
-							{ModalTextArea}
+							{/* {ModalTextArea} */}
 						</div>
 					}
 					cancelText={"Cancel"}

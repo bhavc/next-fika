@@ -19,10 +19,6 @@ export default function ShipperWorkflow({
 	const workflowPriceData = workflow?.workflowPriceData;
 	const selectedCarrier = workflow.selectedCarrier;
 
-	console.log("selectedCarrier", selectedCarrier);
-
-	// maybe i should get workflow notes here because i want up to date messages
-
 	const {
 		containerNumber,
 		dropOffAppointmentNeeded,
