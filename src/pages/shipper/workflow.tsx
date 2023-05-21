@@ -180,6 +180,8 @@ export default function Workflow({ userToken }: { userToken: string }) {
 		userToken
 	]);
 
+	console.log("carriers", carriers);
+
 	return (
 		<>
 			<ShipperLayout>

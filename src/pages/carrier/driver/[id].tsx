@@ -10,6 +10,7 @@ import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/hel
 import CarrierLayout from "@/layouts/CarrierLayout";
 
 import FileUploader from "@/components/FileUploader";
+import DriverStatusBadge from "@/features/Carrier/DriverList/DriverStatusBadge";
 
 import type { GetServerSideProps } from "next";
 import type { FileType } from "@/features/Shipper/ShipperWorkflows/types";
@@ -21,6 +22,7 @@ import { toast } from "react-hot-toast";
 
 export type AreasServiced = "Local" | "Provincial" | "Cross Country" | "Cross Border";
 
+// TODO: Driver management is a mess
 export default function Driver({
 	requiresVerify,
 	userData,
@@ -171,13 +173,16 @@ export default function Driver({
 												<p className="text-md pl-4">{gender ? gender : "n/a"}</p>
 											</div>
 										</div>
-										{/* TODO change the style of this to be like the others */}
-										<div className="flex flex-col gap-2 w-full sm:w-1/2">
-											<div>
-												<label className="text-xl">Status</label>
-												<p className="text-md pl-4">{status}</p>
+										{status && (
+											<div className="flex flex-col gap-2 w-full sm:w-1/2">
+												<div>
+													<label className="text-xl">Status</label>
+													<div className="w-1/4 pl-4">
+														<DriverStatusBadge userStatus={status}>{status}</DriverStatusBadge>
+													</div>
+												</div>
 											</div>
-										</div>
+										)}
 									</div>
 									<div className="divider" />
 
@@ -229,6 +234,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		id: null,
 		companyName: "",
 		address: "",
+		companyAddress: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,
@@ -244,6 +250,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		role: "",
 		status: ""
 	};
+
 	let driverData: UserDriver = {
 		id: -1,
 		email: "",
@@ -259,7 +266,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		avatarImageData: null,
 		driverFileData: [],
 		role: "",
-		status: ""
+		status: null
 	};
 
 	if (!driverId || Array.isArray(driverId)) {

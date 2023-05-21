@@ -1,3 +1,5 @@
+export type UserDriverStatus = "Pending" | "Activated" | "Banned" | "Deleted";
+
 export type UserDriver = {
 	id: number;
 	username: string;
@@ -13,5 +15,5 @@ export type UserDriver = {
 	driverFileData: any[];
 	bucketStorageUrls: any[] | null;
 	role: string;
-	status: string;
+	status: UserDriverStatus | null;
 };

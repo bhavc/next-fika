@@ -7,11 +7,13 @@ import { useOutsideRef } from "@/hooks/useOutsideRef";
 import CarrierNavbar from "@/components/Nav/CarrierNavbar";
 
 import CloseIcon from "public/svg/icon-x.svg";
-import MenuIcon from "public/svg/menu.svg";
 import HomeIcon from "public/svg/home.svg";
 import HistoryIcon from "public/svg/history.svg";
-import SettingsIcon from "public/svg/settings.svg";
 import LogoutIcon from "public/svg/logout.svg";
+import MenuIcon from "public/svg/menu.svg";
+import SettingsIcon from "public/svg/settings.svg";
+import TruckIcon from "public/svg/truck-loading.svg";
+
 import UserPlus from "public/svg/user-plus.svg";
 import User from "public/svg/user-circle.svg";
 
@@ -76,10 +78,9 @@ export default function CarrierLayout({ children }: LayoutProps) {
 									currentPath === "/carrier/workflows/ongoing" ? "bg-accent" : "bg-inherit"
 								}`}
 							>
-								{/* TODO: change the icon here */}
 								<div className="flex flex-row">
 									<div className="mt-2">
-										<HistoryIcon stroke="white" />
+										<TruckIcon width={24} height={24} stroke="white" />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Assigned Deliveries</p>
 								</div>

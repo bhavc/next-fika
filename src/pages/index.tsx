@@ -9,6 +9,8 @@ import MainFooter from "@/components/MainFooter";
 
 import type { GetServerSideProps } from "next";
 
+import AppSell from "public/png/AppSell.png";
+
 // import LandingMain from "public/jpeg/landing_main.jpg";
 import AnalyzeFilled from "public/svg/analyze-filled.svg";
 import ChartAreaLineFilled from "public/svg/chart-area-line-filled.svg";
@@ -44,17 +46,28 @@ export default function Home({ isLoggedIn, appRoute }: { isLoggedIn: boolean; ap
 				</section>
 				<section className="px-4 py-10 flex flex-col justify-center items-center">
 					<div className="p-4">
-						{/* TODO add a screenshot here */}
-						<h2 className="text-2xl text-center mt-2 mb-8">Your cargo is in safe hands</h2>
-						<p className="text-md">Our easy to use web app makes it easy no matter who you are.</p>
-						<p className="text-md">
-							Create shipments, manage your deliveries and get updates from your drivers in real
-							time.
-						</p>
-						<p className="text-md">
-							Just create an account and specify whether you&apos;re role as a Shipper or a Carrier.
-							Our intuitive software makes the rest of your freight management workflow a breeze.
-						</p>
+						<h2 className="text-2xl text-center mt-2 mb-8 underline">
+							Your cargo is in safe hands
+						</h2>
+						<div className="flex lg:flex-row flex-col w-full">
+							<div className="lg:w-2/5">
+								<Image src={AppSell} alt={"app sell"} />
+							</div>
+							<div className="flex flex-col lg:w-3/5 p-8 gap-16">
+								<p className="text-md">
+									Our easy to use web app makes it easy no matter who you are.
+								</p>
+								<p className="text-md">
+									Create shipments, manage your deliveries and get updates from your drivers in real
+									time.
+								</p>
+								<p className="text-md">
+									Just create an account and specify whether you&apos;re role as a Shipper or a
+									Carrier. Our intuitive software makes the rest of your freight management workflow
+									a breeze.
+								</p>
+							</div>
+						</div>
 					</div>
 					<div className="p-4">
 						<Link

@@ -1,10 +1,10 @@
-import type { UserStatus } from "@/features/types";
+import type { UserDriverStatus } from "@/features/Driver/UserDriver/types";
 
 export default function DriverStatusBadge({
 	userStatus,
 	children
 }: {
-	userStatus: UserStatus;
+	userStatus: UserDriverStatus;
 	children: string;
 }) {
 	switch (userStatus) {

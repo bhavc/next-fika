@@ -19,6 +19,8 @@ export default function ShipperWorkflow({
 	const workflowPriceData = workflow?.workflowPriceData;
 	const selectedCarrier = workflow.selectedCarrier;
 
+	console.log("selectedCarrier", selectedCarrier);
+
 	// maybe i should get workflow notes here because i want up to date messages
 
 	const {
@@ -151,7 +153,6 @@ export default function ShipperWorkflow({
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
-				{/* TODO: add details about the carrier */}
 				<div>
 					<h2 className="text-xl mb-2">Selected Carrier</h2>
 					<div className="md:ml-28">
@@ -163,7 +164,6 @@ export default function ShipperWorkflow({
 								</h2>
 								<p>We serve this best in the North American and African regions!</p>
 
-								{/* TODO change this to a better label value */}
 								<div className="card-actions justify-end">
 									{selectedCarrier?.areasServiced?.map((areaServiced: string, index: number) => {
 										return (

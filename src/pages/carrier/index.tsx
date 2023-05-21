@@ -68,6 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		id: null,
 		companyName: "",
 		address: "",
+		companyAddress: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,

@@ -101,8 +101,8 @@ export default function DriverWorkflowId({
 	};
 
 	const leftSideItems = [
-		<button key={"Back"} className="btn btn-ghost" onClick={handleBack}>
-			Back
+		<button key={"Back"} className="btn btn-primary" onClick={handleBack}>
+			<p className="font text-slate-100">Back</p>
 		</button>
 	];
 
@@ -227,7 +227,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		bucketStorageUrls: [],
 		driverFileData: [],
 		role: "",
-		status: "",
+		status: null,
 		gender: ""
 	};
 

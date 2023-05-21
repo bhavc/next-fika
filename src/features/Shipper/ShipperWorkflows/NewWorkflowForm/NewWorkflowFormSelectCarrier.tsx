@@ -53,11 +53,12 @@ export default function NewWorkflowFormSelectCarrier({
 									</figure>
 								)}
 								<div className="card-body">
-									<h2 className="card-title">
-										{carrier.companyName}
-										{/* <div className="badge badge-secondary">Used Before</div> */}
-									</h2>
-									{/* <p>If a dog chews shoes whose shoes does he choose?</p> */}
+									<h2 className="card-title">{carrier.companyName}</h2>
+									{/* <div className="badge badge-secondary">Used Before</div> */}
+									<div className="flex justify-between">
+										<p className="font-bold">Company Address: </p>
+										<p>{carrier.companyAddress}</p>
+									</div>
 
 									<div className="card-actions justify-end">
 										{carrier?.areasServiced?.map((areaServiced: string, index: number) => {

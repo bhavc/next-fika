@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import ShipperNavbar from "@/components/Nav/ShipperNavbar";
 
 import CloseIcon from "public/svg/icon-x.svg";
-import MenuIcon from "public/svg/menu.svg";
-import HomeIcon from "public/svg/home.svg";
-import NewIcon from "public/svg/circle-plus.svg";
 import HistoryIcon from "public/svg/history.svg";
-import SettingsIcon from "public/svg/settings.svg";
+import HomeIcon from "public/svg/home.svg";
 import LogoutIcon from "public/svg/logout.svg";
+import MenuIcon from "public/svg/menu.svg";
+import NewIcon from "public/svg/circle-plus.svg";
+import SettingsIcon from "public/svg/settings.svg";
+import TruckIcon from "public/svg/truck-loading.svg";
 
 interface LayoutProps {
 	children: ReactNode;
@@ -85,7 +86,7 @@ export default function ShipperLayout({ children }: LayoutProps) {
 							>
 								<div className="flex flex-row">
 									<div className="mt-2">
-										<HistoryIcon stroke="white" />
+										<TruckIcon width={24} height={24} stroke="white" />
 									</div>
 									<p className="prose lg:prose-xl pl-2 text-white">Ongoing Deliveries</p>
 								</div>

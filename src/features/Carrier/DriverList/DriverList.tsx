@@ -6,6 +6,7 @@ import DriverStatusBadge from "./DriverStatusBadge";
 import { formatDateStringToDate } from "@/utils/time";
 
 import type { UserStatus } from "@/features/types";
+import type { UserDriverStatus } from "@/features/Driver/UserDriver/types";
 
 type DriverListType = {
 	id: number;
