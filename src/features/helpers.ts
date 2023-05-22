@@ -11,3 +11,12 @@ export const mapUserTypeToAppRoute = (userType: UserType | undefined) => {
 
 	return "/shipper";
 };
+
+export const shouldRedirectUserDueToIncorrectRole = (
+	userType: UserType | undefined,
+	userRole: string
+) => {
+	if (!userType || userType !== userRole) {
+		return true;
+	}
+};

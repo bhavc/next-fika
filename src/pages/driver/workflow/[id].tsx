@@ -74,53 +74,11 @@ export default function DriverWorkflowId({
 		}
 	};
 
-	const handleUploadedFiles = (data: any[]) => {
-		setUploadedFiles(data);
-	};
-
-	const handleUploadedFileRemove = (event: MouseEvent<HTMLElement>, key: number) => {
-		event.preventDefault();
-		const uploadedFilesCopy = [...uploadedFiles];
-		uploadedFilesCopy.splice(key, 1);
-		setUploadedFiles(uploadedFilesCopy);
-	};
-
-	const handleWorkflowStatusChangeNotes = (event: ChangeEvent<HTMLTextAreaElement>) => {
-		setWorkflowStatusChangeNotes(event.target.value);
-	};
-
 	const leftSideItems = [
 		<button key={"Back"} className="btn btn-primary" onClick={handleBack}>
 			<p className="font text-slate-100">Back</p>
 		</button>
 	];
-
-	const ModalUploadArea = (
-		<div>
-			<h2 className="prose prose-2xl">Upload Files</h2>
-			<p>Add any documents relating to shipping manifest, Bol #, Customs document etc.</p>
-			<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
-			<div className="my-2">
-				<div className="mt-1 flex">
-					<FileUploader
-						uploadedFiles={uploadedFiles}
-						handleUploadedFiles={handleUploadedFiles}
-						userToken={userToken}
-						handleUploadedFileRemove={handleUploadedFileRemove}
-					/>
-				</div>
-			</div>
-		</div>
-	);
-
-	const ModalTextArea = (
-		<textarea
-			placeholder="Add any other notes here that you may want the shipper to know"
-			className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
-			onChange={handleWorkflowStatusChangeNotes}
-			value={workflowStatusChangeNotes}
-		/>
-	);
 
 	const driverWorkflowLinks = [
 		{
@@ -183,14 +141,6 @@ export default function DriverWorkflowId({
 					handleStatusChange={handleStatusChange}
 				/>
 			</div>
-			{/* <DriverWorkflowStatusChangeModal
-				modalOpen={modalOpen}
-				workflowStatus={updatedWorkflowStatus}
-				handleCancelModal={handleCancelModal}
-				handleConfirmModal={handleConfirmModal}
-				ModalUploadArea={ModalUploadArea}
-				ModalTextArea={ModalTextArea}
-			/> */}
 		</DriverLayout>
 	);
 }

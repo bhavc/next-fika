@@ -8,6 +8,7 @@ import { getCurrentUser } from "@/api/user";
 import { onboardDriver } from "@/api/registration";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/GoogleAddressAutocomplete";
@@ -304,6 +305,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		id: null,
 		companyName: "",
 		address: "",
+		companyAddress: "",
 		phoneNumber: null,
 		emergencyNumbers: null,
 		gender: null,
@@ -334,6 +336,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = response.data;
 	} catch (err) {
 		console.info("err", err);
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Carrier", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	const requiresVerify = doesUserRequireSettings(userData);

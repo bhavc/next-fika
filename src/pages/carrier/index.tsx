@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/api/user";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 
@@ -103,6 +104,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// TODO check the users role and redirect in that case
 	// check if the user has verified their info and if not, correct the issue
+
+	if (shouldRedirectUserDueToIncorrectRole("Carrier", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
+	}
+
 	const requiresVerify = doesUserRequireSettings(userData);
 
 	return {

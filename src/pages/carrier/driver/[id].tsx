@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/api/user";
 import { getDriverById, removeDriverFormOrganization } from "@/api/drivers";
 
 import { doesUserRequireSettings } from "@/features/Carrier/CarrierWorkflows/helpers";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import CarrierLayout from "@/layouts/CarrierLayout";
 
@@ -295,6 +296,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		driverData = getDriverDataResponse.data;
 	} catch (err) {
 		console.info("err", err);
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Carrier", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	const requiresVerify = doesUserRequireSettings(userData);
