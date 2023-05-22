@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/api/user";
 import { getWorkflowsForDriver } from "@/api/workflow";
 
 import { formatDateStringToDate } from "@/utils/time";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import WorkflowStatusBadge from "@/features/Driver/DriverWorkflows/WorkflowStatusBadge";
 
@@ -107,6 +108,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		workflowsData = getDriverAssignedWorkflows.data;
 	} catch (err) {
 		console.info("err", err);
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Driver", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	return {

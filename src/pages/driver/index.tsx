@@ -4,6 +4,7 @@ import DriverLayout from "@/layouts/DriverLayout";
 
 import { getCurrentUser } from "@/api/user";
 import { getLatestWorkflowsForDriver } from "@/api/workflow";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -122,6 +123,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		workflowData = latestDriverAssignedWorkflow.data as DriverWorkflowType;
 	} catch (err) {
 		console.info("err", err);
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Driver", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	return {

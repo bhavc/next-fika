@@ -1,16 +1,18 @@
-import { useState, MouseEvent, ChangeEvent } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
+
 import { getCurrentUser } from "@/api/user";
 import { editWorkflowByWorkflowId, getWorkflowByWorkflowId } from "@/api/workflow";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import DriverLayout from "@/layouts/DriverLayout";
+import DriverWorflowDetails from "@/features/Driver/DriverWorkflows/DriverWorkflowDetails";
 import DriverWorflowGeneral from "@/features/Driver/DriverWorkflows/DriverWorkflowGeneral";
 import DriverWorflowFiles from "@/features/Driver/DriverWorkflows/DriverWorkflowFiles";
 import DriverWorkflowChat from "@/features/Driver/DriverWorkflows/DriverWorkflowChat";
 import DriverWorflowButton from "@/features/Driver/DriverWorkflows/DriverWorkflowButton";
-import DriverWorkflowStatusChangeModal from "@/features/Driver/DriverWorkflows/DriverWorkflowStatusChangeModal";
-import FileUploader from "@/components/FileUploader";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -19,8 +21,6 @@ import type {
 	DriverWorkflowStatus
 } from "@/features/Driver/DriverWorkflows/types";
 import type { FileType } from "@/features/Driver/DriverWorkflows/types";
-import { toast } from "react-hot-toast";
-import DriverWorflowDetails from "@/features/Driver/DriverWorkflows/DriverWorkflowDetails";
 
 export default function DriverWorkflowId({
 	userToken,
@@ -198,6 +198,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		workflowData = getWorkflowByIdResponse.workflow;
 	} catch (err) {
 		workflowData = null;
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Driver", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	if (!workflowData) {

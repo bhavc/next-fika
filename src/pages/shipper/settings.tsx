@@ -1,5 +1,6 @@
 import ShipperLayout from "@/layouts/ShipperLayout";
 
+// TODO: do this
 export default function Settings() {
 	return (
 		<>

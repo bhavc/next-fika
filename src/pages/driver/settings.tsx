@@ -8,6 +8,7 @@ import GoogleAddressAutocomplete from "@/components/GoogleAddressAutocomplete/Go
 
 import { updateProfileImage } from "@/api/fileUpload";
 import { getCurrentUser, editUserData } from "@/api/user";
+import { shouldRedirectUserDueToIncorrectRole } from "@/features/helpers";
 
 import type { GetServerSideProps } from "next";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -333,6 +334,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		userData = getCurrentUserResponse.data;
 	} catch (err) {
 		console.info("err", err);
+	}
+
+	if (shouldRedirectUserDueToIncorrectRole("Driver", userData.role)) {
+		return {
+			redirect: {
+				destination: "/",
+				statusCode: 302
+			}
+		};
 	}
 
 	return {
