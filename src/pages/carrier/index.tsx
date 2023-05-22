@@ -102,9 +102,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		console.info("err", err);
 	}
 
-	// TODO check the users role and redirect in that case
-	// check if the user has verified their info and if not, correct the issue
-
 	if (shouldRedirectUserDueToIncorrectRole("Carrier", userData.role)) {
 		return {
 			redirect: {
