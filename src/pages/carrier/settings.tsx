@@ -243,9 +243,6 @@ export default function Settings({
 											</div>
 											<Controller
 												name="clientCompanyAddress"
-												// rules={{
-												// 	required: true
-												// }}
 												control={control}
 												render={({ field: { onChange, value, name }, fieldState: { error } }) => (
 													<GoogleAddressAutocomplete
@@ -392,13 +389,21 @@ export default function Settings({
 									<div className="flex flex-row flex-wrap gap-4 w-full">
 										<div className="flex flex-col gap-2 w-full sm:w-1/2">
 											<label className="text-xl">Languages Supported</label>
-											<p className="text-sm pl-4 text-error">*Required</p>
+											<p className="text-sm pl-4 text-error">
+												*Required. Please ensure you enter the languages your company supports in
+												comma separated format.
+											</p>
 											<textarea
 												placeholder="English, French, Swahili"
 												className={`input w-full h-20 ${
 													errors.clientLanguagesSupported ? "border-error" : "border-neutral"
 												} px-4 py-2`}
-												{...register("clientLanguagesSupported")}
+												{...register("clientLanguagesSupported", {
+													pattern: {
+														message: "format",
+														value: /^[\s]*([a-zA-Z0-9]+[\s]*,[\s]*)*[a-zA-Z0-9]+[\s]*$/
+													}
+												})}
 											/>
 										</div>
 									</div>
