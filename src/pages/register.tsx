@@ -108,9 +108,9 @@ export default function Register() {
 	return (
 		<main>
 			<MainNavBar />
-			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)] p-4">
-				<div className="bg-primary min-w-full mt-8 pt-4 h-full rounded-xl">
-					<h1 className="text-3xl mt-2 mb-4 text-slate-100 text-center">Register</h1>
+			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)]">
+				<div className="bg-primary min-w-full pt-2 h-full">
+					<h1 className="text-3xl mt-2 mb-2 text-slate-100 text-center">Register</h1>
 					{currentStep === 0 && (
 						<RegisterType
 							selectedAccountType={selectedAccountType}

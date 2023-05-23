@@ -18,12 +18,12 @@ export default function RegisterType({
 				return (
 					<button key={accountCard.type} onClick={() => setSelectedItem(index)}>
 						<div
-							className={`card w-80 h-64 shadow-xl p-4 ${
+							className={`card w-80 h-56 shadow-xl p-4 ${
 								accountCard.type === selectedAccountType ? "bg-accent-content" : "bg-base-100"
 							}`}
 						>
 							<figure>{accountCard.icon}</figure>
-							<div className="card-body">
+							<div className="card-body p-4">
 								<h2 className="card-title">{accountCard.title}</h2>
 								<p className="text-left">{accountCard.body}</p>
 							</div>
