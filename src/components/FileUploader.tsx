@@ -2,10 +2,10 @@ import { useState, MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useDropzone } from "react-dropzone";
-import { uploadFiles } from "@/api/fileUpload";
 import { toast } from "react-hot-toast";
 
-import CloseIcon from "public/svg/icon-x.svg";
+import { uploadFiles } from "@/api/fileUpload";
+
 import FileUploadIcon from "public/svg/file-upload.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";

@@ -124,3 +124,20 @@ export const getCopyByWorkflowPrice = (
 	workflowStatus: ShipperWorkflowStatus,
 	workflowPrice?: number
 ) => {};
+
+const regionsServicedMap = [
+	{ id: 1, label: "North America", value: "northAmerica" },
+	{ id: 2, label: "Africa", value: "africa" }
+];
+
+export const MapRegionServicedValueToLabel = (regionValue: string) => {
+	const matchedValue = regionsServicedMap.find(
+		(regionServiced) => regionServiced.value === regionValue
+	);
+
+	if (!matchedValue) {
+		return "";
+	}
+
+	return matchedValue.label;
+};

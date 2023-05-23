@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { useState } from "react";
 
-import { UserCarrier } from "../../../Carrier/UserCarrier/types";
+import { MapRegionServicedValueToLabel } from "../helpers";
+
+import type { UserCarrier } from "../../../Carrier/UserCarrier/types";
 
 import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
@@ -52,22 +53,24 @@ export default function NewWorkflowFormSelectCarrier({
 										/>
 									</figure>
 								)}
-								<div className="card-body">
-									<h2 className="card-title">{carrier.companyName}</h2>
-									{/* <div className="badge badge-secondary">Used Before</div> */}
+								<div className="card-body justify-start">
+									<h2 className="card-title uppercase">{carrier.companyName}</h2>
 									<div className="flex justify-between">
 										<p className="font-bold">Company Address: </p>
 										<p>{carrier.companyAddress}</p>
 									</div>
 
-									<div className="card-actions justify-end">
-										{carrier?.areasServiced?.map((areaServiced: string, index: number) => {
-											return (
-												<div key={index} className="badge badge-outline">
-													{areaServiced}
-												</div>
-											);
-										})}
+									<div className="flex flex-row">
+										<p className="font-bold">Areas Serviced:</p>
+										<div className="card-actions justify-end">
+											{carrier?.areasServiced?.map((areaServiced: string, index: number) => {
+												return (
+													<div key={index} className="badge badge-secondary">
+														{MapRegionServicedValueToLabel(areaServiced)}
+													</div>
+												);
+											})}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -77,15 +80,6 @@ export default function NewWorkflowFormSelectCarrier({
 			</div>
 
 			<div className="divider" />
-
-			{/* <div className="flex items-center justify-center">
-				<div className="btn-group">
-					<button className="btn btn-lg">1</button>
-					<button className="btn btn-lg btn-active">2</button>
-					<button className="btn btn-lg">3</button>
-					<button className="btn btn-lg">4</button>
-				</div>
-			</div> */}
 
 			<div className="flex flex-row justify-between">
 				<div className="justify-start">
