@@ -83,6 +83,9 @@ export default function RegisterMain({ setSelectedCredentials }: RegisterMainPro
 						{errors && Object.keys(errors).length > 0 && (
 							<p className="text-error mt-1">Please ensure the required fields are filled in</p>
 						)}
+						<div className="flex justify-center items-center mt-6">
+							<button className="btn btn-secondary white text-white">Next</button>
+						</div>
 					</form>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import { setCookie } from "cookies-next";
@@ -47,7 +47,7 @@ export default function Register() {
 		}
 	];
 
-	const shouldShowForwardButton = currentStep < 2;
+	const shouldShowForwardButton = currentStep === 0 && selectedAccountType;
 	const shouldShowBackButton = currentStep > 0;
 
 	type AccountTypeCard = {
@@ -80,6 +80,7 @@ export default function Register() {
 	const setSelectedCredentials = ({ email, password }: { email: string; password: string }) => {
 		setSelectedPassword(password);
 		setSelectedEmail(email);
+		setNextStep();
 	};
 
 	const setSelectedDetails = ({ company, phone }: { company: string; phone: string }) => {
@@ -95,19 +96,13 @@ export default function Register() {
 		setCurrentStep(currentStep - 1);
 	};
 
-	const handleSubmitRegistration = async ({
-		company,
-		phone
-	}: {
-		company: string;
-		phone: string;
-	}) => {
+	const handleSubmitRegistration = useCallback(async () => {
 		try {
 			const data = {
 				email: selectedEmail,
 				password: selectedPassword,
-				company,
-				phone,
+				company: selectedCompany,
+				phone: selectedPhone,
 				role: selectedAccountType
 			};
 
@@ -130,7 +125,33 @@ export default function Register() {
 		} catch (err) {
 			toast.error("Error registering");
 		}
-	};
+	}, [
+		selectedEmail,
+		selectedPassword,
+		selectedAccountType,
+		selectedCompany,
+		selectedPhone,
+		router
+	]);
+
+	useEffect(() => {
+		if (
+			selectedAccountType &&
+			selectedEmail &&
+			selectedPassword &&
+			selectedCompany &&
+			selectedPhone
+		) {
+			handleSubmitRegistration();
+		}
+	}, [
+		selectedAccountType,
+		selectedEmail,
+		selectedPassword,
+		selectedCompany,
+		selectedPhone,
+		handleSubmitRegistration
+	]);
 
 	return (
 		<main>
