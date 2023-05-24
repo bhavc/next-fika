@@ -50,6 +50,7 @@ export default function NewWorkflowFormContainerPriceDetails({
 	workflowFormContainerDetailsState,
 	workflowFormPriceState
 }: NewWorkflowFormContainerPriceDetailsProps) {
+	console.log("workflowFormContainerDetailsState", workflowFormContainerDetailsState);
 	const {
 		register,
 		handleSubmit,

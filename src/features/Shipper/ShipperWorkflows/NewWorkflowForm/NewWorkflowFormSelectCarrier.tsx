@@ -27,9 +27,9 @@ export default function NewWorkflowFormSelectCarrier({
 }: NewWorkflowFormSelectCarrierProps) {
 	return (
 		<div className="w-full bg-slate-100 rounded-b-md py-4 mb-4">
-			<h2 className="prose prose-2xl">Select Your carrier</h2>
+			<h2 className="prose prose-2xl text-center">Select your carrier</h2>
 			<div className="divider" />
-			<div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4">
+			<div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 pl-4">
 				{carriers?.map((carrier, index) => {
 					const avatarImageData = carrier.avatarImageData;
 					return (

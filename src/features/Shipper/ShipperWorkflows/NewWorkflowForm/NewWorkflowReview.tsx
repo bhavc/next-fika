@@ -153,7 +153,7 @@ export default function NewWorkflowFormReview({
 					</div>
 				</div>
 				<div className="mt-2">
-					<h2 className="text-md mb-2">Border Crossing:</h2>
+					<h2 className="text-xl mb-2">Border Crossing:</h2>
 					<div className="ml-28">
 						<p>{borderCrossing}</p>
 					</div>
@@ -162,7 +162,7 @@ export default function NewWorkflowFormReview({
 
 				<div>
 					<h2 className="text-xl mb-2">Pricing</h2>
-					<div className="ml-28">
+					<div className="ml-2">
 						{useCustomPricing ? (
 							<div className="stats shadow-2xl border-accent border-2">
 								<div className="stat">
@@ -183,7 +183,7 @@ export default function NewWorkflowFormReview({
 
 				{/* TODO: add details about the carrier */}
 				<h2 className="text-xl mb-2">Selected Carrier</h2>
-				<div className="flex flex-col items-center justify-center">
+				<div className="flex flex-col ml-2 justify-center">
 					<div className="card w-96 bg-base-100 shadow-xl">
 						<div className="card-body">
 							<h2 className="card-title">
@@ -209,110 +209,98 @@ export default function NewWorkflowFormReview({
 
 				<div>
 					<h2 className="text-xl mb-2">Goods Description:</h2>
-					<div className="ml-28">
+					<div className="ml-2">
 						<p className="whitespace-pre-wrap">{goodsDescription}</p>
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div>
-					<h2 className="text-xl mb-2">Shipment and Cargo Info:</h2>
-					<div>
-						<table className="table-auto md:table ml-auto mr-auto">
-							<thead>
-								<tr>
-									<th className="text-accent bg-accent-content md:text-accent md:bg-accent-content">
-										Field
-									</th>
-									<th className="text-accent bg-accent-content md:text-accent md:bg-accent-content">
-										Value
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>Cargo Type</td>
-									<td>{containerTypeLabel}</td>
-								</tr>
-								<tr>
-									<td>Dimensions</td>
-									<td>
-										{containerLength} x {containerWidth} x {containerHeight}
-									</td>
-								</tr>
-								<tr>
-									<td>Seal Number</td>
-									<td>{sealNumber}</td>
-								</tr>
-								<tr>
-									<td># of packages</td>
-									<td>{numberOfPackages}</td>
-								</tr>
-								<tr>
-									<td>Gross Weight</td>
-									<td>{grossWeight}</td>
-								</tr>
-								<tr>
-									<td>Net Weight</td>
-									<td>{netWeight}</td>
-								</tr>
-								<tr>
-									<td>Goods Volume</td>
-									<td>{goodsVolume || "--"}</td>
-								</tr>
-								<tr>
-									<td>Humidity Control Required</td>
-									<td>{isHumid ? "True" : "False"}</td>
-								</tr>
-								<tr>
-									<td>Damaged Items</td>
-									<td>{damaged ? "True" : "False"}</td>
-								</tr>
-								<tr>
-									<td>Frozen Items</td>
-									<td>{frozen ? "True" : "False"}</td>
-								</tr>
-								<tr>
-									<td>Requires Chiller</td>
-									<td>{requiresChiller ? "True" : "False"}</td>
-								</tr>
-								<tr>
-									<td>Requires Controlled Atmosphere</td>
-									<td>{requiresControlledAtmosphere ? "True" : "False"}</td>
-								</tr>
-								{shippingLine && vesselName && (
-									<>
-										<tr>
-											<td>Shipping Line</td>
-											<td>{shippingLine}</td>
-										</tr>
-										<tr>
-											<td>Vessel Name</td>
-											<td>{vesselName}</td>
-										</tr>
-									</>
-								)}
-								{isDropoff && (
-									<tr>
-										<td>Dropoff Terminal Name</td>
-										<td>{dropoffTerminalName}</td>
-									</tr>
-								)}
-								{isReturn && (
-									<tr>
-										<td>Return Depot Name</td>
-										<td>{returnDepotName}</td>
-									</tr>
-								)}
-							</tbody>
-						</table>
+					<h2 className="text-xl mb-2">Shipment and Cargo Details:</h2>
+					<div className="flex flex-col gap-2 ml-2">
+						<div className="flex gap-2">
+							<p>Cargo Type: </p>
+							<p>{containerTypeLabel}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Dimensions: </p>
+							<p>
+								{containerLength} L x {containerWidth} W x {containerHeight} H
+							</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Seal #: </p>
+							<p>{sealNumber}</p>
+						</div>
+						<div className="flex gap-2">
+							<p># of packages: </p>
+							<p>{numberOfPackages}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Gross Weight: </p>
+							<p>{grossWeight}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Net Weight: </p>
+							<p>{netWeight}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Goods Volume: </p>
+							<p>{goodsVolume || "--"}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Humidity Control Required?</p>
+							<p>{isHumid ? "True" : "False"}</p>
+						</div>
+
+						<div className="flex gap-2">
+							<p>Carrying Damanaged Items?</p>
+							<p>{damaged ? "True" : "False"}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Carrying Frozen Items?</p>
+							<p>{frozen ? "True" : "False"}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Requires Chiller?</p>
+							<p>{requiresChiller ? "True" : "False"}</p>
+						</div>
+						<div className="flex gap-2">
+							<p>Requires Controlled Atmosphere?</p>
+							<p>{requiresControlledAtmosphere ? "True" : "False"}</p>
+						</div>
+
+						{shippingLine && vesselName && (
+							<>
+								<div className="flex gap-2 pl-4">
+									<p>Shipping Line: </p>
+									<p>{shippingLine}</p>
+								</div>
+								<div className="flex gap-2 pl-4">
+									<p>Vessel Name: </p>
+									<p>{vesselName}</p>
+								</div>
+							</>
+						)}
+						{isDropoff && (
+							<div className="flex gap-2 pl-4">
+								<p>Dropoff Terminal Name: </p>
+								<p>{dropoffTerminalName}</p>
+							</div>
+						)}
+						{isReturn && (
+							<div className="flex gap-2 pl-4">
+								<p>Return Depot Name: </p>
+								<p>{returnDepotName}</p>
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="mt-6 mb-6 border-b-2 border-slate-300" />
 
 				<div>
 					<h2 className="text-xl">Delivery Notes</h2>
-					<div className="ml-28">
+					<div className="ml-2">
 						<p>{shipperNotes || "n/a"}</p>
 					</div>
 				</div>
