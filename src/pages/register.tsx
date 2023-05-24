@@ -4,8 +4,9 @@ import { toast } from "react-hot-toast";
 import { setCookie } from "cookies-next";
 
 import RegisterType from "@/features/Register/RegisterType";
-import RegisterForm from "@/features/Register/RegisterForm";
+import RegisterMain from "@/features/Register/RegisterMain";
 import MainNavBar from "@/components/Nav/MainNavbar";
+import RegistrationStepper from "@/features/Register/RegisterStepper";
 
 import type { UserType } from "@/features/types";
 
@@ -19,15 +20,35 @@ import IconRight from "public/svg/arrow-right.svg";
 import IconLeft from "public/svg/arrow-left.svg";
 import TruckDelivery from "public/svg/truck-delivery.svg";
 import TruckIcon from "public/svg/truck-loading.svg";
+import RegisterDetails from "@/features/Register/RegisterDetails";
 
 export default function Register() {
 	const router = useRouter();
 
 	const [selectedAccountType, setSelectedAccountType] = useState<UserType | null>(null);
+	const [selectedEmail, setSelectedEmail] = useState("");
+	const [selectedPassword, setSelectedPassword] = useState("");
+	const [selectedCompany, setSelectedCompany] = useState("");
+	const [selectedPhone, setSelectedPhone] = useState("");
 	const [currentStep, setCurrentStep] = useState(0);
 
-	const shouldShowForwardButton = currentStep === 0 && selectedAccountType;
-	const shouldShowBackButton = currentStep === 1;
+	const steps = [
+		{
+			value: 0,
+			label: "Role"
+		},
+		{
+			value: 1,
+			label: "Account Setup"
+		},
+		{
+			value: 2,
+			label: "About you"
+		}
+	];
+
+	const shouldShowForwardButton = currentStep < 2;
+	const shouldShowBackButton = currentStep > 0;
 
 	type AccountTypeCard = {
 		type: UserType;
@@ -56,6 +77,16 @@ export default function Register() {
 		setSelectedAccountType(mappedType);
 	};
 
+	const setSelectedCredentials = ({ email, password }: { email: string; password: string }) => {
+		setSelectedPassword(password);
+		setSelectedEmail(email);
+	};
+
+	const setSelectedDetails = ({ company, phone }: { company: string; phone: string }) => {
+		setSelectedCompany(company);
+		setSelectedPhone(phone);
+	};
+
 	const setNextStep = () => {
 		setCurrentStep(currentStep + 1);
 	};
@@ -65,20 +96,16 @@ export default function Register() {
 	};
 
 	const handleSubmitRegistration = async ({
-		email,
-		password,
 		company,
 		phone
 	}: {
-		email: string;
-		password: string;
 		company: string;
 		phone: string;
 	}) => {
 		try {
 			const data = {
-				email,
-				password,
+				email: selectedEmail,
+				password: selectedPassword,
 				company,
 				phone,
 				role: selectedAccountType
@@ -111,6 +138,8 @@ export default function Register() {
 			<div className="flex flex-col justify-between items-center h-[calc(100vh_-_65px)]">
 				<div className="bg-primary min-w-full pt-2 h-full">
 					<h1 className="text-3xl mt-2 mb-2 text-slate-100 text-center">Register</h1>
+					<RegistrationStepper steps={steps} currentStep={currentStep} />
+
 					{currentStep === 0 && (
 						<RegisterType
 							selectedAccountType={selectedAccountType}
@@ -120,29 +149,41 @@ export default function Register() {
 						/>
 					)}
 					{currentStep === 1 && (
-						<RegisterForm
+						<RegisterMain
 							selectedAccountType={selectedAccountType}
 							setPreviousStep={setPreviousStep}
-							handleSubmitRegistration={handleSubmitRegistration}
+							setSelectedCredentials={setSelectedCredentials}
+						/>
+					)}
+					{currentStep === 2 && (
+						<RegisterDetails
+							setPreviousStep={setPreviousStep}
+							setSelectedDetails={setSelectedDetails}
 						/>
 					)}
 				</div>
 
 				<footer className="bg-inherit text-neutral-content absolute bottom-0 w-full p-8">
-					{shouldShowForwardButton && (
-						<div className="flex justify-end">
-							<button className="btn btn-secondary btn-circle" onClick={setNextStep}>
-								<IconRight />
-							</button>
-						</div>
-					)}
-					{shouldShowBackButton && (
-						<div className="flex justify-start">
-							<button className="btn btn-secondary btn-circle" onClick={setPreviousStep}>
-								<IconLeft />
-							</button>
-						</div>
-					)}
+					<div className="flex justify-between">
+						{shouldShowBackButton ? (
+							<div className="flex justify-start">
+								<button className="btn btn-secondary btn-circle" onClick={setPreviousStep}>
+									<IconLeft />
+								</button>
+							</div>
+						) : (
+							<div />
+						)}
+						{shouldShowForwardButton ? (
+							<div className="flex justify-end">
+								<button className="btn btn-secondary btn-circle" onClick={setNextStep}>
+									<IconRight />
+								</button>
+							</div>
+						) : (
+							<div />
+						)}
+					</div>
 				</footer>
 			</div>
 		</main>

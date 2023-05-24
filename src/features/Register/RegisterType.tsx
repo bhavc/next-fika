@@ -13,7 +13,7 @@ export default function RegisterType({
 	setSelectedItem
 }: RegisterTypeProps) {
 	return (
-		<div className="flex flex-col gap-4 justify-center items-center mt-8">
+		<div className="flex flex-col gap-4 justify-center items-center mt-4">
 			{accountTypeCards.map((accountCard, index) => {
 				return (
 					<button key={accountCard.type} onClick={() => setSelectedItem(index)}>
