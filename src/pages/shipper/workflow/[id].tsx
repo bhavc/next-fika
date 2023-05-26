@@ -55,9 +55,6 @@ export default function WorkflowId({
 		workflowUploadedFiles ? workflowUploadedFiles : []
 	);
 
-	console.log("userIdAsNumber", userIdAsNumber);
-	console.log("workflowNotes", workflowNotes);
-
 	// TODO we should allow for files to be updated at any and all times with timestamp
 
 	const handleAcceptPrice = async () => {

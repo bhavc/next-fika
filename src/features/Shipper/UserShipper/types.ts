@@ -1,8 +1,7 @@
 export type UserShipper = {
 	id: number | null;
-	firstName: string | null;
-	lastName: string | null;
 	companyName: string;
+	address?: string;
 	companyAddress: string | null;
 	phoneNumber: string | null;
 	emergencyNumbers: string | null;
@@ -17,4 +16,5 @@ export type UserShipper = {
 	insuranceFileData: { name: string; blobName: string; type: string }[] | null;
 	bucketStorageUrls: any[] | null;
 	role: string;
+	status: string;
 };
