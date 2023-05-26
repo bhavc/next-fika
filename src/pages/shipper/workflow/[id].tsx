@@ -14,7 +14,10 @@ import ChatContainer from "@/components/ChatContainer";
 import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 import FileUploader from "@/components/FileUploader";
 
-import type { WorkflowType, WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
+import type {
+	ShipperWorkflowType,
+	WorkflowNotesType
+} from "@/features/Shipper/ShipperWorkflows/types";
 import type { GetServerSideProps } from "next";
 import type { FileType } from "@/features/Shipper/ShipperWorkflows/types";
 
@@ -29,13 +32,13 @@ export default function WorkflowId({
 	userToken
 }: {
 	userToken: string;
-	workflow: WorkflowType;
+	workflow: ShipperWorkflowType;
 }) {
 	const router = useRouter();
 
 	const workflowId = workflow.id;
 	const workflowStatus = workflow.status;
-	const workflowUserFor = workflow.user_for;
+	const workflowUserId = workflow.userId;
 	const workflowUserCarrierId = workflow.selectedCarrier.id;
 	const workflowPriceData = workflow?.workflowPriceData;
 
@@ -44,13 +47,16 @@ export default function WorkflowId({
 
 	const workflowUploadedFiles = workflow?.fileUrls;
 
-	const userIdAsNumber = parseInt(workflowUserFor, 10);
+	const userIdAsNumber = workflowUserId ? parseInt(workflowUserId, 10) : null;
 
 	const [workflowNotes, setWorkflowNotes] = useState<WorkflowNotesType[] | null>([]);
 	const [isMessageSentLoading, setIsMessageSentLoading] = useState(false);
 	const [uploadedFiles, setUploadedFiles] = useState<FileType[]>(
 		workflowUploadedFiles ? workflowUploadedFiles : []
 	);
+
+	console.log("userIdAsNumber", userIdAsNumber);
+	console.log("workflowNotes", workflowNotes);
 
 	// TODO we should allow for files to be updated at any and all times with timestamp
 
@@ -248,7 +254,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const { cookies } = req;
 	const userToken = cookies.user;
-	let workflowData: WorkflowType | null;
+	let workflowData: ShipperWorkflowType | null;
 
 	if (!userToken) {
 		return {

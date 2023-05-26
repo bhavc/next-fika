@@ -84,6 +84,7 @@ export type FileType = {
 
 export type DriverWorkflowType = {
 	id: string;
+	// Todo: remove user_for?
 	user_for: string;
 	status: DriverWorkflowStatus;
 	selectedCarrier: UserCarrier;

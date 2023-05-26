@@ -84,8 +84,10 @@ export type WorkflowNotesType = {
 	created_at: string;
 };
 
-export type WorkflowType = {
+export type ShipperWorkflowType = {
 	id: string;
+	userId?: string;
+	// TODO: remove user_for?
 	user_for: string;
 	status: ShipperWorkflowStatus;
 	selectedCarrier: UserCarrier;
