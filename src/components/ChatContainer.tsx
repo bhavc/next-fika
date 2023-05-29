@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { formatDateStringToDateCalendar } from "@/utils/time";
 
-import type { WorkflowType, WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { WorkflowNotesType } from "@/features/Shipper/ShipperWorkflows/types";
 
 import IconRight from "public/svg/arrow-right.svg";
 import { KeyboardEvent, MouseEvent, ChangeEvent } from "react";
