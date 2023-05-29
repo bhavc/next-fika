@@ -42,7 +42,7 @@ export default function DriverLayout({ children, leftSideItems }: DriverLayout) 
 	return (
 		<>
 			<DriverNavbar leftSideItems={leftSideItems} rightSideItems={rightSideItems} />
-			<main className="bg-slate-200 p-4 overflow-auto">{children}</main>
+			<main className="bg-slate-200 p-4 overflow-auto h-[calc(100vh_-_120px)]">{children}</main>
 			<DriverMainFooter />
 		</>
 	);
