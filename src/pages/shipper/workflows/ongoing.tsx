@@ -7,12 +7,12 @@ import ShipperLayout from "@/layouts/ShipperLayout";
 import WorkflowTableList from "@/features/Shipper/ShipperWorkflows/WorkflowTableList";
 
 import type { GetServerSideProps } from "next";
-import type { WorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
+import type { ShipperWorkflowType } from "@/features/Shipper/ShipperWorkflows/types";
 
 import { toast } from "react-hot-toast";
 
 export default function Workflows({ userToken }: { userToken: string }) {
-	const [workflows, setWorkflows] = useState<WorkflowType[] | undefined>(undefined);
+	const [workflows, setWorkflows] = useState<ShipperWorkflowType[] | undefined>(undefined);
 	const [isError, setIsError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 

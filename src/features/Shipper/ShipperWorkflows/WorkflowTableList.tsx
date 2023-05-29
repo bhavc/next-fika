@@ -5,13 +5,13 @@ import WorkflowStatusBadge from "./WorkflowStatusBadge";
 
 import { formatDateStringToDate } from "@/utils/time";
 
-import type { WorkflowType } from "./types";
+import type { ShipperWorkflowType } from "./types";
 
 export default function WorkflowTableList({
 	workflows,
 	isLoading
 }: {
-	workflows?: WorkflowType[];
+	workflows?: ShipperWorkflowType[];
 	isLoading: boolean;
 }) {
 	if (isLoading) {
