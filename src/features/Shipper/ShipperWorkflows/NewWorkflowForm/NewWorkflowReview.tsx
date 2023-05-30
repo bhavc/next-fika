@@ -218,79 +218,81 @@ export default function NewWorkflowFormReview({
 				<div>
 					<h2 className="text-xl mb-2">Shipment and Cargo Details:</h2>
 					<div className="flex flex-col gap-2 ml-2">
-						<div className="flex gap-2">
-							<p>Cargo Type: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Cargo Type: </p>
 							<p>{containerTypeLabel}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Dimensions: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Dimensions: </p>
 							<p>
 								{containerLength} L x {containerWidth} W x {containerHeight} H
 							</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Seal #: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Seal #: </p>
 							<p>{sealNumber}</p>
 						</div>
-						<div className="flex gap-2">
-							<p># of packages: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md"># of packages: </p>
 							<p>{numberOfPackages}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Gross Weight: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Gross Weight: </p>
 							<p>{grossWeight}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Net Weight: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Net Weight: </p>
 							<p>{netWeight}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Goods Volume: </p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Goods Volume: </p>
 							<p>{goodsVolume || "--"}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Humidity Control Required?</p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Humidity Control Required?</p>
 							<p>{isHumid ? "True" : "False"}</p>
 						</div>
 
-						<div className="flex gap-2">
-							<p>Carrying Damanaged Items?</p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Carrying Damanaged Items?</p>
 							<p>{damaged ? "True" : "False"}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Carrying Frozen Items?</p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Carrying Frozen Items?</p>
 							<p>{frozen ? "True" : "False"}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Requires Chiller?</p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">Requires Chiller?</p>
 							<p>{requiresChiller ? "True" : "False"}</p>
 						</div>
-						<div className="flex gap-2">
-							<p>Requires Controlled Atmosphere?</p>
+						<div className="flex gap-2 align-middle items-center">
+							<p className="bg-accent text-slate-100 p-2 rounded-md">
+								Requires Controlled Atmosphere?
+							</p>
 							<p>{requiresControlledAtmosphere ? "True" : "False"}</p>
 						</div>
 
 						{shippingLine && vesselName && (
 							<>
-								<div className="flex gap-2 pl-4">
-									<p>Shipping Line: </p>
+								<div className="flex gap-2 align-middle items-center">
+									<p className="bg-accent text-slate-100 p-2 rounded-md">Shipping Line: </p>
 									<p>{shippingLine}</p>
 								</div>
-								<div className="flex gap-2 pl-4">
-									<p>Vessel Name: </p>
+								<div className="flex gap-2 align-middle items-center">
+									<p className="bg-accent text-slate-100 p-2 rounded-md">Vessel Name: </p>
 									<p>{vesselName}</p>
 								</div>
 							</>
 						)}
 						{isDropoff && (
-							<div className="flex gap-2 pl-4">
-								<p>Dropoff Terminal Name: </p>
+							<div className="flex gap-2 align-middle items-center">
+								<p className="bg-accent text-slate-100 p-2 rounded-md">Dropoff Terminal Name: </p>
 								<p>{dropoffTerminalName}</p>
 							</div>
 						)}
 						{isReturn && (
-							<div className="flex gap-2 pl-4">
-								<p>Return Depot Name: </p>
+							<div className="flex gap-2 align-middle items-center">
+								<p className="bg-accent text-slate-100 p-2 rounded-md">Return Depot Name: </p>
 								<p>{returnDepotName}</p>
 							</div>
 						)}

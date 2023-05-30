@@ -44,7 +44,6 @@ export default function ShipperWorkflow({
 
 	const {
 		goodsDescription,
-		cargoType,
 		containerLength,
 		containerWidth,
 		containerHeight,
@@ -186,7 +185,7 @@ export default function ShipperWorkflow({
 					<div className="flex flex-col gap-2 ml-2">
 						<div className="flex gap-2 align-middle items-center">
 							<p className="bg-accent text-slate-100 p-2 rounded-md">Cargo Type: </p>
-							<p className="text-primary">{containerTypeLabel}</p>
+							<p>{containerTypeLabel}</p>
 						</div>
 						<div className="flex gap-2 align-middle items-center">
 							<p className="bg-accent text-slate-100 p-2 rounded-md">Dimensions: </p>
