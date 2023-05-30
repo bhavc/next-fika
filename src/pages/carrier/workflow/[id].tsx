@@ -307,15 +307,6 @@ export default function WorkflowId({
 		}
 	}, [userToken, workflowId, workflowAssignedDriver]);
 
-	// const ModalTextArea = (
-	// 	<textarea
-	// 		placeholder="Add any other notes here that you may want the shipper to know"
-	// 		className={`input w-full h-40 pt-2 whitespace-pre-wrap border-solid border-slate-300`}
-	// 		onChange={handleWorkflowStatusChangeNotes}
-	// 		value={workflowStatusChangeNotes}
-	// 	/>
-	// );
-
 	const isSaveAllButtonDisabled = () => {
 		return newStatus === previousStatus;
 	};
@@ -432,7 +423,7 @@ export default function WorkflowId({
 
 					{/* Carrier and driver chat */}
 					{!["Delivered", "Rejected", "Cancelled", "Deleted"].includes(workflowStatus) ? (
-						<div>
+						<div className="bg-slate-100 p-4">
 							<h2 className="prose prose-2xl">Upload Files</h2>
 							<p>Add any documents relating to shipping manifest, Bol #, Customs document etc.</p>
 							<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>

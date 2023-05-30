@@ -2,17 +2,17 @@ import ShipperLayout from "@/layouts/ShipperLayout";
 import Link from "next/link";
 import { MouseEvent } from "react";
 
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { getCurrentUser } from "@/api/user";
+import { getWorkflowStatusByStatuses } from "@/api/workflowStatus";
 import { getWorkflowByWorkflowId, editWorkflowByWorkflowId } from "@/api/workflow";
 import { getWorkflowNotesByWorkflowId, postWorkflowNotesByWorkflowId } from "@/api/workflowNotes";
 
 import ChatContainer from "@/components/ChatContainer";
 import ShipperWorkflow from "@/features/Shipper/ShipperWorkflows/ShipperWorkflow";
 import FileUploader from "@/components/FileUploader";
+import Stepper from "@/components/Stepper";
 
 import type {
 	ShipperWorkflowType,
@@ -29,10 +29,12 @@ import TextIcon from "public/svg/file-text.svg";
 
 export default function WorkflowId({
 	workflow,
-	userToken
+	userToken,
+	workflowStatusData
 }: {
 	userToken: string;
 	workflow: ShipperWorkflowType;
+	workflowStatusData: { [key: string]: string }[];
 }) {
 	const router = useRouter();
 
@@ -170,14 +172,21 @@ export default function WorkflowId({
 	return (
 		<>
 			<ShipperLayout>
-				<main className="items-center justify-center px-4 bg-slate-100">
+				<main className="items-center justify-center px-4">
+					<h1 className="text-3xl mt-4 text-left">Delivery</h1>
+
 					<div className="flex flex-col w-full bg-slate-100 rounded-b-md p-4 mt-4">
 						<Link href={"/shipper/workflows"} className="btn btn-circle bg-primary">
 							<IconLeft />
 						</Link>
-						<h1 className="text-3xl mt-4 text-left">Delivery</h1>
-						<h2 className="text-3xl mt-4 text-left">{workflow.status}</h2>
 					</div>
+
+					{workflowStatusData && (
+						<div className="bg-slate-100 px-4">
+							<h1 className="text-2xl text-left rounded-t-md mb-4">Delivery Status</h1>
+							<Stepper>{workflowStatusData}</Stepper>
+						</div>
+					)}
 
 					<ShipperWorkflow
 						workflow={workflow}
@@ -201,7 +210,7 @@ export default function WorkflowId({
 
 					{/* depending on status, you show what */}
 					{!["Delivered", "Rejected", "Cancelled", "Deleted"].includes(workflowStatus) ? (
-						<div>
+						<div className="bg-slate-100 p-4">
 							<h2 className="prose prose-2xl">Upload Files</h2>
 							<p>Add any documents relating to shipping manifest, Bol #, customs document etc.</p>
 							<p>*Max of 10 files allowed (JPG, JPEG, PDF, PNG supported)</p>
@@ -252,6 +261,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const { cookies } = req;
 	const userToken = cookies.user;
 	let workflowData: ShipperWorkflowType | null;
+	let workflowStatusData = [];
 
 	if (!userToken) {
 		return {
@@ -274,6 +284,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	try {
 		const getWorkflowResponse = await getWorkflowByWorkflowId(userToken, workflowId);
 		workflowData = getWorkflowResponse.workflow;
+
+		const getWorkflowStatusData = await getWorkflowStatusByStatuses({ userToken, workflowId });
+		workflowStatusData = getWorkflowStatusData.workflowStatus;
 	} catch (err) {
 		workflowData = null;
 	}
@@ -290,7 +303,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			workflow: workflowData,
-			userToken
+			userToken,
+			workflowStatusData
 		}
 	};
 };
