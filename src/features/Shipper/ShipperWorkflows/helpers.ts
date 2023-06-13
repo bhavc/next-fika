@@ -96,6 +96,14 @@ export const valueToDimensionsMap: { [key: string]: { [innerKey: string]: string
 		width: `8'`,
 		length: `20"`,
 		weight: 3070
+	},
+	"12": {
+		value: 12,
+		name: "Low Loader",
+		height: "n/a",
+		width: `7' 8 ⅝"`,
+		length: `19' 4 ¼"`,
+		weight: 2229
 	}
 };
 

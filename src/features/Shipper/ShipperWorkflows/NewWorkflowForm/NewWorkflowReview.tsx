@@ -100,12 +100,15 @@ export default function NewWorkflowFormReview({
 								<p className="text-md text-accent">{containerNumber}</p>
 							</div>
 						</div>
-						<div className="flex flex-col gap-2 w-fit">
-							<h3 className="text-md">Cargo Reference Number</h3>
-							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
-								<p className="text-md text-accent">{cargoReferenceNumber}</p>
+						{cargoReferenceNumber && (
+							<div className="flex flex-col gap-2 w-fit">
+								<h3 className="text-md">Cargo Reference Number</h3>
+								<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">
+									<p className="text-md text-accent">{cargoReferenceNumber}</p>
+								</div>
 							</div>
-						</div>
+						)}
+
 						<div className="flex flex-col gap-2 w-fit">
 							<h3 className="text-md">Pickup Number</h3>
 							<div className="bg-accent-content py-2 px-4 rounded-md border-accent border-2 ml-2">

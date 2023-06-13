@@ -11,6 +11,8 @@ interface GoogleAddressAutocomplete {
 	label?: string;
 }
 
+// const countriesServiced = ["ke", "ca", "ug", "rw", "bi", "ss", "tz", "us"];
+
 export default function GoogleAddressAutocomplete({
 	error,
 	value,
@@ -28,12 +30,12 @@ export default function GoogleAddressAutocomplete({
 
 	const [address, setAddress] = useState(value);
 
-	const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } = usePlacesService({
+	const { placePredictions, getPlacePredictions } = usePlacesService({
 		apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_AUTOCOMPLETE,
 		options: {
-			componentRestrictions: {
-				country: ["ke", "ca"]
-			},
+			// componentRestrictions: {
+			// 	country: countriesServiced
+			// },
 			input: ""
 		}
 	});
