@@ -23,8 +23,8 @@ import Stepper from "@/components/Stepper";
 import type { GetServerSideProps } from "next";
 import type {
 	CarrierWorkflowStatus,
-	CarrierWorkflowType,
-	CarrierWorkflowStatusType
+	CarrierWorkflowActiveStatus,
+	CarrierWorkflowType
 } from "@/features/Carrier/CarrierWorkflows/types";
 import type { FileType } from "@/features/Carrier/CarrierWorkflows/types";
 import type { UserDriver } from "@/features/Driver/UserDriver/types";
@@ -35,6 +35,7 @@ import ChatContainer from "@/components/ChatContainer";
 import IconLeft from "public/svg/arrow-left.svg";
 import PDFIcon from "public/svg/PDF_file_icon.svg";
 import TextIcon from "public/svg/file-text.svg";
+import WorkflowVehicleInput from "@/features/Carrier/CarrierWorkflows/WorkflowVehicleData";
 
 type BidSelectValueType = "accept" | "counter";
 
@@ -53,11 +54,19 @@ export default function WorkflowId({
 
 	const workflowStatus = workflow.status;
 	const workflowId = workflow.id;
-	const workflowAssignedDriver = workflow.assignedDriver;
 	const price = workflow.workflowPriceData.price;
 	const userFor = workflow.userId;
 	const userForAsInt = parseInt(userFor, 10);
 	const workflowUploadedFiles = workflow?.fileUrls;
+	const workflowAssignedDriver = workflow.assignedDriver;
+
+	const workflowAssignedVehicle = workflow.workflowAssignedVehicle;
+	const workflowAssignedVehicleNumber = workflowAssignedVehicle?.vehicleNumber || "";
+	const canEditAssignedVehicleNumber = !["Delivered", "Rejected", "Cancelled", "Deleted"].includes(
+		workflowStatus
+	);
+
+	// just have a field that can be updated
 
 	// TODO this should be the current users id
 	const carrierId = workflow.selectedCarrier.id;
@@ -69,6 +78,9 @@ export default function WorkflowId({
 	const [previousStatus, setPreviousStatus] = useState(workflowStatus);
 	const [newStatus, setNewStatus] = useState(workflowStatus);
 	const [assignedDriver, setAssignedDriver] = useState<UserDriver>();
+	const [assignedVehicleNumber, setAssignedVehicleNumber] = useState(
+		workflowAssignedVehicleNumber || ""
+	);
 	const [modalOpen, setModalOpen] = useState(false);
 	// const [workflowStatusChangeNotes, setWorkflowStatusChangeNotes] = useState("");
 	const [bidSelectValue, setBidSelectValue] = useState<BidSelectValueType>("accept");
@@ -99,6 +111,11 @@ export default function WorkflowId({
 		const driverId = parseFloat(event.target.value);
 		const mappedDriver = drivers.find((driver) => driver.id === driverId);
 		setAssignedDriver(mappedDriver);
+	};
+
+	const handleVehicleNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const newVehicleNumber = event.target.value;
+		setAssignedVehicleNumber(newVehicleNumber);
 	};
 
 	const refreshData = () => router.replace(router.asPath);
@@ -134,6 +151,11 @@ export default function WorkflowId({
 			}
 		}
 
+		if (workflowStatus === newStatus) {
+			toast.error("You must ensure you change the workflow status.");
+			return;
+		}
+
 		// can add modal functionality later
 		// setModalOpen(true);
 		handleConfirmModal();
@@ -157,7 +179,10 @@ export default function WorkflowId({
 			const updateData: { [key: string]: any } = {
 				workflow: {
 					status: newStatus,
-					assignedDriver: assignedDriver?.id
+					assignedDriver: assignedDriver?.id,
+					assignedVehicle: {
+						vehicleNumber: assignedVehicleNumber
+					}
 				},
 				payment: {}
 			};
@@ -308,7 +333,7 @@ export default function WorkflowId({
 	}, [userToken, workflowId, workflowAssignedDriver]);
 
 	const isSaveAllButtonDisabled = () => {
-		return newStatus === previousStatus;
+		return newStatus === previousStatus && workflowAssignedVehicleNumber === assignedVehicleNumber;
 	};
 
 	return (
@@ -346,6 +371,16 @@ export default function WorkflowId({
 						</div>
 					)}
 
+					{/* have to put truck number here */}
+
+					<div className="flex justify-end align-middle bg-slate-100 px-4 pt-4">
+						<WorkflowVehicleInput
+							vehicleNumber={assignedVehicleNumber}
+							handleVehicleNumberChange={handleVehicleNumberChange}
+							isDisabled={!canEditAssignedVehicleNumber}
+						/>
+					</div>
+
 					{showAssignDriverDropdown && (
 						<div className="flex justify-end align-middle bg-slate-100 px-4 py-4">
 							<WorkflowAssignDriverDropdown
@@ -371,7 +406,7 @@ export default function WorkflowId({
 						</div>
 					)}
 
-					{workflowStatusData && (
+					{workflowStatusData && workflowStatusData.length > 0 && (
 						<div className="bg-slate-100 px-4">
 							<h1 className="text-2xl text-left rounded-t-md mb-4">Delivery Status</h1>
 							<Stepper>{workflowStatusData}</Stepper>

@@ -67,6 +67,10 @@ export type CarrierWorkflowContainerDataType = {
 	requiresControlledAtmosphere?: boolean;
 };
 
+export type CarrierWorkflowAssignedVehicleDataType = {
+	vehicleNumber?: string;
+};
+
 export type WorkflowPriceDataType = {
 	acceptedByCarrier?: boolean;
 	acceptedByShipper?: boolean;
@@ -90,6 +94,7 @@ export type CarrierWorkflowType = {
 	assignedDriver?: AssignedDriverType;
 	workflowAddressData: CarrierWorkflowAddressDataType;
 	workflowContainerData: CarrierWorkflowContainerDataType;
+	workflowAssignedVehicle: CarrierWorkflowAssignedVehicleDataType;
 	workflowPriceData: WorkflowPriceDataType;
 	shipperNotes: string;
 	carrierNotes: string;

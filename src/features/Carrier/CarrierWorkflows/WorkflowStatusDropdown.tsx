@@ -39,18 +39,21 @@ export default function WorkflowStatusDropdown({
 	];
 
 	return (
-		<select
-			className="select select-bordered w-full max-w-xs"
-			onChange={handleStatusChange}
-			defaultValue={newStatus}
-		>
-			{statusOptions.map((option, index) => {
-				return (
-					<option key={index} value={option.value} disabled={option.disabled}>
-						{option.label}
-					</option>
-				);
-			})}
-		</select>
+		<div className="flex flex-row gap-2 justify-start items-center">
+			<div>Status:</div>
+			<select
+				className="select select-bordered"
+				onChange={handleStatusChange}
+				defaultValue={newStatus}
+			>
+				{statusOptions.map((option, index) => {
+					return (
+						<option key={index} value={option.value} disabled={option.disabled}>
+							{option.label}
+						</option>
+					);
+				})}
+			</select>
+		</div>
 	);
 }
